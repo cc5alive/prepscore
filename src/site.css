@@ -390,3 +390,6 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 46rem; font-si
   .qbox { border-color: #000 !important; background: #fff !important; }
 }
 .quickpicks + h2 { margin-top: 2.75rem; }
+.link-to { font-size: .78rem; color: var(--muted); }
+.qp-buy .link-to { flex-basis: 100%; text-align: right; }
+@media (max-width: 720px) { .qp-buy .link-to { text-align: left; } }

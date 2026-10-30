@@ -539,8 +539,9 @@ def build_guides():
         def buy_btn(p, compact=False):
             if p.get("q") or p.get("asin") or p.get("aff_url"):
                 label = "Check price" if compact else ("Check price on Amazon" if not p.get("aff_url") else "Check price")
+                note = f'<span class="link-to">Links to {e(p["asin_name"])}</span>' if p.get("asin_name") else ""
                 return (f'<a class="btn sm" href="{e(buy_url(p))}" target="_blank" rel="sponsored nofollow noopener">{label}</a>'
-                        f'<span class="aff">Affiliate link</span>')
+                        f'{note}<span class="aff">Affiliate link</span>')
             return (f'<a class="btn sm" href="{e(p["url"])}" target="_blank" rel="noopener">{"Find a class" if not compact else "Free"}</a>'
                     f'<span class="aff">Free, not an affiliate link</span>')
 
