@@ -83,6 +83,14 @@ def crumbs_html(items, root):
     return '<nav class="crumbs" aria-label="Breadcrumb">' + "".join(parts) + "</nav>"
 
 
+def asset(name):
+    """Versioned asset URL: the ?v= hash changes whenever the file changes, so browsers
+    that cached an older copy (assets are cached for a week) fetch the new one."""
+    import hashlib
+    with open(os.path.join(HERE, "src", name), "rb") as f:
+        return f"assets/{name}?v={hashlib.sha1(f.read()).hexdigest()[:10]}"
+
+
 def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scripts=(), body_attr="", noindex=False):
     # Only add the brand when it still fits in ~60 characters, so search results don't cut titles off.
     full_title = title if (SITE["name"] in title or len(title) + len(SITE["name"]) + 3 > 60) else f"{title} | {SITE['name']}"
@@ -110,7 +118,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
-<link rel="stylesheet" href="{root}assets/site.css">
+<link rel="stylesheet" href="{root}{asset('site.css')}">
 {''.join(ld(j) for j in jsonld)}"""
     page = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-head"><div class="wrap">
@@ -129,7 +137,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
 <div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
-{''.join(f'<script src="{root}assets/{s}"></script>' for s in scripts)}"""
+{''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}"""
     return head, page, body_attr
 
 
