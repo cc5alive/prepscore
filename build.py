@@ -331,7 +331,7 @@ def build_quiz():
 </div>
 <div style="margin-top:1.75rem"><h3>Your 2-week targets</h3>
 <div class="targets" style="margin-top:.6rem"><div><b id="t-water">28 gal</b><span>water</span></div><div><b id="t-food">56k kcal</b><span>food</span></div><div><b id="t-bags">56</b><span>toilet bags</span></div></div></div>
-<div style="margin-top:1.75rem"><h3>Fix these first</h3><ul class="gaps" id="gaps"></ul><p class="aff" style="margin-top:.6rem">Buy links are affiliate links. {AMAZON_LINE}</p></div>
+<div style="margin-top:1.75rem"><h3>Fix these first</h3><p style="margin:.2rem 0 .6rem;color:var(--muted);font-size:.92rem">Your biggest gaps, ranked by how much each one would raise your score. Tick it off above once it's handled.</p><ul class="gaps" id="gaps"></ul><p class="aff" style="margin-top:.6rem">Buy links are affiliate links. {AMAZON_LINE}</p></div>
 <div class="share-panel" style="margin-top:1.75rem" id="share">
 <h3 style="margin-bottom:.75rem">Share your card</h3>
 <canvas id="card" width="1200" height="630" aria-label="Your shareable PrepScore card"></canvas>
@@ -346,7 +346,9 @@ def build_quiz():
     buy = {}
     for qid, spec in QUIZ_BUY.items():
         if spec[0] == "q":
-            buy[qid] = {"name": spec[2], "url": amazon(spec[1])}
+            buy[qid] = {"name": spec[2], "url": amazon(spec[1]), "aff": True}
+        elif spec[0] == "asin":
+            buy[qid] = {"name": spec[2], "url": buy_url({"asin": spec[1]}), "aff": True}
         else:
             pk = next(p for p in GD[spec[0]]["picks"] if p["name"] == spec[1])
             buy[qid] = {"name": pk["name"], "url": buy_url(pk) if pk.get("q") or pk.get("asin") else pk.get("url"), "aff": bool(pk.get("q") or pk.get("asin"))}
