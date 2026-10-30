@@ -1,6 +1,10 @@
 {
   "name": "prepscore",
   "compatibility_date": "2026-10-01",
+  // Serve only on prepscore.org (custom domains set in the dashboard).
+  // Without these, every deploy re-enables the public workers.dev and preview URLs.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
