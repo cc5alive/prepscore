@@ -691,7 +691,11 @@ def build_misc():
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
 <h1>About PrepScore</h1><p class="dek">Practical emergency preparedness for ordinary households: what actually matters where you live, in the order you should do it.</p></div></div>
 <section class="section"><div class="wrap stack read">
-<h2>What we do</h2>
+<h2>Who's behind it</h2>
+<p>PrepScore was started by CC Pearce, a writer and entrepreneur based in Los Angeles.</p>
+<p>I'm new to prepping myself. But the time has never felt more uncertain, and I want good, practical resources to be available to everyone, for free. So I built the site I wished existed when I started: begin with what actually matters, check it against official sources, and be upfront about how the site makes money.</p>
+<p>You can find me on X at <a href="https://x.com/cc5alive" rel="me noopener" target="_blank">@cc5alive</a> and at <a href="https://ccpearce.com" rel="me noopener" target="_blank">ccpearce.com</a>.</p>
+<h2 style="margin-top:2rem">What the site does</h2>
 <p>{SITE['name']} is an independent site. We built it because most prep advice is either a 300-item shopping list or a doomsday fantasy. We'd rather help you get the first two weeks right: water, power, light, first aid, a way to get alerts, and a plan to leave.</p>
 <p>The free quiz shows where you stand. The location and city guides show what tends to fail where you live. The gear guides show what to buy, how much you need and what to skip.</p>
 <h2 style="margin-top:2rem">Where our guidance comes from</h2>
@@ -710,9 +714,12 @@ def build_misc():
 <p>This site is general information, not medical, legal or engineering advice. In an emergency, follow instructions from local officials and call 911 when lives are at risk.</p>
 </div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    founder = {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com",
+               "sameAs": ["https://x.com/cc5alive", "https://ccpearce.com"]}
     j = [{"@context": "https://schema.org", "@type": "AboutPage", "name": "About PrepScore", "url": SITE["url"] + "/about",
-          "dateModified": TODAY, "about": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/"}}, crumbs_ld(cr)]
-    add("about.html", shell(path="/about", title="About PrepScore and Our Editorial Standards", desc="Who runs PrepScore, where our emergency preparedness guidance comes from, how we review it, and how we make money.",
+          "dateModified": TODAY, "mainEntity": founder,
+          "about": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/", "founder": founder}}, crumbs_ld(cr)]
+    add("about.html", shell(path="/about", title="About PrepScore and Our Editorial Standards", desc="PrepScore was started by CC Pearce to make practical emergency preparedness free for everyone. Where our guidance comes from, how we review it and how we make money.",
                             body=body, root=root, og="default", canon="/about", jsonld=j), "/about", "0.4")
 
     body = f"""<div class="page-head"><div class="wrap"><h1>Nothing here</h1><p class="dek">This page moved or never existed. Try one of these instead.</p>

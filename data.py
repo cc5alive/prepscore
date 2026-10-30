@@ -6,7 +6,7 @@ SITE = {
     "url": "https://prepscore.org",
     "tagline": "How many days could you last on your own?",
     "amazon_tag": "ccpearce-20",
-    "twitter": "",                          # e.g. "@prepscore"
+    "twitter": "@cc5alive",                 # used for twitter:site on every page
     "updated": "2026-10-30",                # bump when content changes; drives sitemap and "Reviewed" dates
 }
 
