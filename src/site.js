@@ -34,3 +34,21 @@
     upd();
   }
 })();
+
+(function () {
+  "use strict";
+  // City picker: jump straight to the chosen city guide.
+  Array.prototype.forEach.call(document.querySelectorAll("[data-city-pick]"), function (f) {
+    var sel = f.querySelector("select");
+    function go(ev) {
+      if (sel && sel.value) { if (ev) ev.preventDefault(); location.href = sel.value; }
+    }
+    f.addEventListener("submit", go);
+    if (sel) sel.addEventListener("change", function () { go(); });
+  });
+  // Print buttons (go-bag checklist).
+  Array.prototype.forEach.call(document.querySelectorAll("[data-print]"), function (b) {
+    b.addEventListener("click", function () { document.body.classList.add("print-checklist"); window.print(); });
+  });
+  window.addEventListener("afterprint", function () { document.body.classList.remove("print-checklist"); });
+})();

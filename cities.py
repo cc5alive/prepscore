@@ -690,7 +690,7 @@ CITIES = [
     {
         "slug": "boston", "name": "Boston", "state": "MA", "region": "Northeast and Midwest", "parent": "city-apartment",
         "risks": ["Nor'easters", "Coastal flooding", "Heat waves"],
-        "title": "Boston Emergency Prep: Nor'easters, Flood Zones and AlertBoston",
+        "title": "Boston Emergency Prep: Nor'easters, Floods and AlertBoston",
         "meta": "Prepare for nor'easters, coastal flooding, hurricanes and heat in Boston: AlertBoston sign-up, finding your hurricane evacuation zone (A, B or C) and what to buy first.",
         "dek": "Boston's big storms come off the ocean: nor'easters, coastal floods and the occasional hurricane. Most of the city shelters in place, but waterfront neighborhoods need an evacuation plan.",
         "alerts": [

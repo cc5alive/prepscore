@@ -7,6 +7,7 @@ SITE = {
     "tagline": "How many days could you last on your own?",
     "amazon_tag": "ccpearce-20",
     "twitter": "",                          # e.g. "@prepscore"
+    "updated": "2026-10-30",                # bump when content changes; drives sitemap and "Reviewed" dates
 }
 
 # ---------------------------------------------------------------------------
@@ -233,7 +234,7 @@ TIERS = [
 LOCATIONS = [
     {
         "slug": "city-apartment", "name": "City apartment", "nav": "City",
-        "title": "Emergency Preparedness for City Apartments: What Actually Matters",
+        "title": "Apartment Emergency Prep: What Actually Matters",
         "h1": "Prepping in a city apartment",
         "meta": "A practical emergency prep plan for apartment dwellers: water storage in small spaces, high-rise outages, sanitation and when to leave. With a free preparedness score.",
         "dek": "Small space, no generator, and a building that depends on electric pumps. Your plan looks different from the suburbs, and that's fine.",
@@ -299,7 +300,7 @@ LOCATIONS = [
     },
     {
         "slug": "rural", "name": "Rural", "nav": "Rural",
-        "title": "Rural Emergency Preparedness: Self-Reliance When Help Is Far Away",
+        "title": "Rural Emergency Prep: Self-Reliance When Help Is Far Away",
         "h1": "Prepping in the country",
         "meta": "A rural emergency prep guide: well water without power, long ambulance response times, backup power, medical training and staying in touch off the grid.",
         "dek": "Help is farther away and power comes back last. Rural prep is less about stockpiles and more about being able to keep basic systems running yourself.",
@@ -332,7 +333,7 @@ LOCATIONS = [
     },
     {
         "slug": "hurricane-coast", "name": "Hurricane coast", "nav": "Coast",
-        "title": "Hurricane Preparedness Checklist: Stay or Go, and What to Buy",
+        "title": "Hurricane Prep Checklist: Stay or Go, and What to Buy",
         "h1": "Prepping on the hurricane coast",
         "meta": "Hurricane prep that works: when to evacuate, how much water to store, generator safety, flood documents and a printable kit list. Plus your free preparedness score.",
         "dek": "You get days of warning, which is a gift. The households that do well use the first 24 hours of the forecast, not the last.",
@@ -398,7 +399,7 @@ LOCATIONS = [
     },
     {
         "slug": "earthquake-country", "name": "Earthquake country", "nav": "Earthquake",
-        "title": "Earthquake Preparedness: Kit List and Home Prep for the Big One",
+        "title": "Earthquake Prep: Kit List and Home Prep for the Big One",
         "h1": "Prepping in earthquake country",
         "meta": "Earthquake prep that matters: two weeks of water, securing your home, shoes by the bed, gas shutoff, sanitation when mains break, and a 72-hour kit.",
         "dek": "No warning, and everything breaks at once. Earthquake prep is mostly done before the shaking: water stored, furniture strapped, shoes by the bed.",
@@ -700,7 +701,7 @@ GUIDES = [
     },
     {
         "slug": "radios", "name": "Communication", "short": "Radios and communication",
-        "title": "Best Emergency Radios, Walkie-Talkies and Satellite Messengers",
+        "title": "Best Emergency Radios, Walkie-Talkies and Sat Messengers",
         "h1": "Staying informed and in touch",
         "meta": "The best NOAA weather radios, hand-crank emergency radios, GMRS walkie-talkies and satellite messengers for when cell networks fail. Plus licensing basics.",
         "dek": "Cell networks jam within minutes of a disaster and lose backup power within hours. Your plan needs a way to hear official information and a way to reach your people.",
@@ -870,7 +871,7 @@ GUIDES = [
     },
     {
         "slug": "sanitation", "name": "Sanitation", "short": "Sanitation and hygiene",
-        "title": "Emergency Toilet and Sanitation Kit: What You Need When Water Stops",
+        "title": "Emergency Toilet and Sanitation Kit: What You Need",
         "h1": "Sanitation when the water stops",
         "meta": "How to set up an emergency toilet, what to buy, and how to keep your household healthy when water and sewer systems fail after a disaster.",
         "dek": "The prep nobody wants to talk about. When water mains break, toilets stop working, and sanitation becomes a health problem within a day.",
@@ -919,3 +920,53 @@ GUIDES = [
         ],
     },
 ]
+
+
+# Quick picks shown at the top of each guide: [label, exact pick name]
+QUICK = {'water': [['Store this first', 'WaterBrick stackable containers (3.5 gal)'],
+    ['Cheapest big win', 'Bathtub water bladder (WaterBOB or similar)'],
+    ['Best filter', 'Sawyer Squeeze filter']], 'food': [['Start here', 'Manual can opener (OXO Good Grips or similar)'],
+    ['Easiest to store', 'Mountain House freeze-dried pouches'],
+    ['A month in one box', '30-day food bucket (Augason Farms, ReadyWise, Mountain House)']], 'power': [['Everyone needs', 'Anker 20,000 mAh power bank'],
+    ['Best for most homes', '1 kWh class power station (Jackery Explorer 1000, EcoFlow DELTA, Anker SOLIX C1000)'],
+    ["Don't skip", 'Battery-powered CO alarm (Kidde, First Alert)']], 'first-aid': [['Start here', 'Adventure Medical Kits family kit'],
+    ['Add this', 'C-A-T tourniquet (North American Rescue)'],
+    ['Free and essential', 'Stop the Bleed class']], 'radios': [['Every home', 'Midland ER310 or Eton FRX3 crank radio'],
+    ['Wakes you for warnings', 'Midland WR120 NOAA alert radio'],
+    ['For families', 'GMRS radios (Midland, Rocky Talkie or similar)']], 'light-heat': [['One per person', 'Black Diamond Spot or similar headlamp'],
+    ['Room light', 'Goal Zero Lighthouse or similar rechargeable lantern'],
+    ['Cold-weather must', 'Cold-rated sleeping bags']], 'go-bag': [['Fastest start', 'Ready America 72-hour kit'],
+    ['Every bag', 'N95 masks (3M Aura or similar NIOSH-approved)'],
+    ['Protect your papers', 'Waterproof document pouch']], 'sanitation': [['The setup', 'Reliance Luggable Loo seat + 5-gallon bucket'],
+    ['Cleanest option', 'Waste bags with gelling powder (Double Doodie or similar)'],
+    ['Cheap backup', 'Contractor bags and clumping cat litter']]}
+
+# Official sources cited on each guide: [title, url]
+SOURCES = {'water': [['Ready.gov: Water', 'https://www.ready.gov/water'], ['CDC: How to Create an Emergency Water Supply', 'https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html'], ['CDC: How to Make Water Safe in an Emergency', 'https://www.cdc.gov/water-emergency/about/index.html']], 'food': [['Ready.gov: Food', 'https://www.ready.gov/food'], ['USDA FSIS: Keep Your Food Safe During Emergencies', 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/emergencies/keep-your-food-safe-during-emergencies'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html']], 'power': [['CDC: What to Do During a Power Outage', 'https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html'], ['CPSC: Portable Generator Safety Alert', 'https://www.cpsc.gov/s3fs-public/5123_SafetyAlert_PortableGenerators_102021.pdf'], ['FEMA: Be Prepared for a Power Outage', 'https://www.ready.gov/sites/default/files/2024-03/ready.gov_power-outage_hazard-info-sheet.pdf']], 'first-aid': [['American Red Cross: Make a First Aid Kit', 'https://www.redcross.org/get-help/how-to-prepare-for-emergencies/anatomy-of-a-first-aid-kit.html'], ['Stop the Bleed: Get Trained', 'https://www.stopthebleed.org/get-trained/'], ['Ready.gov: Build a Kit', 'https://www.ready.gov/kit']], 'radios': [['National Weather Service: NOAA Weather Radio Help', 'https://www.weather.gov/ohx/nwrhelp'], ['FCC: General Mobile Radio Service (GMRS)', 'https://www.fcc.gov/wireless/bureau-divisions/mobility-division/general-mobile-radio-service-gmrs'], ['FCC: Personal Radio Services', 'https://www.fcc.gov/consumers/guides/personal-radio-services-prs-keeping-touch']], 'light-heat': [['Ready.gov: #WinterReady', 'https://www.ready.gov/winter-ready'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html'], ['FEMA: Be Prepared for a Power Outage', 'https://www.ready.gov/sites/default/files/2024-03/ready.gov_power-outage_hazard-info-sheet.pdf']], 'go-bag': [['Ready.gov: Build a Kit', 'https://www.ready.gov/kit'], ['Ready.gov: Evacuation', 'https://www.ready.gov/evacuation'], ['EPA: Protect Yourself From Wildfire Smoke and Ash', 'https://www.epa.gov/wildfires/protect-yourself-wildfire-smoke-and-ash']], 'sanitation': [['King County: How to Create an Emergency Toilet', 'https://kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets'], ['Seattle Public Utilities: Emergency Sanitation', 'https://seattle.gov/documents/Departments/Emergency/Preparedness/SPU%20Emergency%20Sanitation%20Trifold.pdf'], ['Ready.gov: Build a Kit', 'https://www.ready.gov/kit']]}
+
+# Quiz item -> product for the "Fix these first" shopping list: [guide slug, exact pick name] or ["q", search query, label]
+QUIZ_BUY = {
+    "w_store": ["water", "WaterBrick stackable containers (3.5 gal)"],
+    "w_filter": ["water", "Sawyer Squeeze filter"],
+    "w_treat": ["water", "Katadyn Micropur MP1 or Aquatabs tablets"],
+    "f_store": ["food", "Mountain House freeze-dried pouches"],
+    "f_opener": ["food", "Manual can opener (OXO Good Grips or similar)"],
+    "f_cook": ["food", "Single-burner camp stove + fuel"],
+    "p_bank": ["power", "Anker 20,000 mAh power bank"],
+    "p_station": ["power", "1 kWh class power station (Jackery Explorer 1000, EcoFlow DELTA, Anker SOLIX C1000)"],
+    "p_solar": ["power", "100 to 200 W folding solar panel"],
+    "m_kit": ["first-aid", "Adventure Medical Kits family kit"],
+    "m_tq": ["first-aid", "C-A-T tourniquet (North American Rescue)"],
+    "c_radio": ["radios", "Midland ER310 or Eton FRX3 crank radio"],
+    "c_2way": ["radios", "GMRS radios (Midland, Rocky Talkie or similar)"],
+    "l_lamp": ["light-heat", "Black Diamond Spot or similar headlamp"],
+    "l_lantern": ["light-heat", "Goal Zero Lighthouse or similar rechargeable lantern"],
+    "l_warm": ["light-heat", "Cold-rated sleeping bags"],
+    "g_bag": ["go-bag", "Ready America 72-hour kit"],
+    "g_mask": ["go-bag", "N95 masks (3M Aura or similar NIOSH-approved)"],
+    "s_toilet": ["sanitation", "Reliance Luggable Loo seat + 5-gallon bucket"],
+    "s_hygiene": ["sanitation", "Hygiene restock bundle"],
+    "d_docs": ["go-bag", "Waterproof document pouch"],
+    "h_alarms": ["power", "Battery-powered CO alarm (Kidde, First Alert)"],
+    "h_ext": ["q", "home fire extinguisher ABC rated", "Home fire extinguisher"],
+}

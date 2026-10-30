@@ -92,9 +92,24 @@
       var c = D.cats.filter(function (c) { return c.id === g.q.cat; })[0];
       var li = document.createElement("li");
       var label = g.q.type === "choice" ? g.q.label.replace(/\?$/, "") : g.q.label;
-      li.innerHTML = "<b></b><span></span>" + (c.guide ? ' <a href="' + ROOT + "guides/" + c.guide + '.html">' + c.name + " guide</a>" : "");
+      li.innerHTML = "<b></b><span></span>" + (c.guide ? ' <a href="/guides/' + c.guide + '">' + c.name + " guide</a>" : "");
       li.querySelector("b").textContent = label;
       li.querySelector("span").textContent = g.q.tip + " ";
+      var buy = D.buy && D.buy[g.q.id];
+      if (buy && buy.url) {
+        var row = document.createElement("div");
+        row.className = "gap-buy";
+        var a = document.createElement("a");
+        a.className = "btn sm";
+        a.href = buy.url;
+        a.target = "_blank";
+        a.rel = buy.aff === false ? "noopener" : "sponsored nofollow noopener";
+        a.textContent = buy.aff === false ? "Find one" : "Check price";
+        var nm = document.createElement("span");
+        nm.textContent = buy.name;
+        row.appendChild(nm); row.appendChild(a);
+        li.appendChild(row);
+      }
       ul.appendChild(li);
     });
     window.__result = r;

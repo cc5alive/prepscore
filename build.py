@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """Static site generator for PrepScore. Run: python3 build.py"""
-import html, json, os, shutil, sys, urllib.parse, datetime
-from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES
+import html, json, os, posixpath, re, shutil, sys, urllib.parse, datetime
+from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY
 from cities import CITIES, REGIONS, ALERTS_CHECKED
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "dist")
-TODAY = datetime.date.today().isoformat()
+# Content date, not build date: drives sitemap lastmod, dateModified and "Reviewed" labels.
+TODAY = SITE.get("updated") or datetime.date.today().isoformat()
+REVIEWED = datetime.date.fromisoformat(TODAY).strftime("%B %Y")
+AMAZON_LINE = "As an Amazon Associate, PrepScore earns from qualifying purchases."
 HOST = SITE["url"].split("//", 1)[1].rstrip("/")
 e = html.escape
 
@@ -34,6 +37,19 @@ CHECK_SVG = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L1
 
 def amazon(q):
     return "https://www.amazon.com/s?k=" + urllib.parse.quote_plus(q) + "&tag=" + SITE["amazon_tag"]
+
+
+def buy_url(p):
+    """Best link for a pick: a specific Amazon product (asin), a direct affiliate url, or an Amazon search."""
+    if p.get("asin"):
+        return f"https://www.amazon.com/dp/{p['asin']}?tag={SITE['amazon_tag']}"
+    if p.get("aff_url"):
+        return p["aff_url"]
+    return amazon(p["q"])
+
+
+def slugify(s):
+    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:60]
 
 
 def dots(n):
@@ -68,8 +84,10 @@ def crumbs_html(items, root):
 
 
 def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scripts=(), body_attr="", noindex=False):
-    full_title = title if SITE["name"] in title else f"{title} | {SITE['name']}"
+    # Only add the brand when it still fits in ~60 characters, so search results don't cut titles off.
+    full_title = title if (SITE["name"] in title or len(title) + len(SITE["name"]) + 3 > 60) else f"{title} | {SITE['name']}"
     nav = [("quiz", "quiz.html", "Get your score"), ("where", "where/index.html", "Where you live"),
+           ("cities", "city/index.html", "Cities"),
            ("scenarios", "scenarios.html", "Emergencies"), ("guides", "guides/index.html", "Gear guides")]
     navhtml = ""
     for key, href, label in nav[1:]:
@@ -87,14 +105,14 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <meta property="og:url" content="{SITE['url']}{canon}"><meta property="og:image" content="{SITE['url']}/og/{og}.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">{f'<meta name="twitter:site" content="{SITE["twitter"]}">' if SITE['twitter'] else ''}
-{'<meta name="robots" content="noindex">' if noindex else ''}
+{'<meta name="robots" content="noindex, follow">' if noindex else ''}
 <meta name="theme-color" content="#ECEFE8">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="{root}assets/site.css">
 {''.join(ld(j) for j in jsonld)}"""
-    page = f"""<a class="btn sm" href="#main" style="position:absolute;left:-999px" onfocus="this.style.left='16px'" onblur="this.style.left='-999px'">Skip to content</a>
+    page = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-head"><div class="wrap">
 <a class="brand" href="{root}index.html" aria-label="{SITE['name']} home">{BRAND_SVG}{SITE['name']}</a>
 <nav class="nav" aria-label="Main">{navhtml}</nav>
@@ -105,13 +123,40 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <footer class="site-foot"><div class="wrap">
 <div class="stack"><a class="brand" href="{root}index.html">{BRAND_SVG}{SITE['name']}</a>
 <p class="muted">Practical emergency preparedness for normal people. Find your gaps, fix the important ones first.</p>
-<p class="muted small">We earn commissions from links marked Affiliate. <a href="{root}disclosure.html">How we make money</a>. Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
+<p class="muted small">{AMAZON_LINE} We also earn commissions from other links marked Affiliate. <a href="{root}disclosure.html">How we make money</a>.</p>
+<p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}assets/{s}"></script>' for s in scripts)}"""
     return head, page, body_attr
+
+
+LINK_RE = re.compile(r'(href|src)="([^"]+)"')
+
+
+def clean_links(doc, rel):
+    """Rewrite relative links to root-absolute, clean URLs (/guides/water, /where/) so every
+    internal click lands directly on the canonical address instead of going through a redirect."""
+    base = posixpath.dirname("/" + rel)
+
+    def fix(m):
+        attr, url = m.group(1), m.group(2)
+        if url.startswith(("http:", "https:", "mailto:", "tel:", "data:", "#", "javascript:")):
+            return m.group(0)
+        path, frag = (url.split("#", 1) + [""])[:2]
+        if not path:
+            return m.group(0)
+        if not path.startswith("/"):
+            path = posixpath.normpath(posixpath.join(base, path))
+        if path.endswith("/index.html"):
+            path = path[: -len("index.html")]
+        elif path.endswith(".html"):
+            path = path[: -len(".html")]
+        return f'{attr}="{path}{"#" + frag if frag else ""}"'
+
+    return LINK_RE.sub(fix, doc)
 
 
 def write(rel, parts, artifact=False):
@@ -122,6 +167,7 @@ def write(rel, parts, artifact=False):
         doc = head + "\n" + page
     else:
         doc = f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n{head}\n</head>\n<body{body_attr}>\n{page}\n</body>\n</html>\n'
+        doc = clean_links(doc, rel)
     with open(out, "w", encoding="utf-8") as f:
         f.write(doc)
 
@@ -170,7 +216,20 @@ def cta_quiz(root, loc=None):
 <a class="btn" href="{root}quiz.html">Get your PrepScore</a></div>"""
 
 
-DISCLOSE = lambda root: f'<p class="disclose">Some links on this page are affiliate links, marked <b>Affiliate</b>. If you buy through them we may earn a commission at no extra cost to you. It never decides what we recommend, and we include free options where they exist. <a href="{root}disclosure.html">How we pick and make money</a>.</p>'
+DISCLOSE = lambda root: f'<p class="disclose">Some links on this page are affiliate links, marked <b>Affiliate</b>. If you buy through them we may earn a commission at no extra cost to you. {AMAZON_LINE} Commissions never decide what we recommend, and we include free options where they exist. <a href="{root}disclosure.html">How we pick and make money</a>.</p>'
+
+
+def city_picker(root):
+    groups = ""
+    for r in REGIONS:
+        cs = [c for c in CITIES if c["region"] == r]
+        if cs:
+            groups += f'<optgroup label="{e(r)}">' + "".join(f'<option value="/city/{c["slug"]}">{e(c["name"])}</option>' for c in cs) + "</optgroup>"
+    return f"""<form class="city-pick" action="/city/" data-city-pick>
+<label for="city-select">Find your city</label>
+<div class="city-pick-row"><select id="city-select" name="city"><option value="">Choose a city…</option>{groups}</select>
+<button class="btn sm" type="submit">Go</button></div>
+<a class="small" href="{root}city/index.html">See all {len(CITIES)} city guides</a></form>"""
 
 # ---------------------------------------------------------------------------
 # Home
@@ -186,7 +245,7 @@ def build_home():
     guides = "".join(f'<li><a href="guides/{g["slug"]}.html"><b>{e(g["name"])}</b><span>{e(g["short"])}</span></a></li>' for g in GUIDES)
     body = f"""<section class="hero"><div class="wrap">
 <div><h1>How many days could you last on your own?</h1>
-<p class="lede">Check off what you already have. PrepScore weighs it against the risks where you live, tells you how long your supplies would carry you, and shows the few gaps worth fixing first.</p>
+<p class="lede">PrepScore is a free emergency preparedness check. Tick off what you already have, and it weighs your supplies against the risks where you live, tells you how long they'd carry you, and shows the few gaps worth fixing first.</p>
 <div class="cta-row"><a class="btn" href="quiz.html">Get your PrepScore</a><span class="muted small">About 3 minutes. No sign-up. Answers stay on your device.</span></div></div>
 <div>{tag_example(root)}</div>
 </div></section>
@@ -194,7 +253,7 @@ def build_home():
 <section class="section"><div class="wrap">
 <div class="section-head"><div><h2>Where you live changes the plan</h2><p>An apartment on the 14th floor and a farmhouse on a well fail in completely different ways. Start with your situation.</p></div><a href="where/index.html">All locations</a></div>
 <div class="loc-grid">{locs}</div>
-<p class="city-strip"><span>City guides:</span> {city_links("")}</p>
+{city_picker(root)}
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -217,7 +276,7 @@ def build_home():
           "logo": SITE["url"] + "/og/default.png"}]
     add("index.html", shell(path="/", title=f"{SITE['name']}: How Prepared Are You for an Emergency?",
                             desc="Find out how many days you could last on your own. A free emergency preparedness score, location-specific prep guides and honest gear buyer's guides.",
-                            body=body, root=root, og="default", canon="/", jsonld=j), "/", "1.0")
+                            body=body, root=root, og="default", canon="/", jsonld=j, scripts=("site.js",)), "/", "1.0")
 
 
 # ---------------------------------------------------------------------------
@@ -263,7 +322,7 @@ def build_quiz():
 </div>
 <div style="margin-top:1.75rem"><h3>Your 2-week targets</h3>
 <div class="targets" style="margin-top:.6rem"><div><b id="t-water">28 gal</b><span>water</span></div><div><b id="t-food">56k kcal</b><span>food</span></div><div><b id="t-bags">56</b><span>toilet bags</span></div></div></div>
-<div style="margin-top:1.75rem"><h3>Fix these first</h3><ul class="gaps" id="gaps"></ul></div>
+<div style="margin-top:1.75rem"><h3>Fix these first</h3><ul class="gaps" id="gaps"></ul><p class="aff" style="margin-top:.6rem">Buy links are affiliate links. {AMAZON_LINE}</p></div>
 <div class="share-panel" style="margin-top:1.75rem" id="share">
 <h3 style="margin-bottom:.75rem">Share your card</h3>
 <canvas id="card" width="1200" height="630" aria-label="Your shareable PrepScore card"></canvas>
@@ -275,7 +334,14 @@ def build_quiz():
 </aside>
 </div></div>
 <div class="mobile-bar"><span><b data-out="score">0</b> <span data-out="tier">Sitting Duck</span></span><a href="#result">See result</a></div>"""
-    data = {"quiz": QUIZ, "cats": QUIZ_CATS, "tiers": TIERS,
+    buy = {}
+    for qid, spec in QUIZ_BUY.items():
+        if spec[0] == "q":
+            buy[qid] = {"name": spec[2], "url": amazon(spec[1])}
+        else:
+            pk = next(p for p in GD[spec[0]]["picks"] if p["name"] == spec[1])
+            buy[qid] = {"name": pk["name"], "url": buy_url(pk) if pk.get("q") or pk.get("asin") else pk.get("url"), "aff": bool(pk.get("q") or pk.get("asin"))}
+    data = {"quiz": QUIZ, "cats": QUIZ_CATS, "tiers": TIERS, "buy": buy,
             "locations": [{"slug": l["slug"], "name": l["name"], "mult": l["mult"], "item": l["item"]} for l in LOCATIONS],
             "site": {"url": SITE["url"], "host": HOST}}
     with open(os.path.join(HERE, "src", "data.js"), "w") as f:
@@ -320,7 +386,7 @@ def build_scores():
 <script>(function(){{var m=(location.hash||"").match(/s(\\d+)-d(\\d+)/);if(!m)return;var s=+m[1],d=+m[2];document.getElementById("s").textContent=s;document.getElementById("d").textContent=d>=90?"90+":d;document.getElementById("who").textContent="Someone scored "+s+" and could last about "+(d>=90?"90+":d)+(d===1?" day":" days")+" on their own.";}})();</script>"""
         add(f"score/{t['slug']}.html", shell(path=f"/score/{t['slug']}", title=f"I'm {t['name']} on PrepScore. How long would you last?",
                                            desc=f"{t['line']} Take the free 3-minute preparedness quiz and see how many days you could last on your own.",
-                                           body=body, root=root, og=f"tier-{t['slug']}", canon=f"/score/{t['slug']}"), f"/score/{t['slug']}", "0.4")
+                                           body=body, root=root, og=f"tier-{t['slug']}", canon=f"/score/{t['slug']}", noindex=True), None, None)
 
 
 # ---------------------------------------------------------------------------
@@ -367,11 +433,11 @@ def build_locations():
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>Prep for where you actually live</h1>
 <p class="dek">Generic checklists treat every household the same. These guides start from what tends to fail in your kind of place, then put the fixes in order.</p></div></div>
 <section class="section"><div class="wrap"><div class="loc-grid">{items}</div>
-<p class="city-strip"><span>City guides:</span> {city_links(root)}</p></div></section>
+{city_picker(root)}</div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
-    add("where/index.html", shell(path="/where/", title="Emergency Preparedness by Location: City, Suburbs, Rural and More",
+    add("where/index.html", shell(path="/where/", title="Emergency Prep by Location: City, Suburbs, Rural and More",
                                   desc="Emergency prep guides for city apartments, suburbs, rural homes, hurricane coasts, wildfire country and earthquake zones.",
-                                  body=body, root=root, og="default", canon="/where/", jsonld=[crumbs_ld(cr)], active="where"), "/where/", "0.8")
+                                  body=body, root=root, og="default", canon="/where/", jsonld=[crumbs_ld(cr)], active="where", scripts=("site.js",)), "/where/", "0.8")
 
 
 # ---------------------------------------------------------------------------
@@ -442,7 +508,7 @@ def build_cities():
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in c["faqs"]]},
              crumbs_ld(cr)]
         add(f"city/{c['slug']}.html", shell(path=f"/city/{c['slug']}", title=c["title"], desc=c["meta"], body=body, root=root,
-                                           og=f"city-{c['slug']}", canon=f"/city/{c['slug']}", jsonld=j, active="where"), f"/city/{c['slug']}", "0.8")
+                                           og=f"city-{c['slug']}", canon=f"/city/{c['slug']}", jsonld=j, active="cities"), f"/city/{c['slug']}", "0.8")
     # index
     groups = ""
     for r in REGIONS:
@@ -456,9 +522,9 @@ def build_cities():
 <p class="dek">The local version: each city's official alert sign-ups, how to find your evacuation zone, what tends to go wrong there and what to do first.</p></div></div>
 <section class="section"><div class="wrap stack-l">{groups}</div></section>
 <section class="section"><div class="wrap stack-l"><p class="muted read">Don't see your city? Start with the guide for <a href="{root}where/index.html">your kind of place</a>, then search your county's name plus "emergency alerts" to find your local sign-up.</p>{cta_quiz(root)}</div></section>"""
-    add("city/index.html", shell(path="/city/", title="Emergency Preparedness by City: Local Alerts, Zones and Risks",
+    add("city/index.html", shell(path="/city/", title="Emergency Prep by City: Local Alerts, Zones and Risks",
                                  desc="City-by-city emergency prep guides with official alert sign-ups, evacuation zone lookups and local risks for Los Angeles, New York, Houston, Miami and more.",
-                                 body=body, root=root, og="default", canon="/city/", jsonld=[crumbs_ld(cr)], active="where"), "/city/", "0.8")
+                                 body=body, root=root, og="default", canon="/city/", jsonld=[crumbs_ld(cr)], active="cities"), "/city/", "0.8")
 
 
 # ---------------------------------------------------------------------------
@@ -468,56 +534,85 @@ def build_guides():
     root = "../"
     for g in GUIDES:
         hm = "".join(f'<div><dt>{e(a)}</dt><dd><span class="v">{e(b)}</span>{e(c)}</dd></div>' for a, b, c in g["howmuch"])
+        PK = {p["name"]: p for p in g["picks"]}
+
+        def buy_btn(p, compact=False):
+            if p.get("q") or p.get("asin") or p.get("aff_url"):
+                label = "Check price" if compact else ("Check price on Amazon" if not p.get("aff_url") else "Check price")
+                return (f'<a class="btn sm" href="{e(buy_url(p))}" target="_blank" rel="sponsored nofollow noopener">{label}</a>'
+                        f'<span class="aff">Affiliate link</span>')
+            return (f'<a class="btn sm" href="{e(p["url"])}" target="_blank" rel="noopener">{"Find a class" if not compact else "Free"}</a>'
+                    f'<span class="aff">Free, not an affiliate link</span>')
+
+        quick = ""
+        for label, name in QUICK.get(g["slug"], []):
+            p = PK[name]
+            quick += (f'<li><span class="qp-label">{e(label)}</span><div class="qp-main"><a class="qp-name" href="#pick-{slugify(name)}">{e(name)}</a>'
+                      f'<span class="qp-why">{e(p["why"])}</span></div><div class="qp-buy"><span class="price">{e(p["price"])}</span>{buy_btn(p, True)}</div></li>')
+        quick_html = (f'<section class="quickpicks" id="quick-picks" aria-labelledby="qp-h"><h2 id="qp-h">Quick picks</h2>'
+                      f'<ul>{quick}</ul><p class="aff">Prices are typical ranges. Buy links are affiliate links; {AMAZON_LINE[0].lower() + AMAZON_LINE[1:]} '
+                      f'<a href="{root}disclosure.html">Disclosure</a></p></section>') if quick else ""
         picks = ""
         for tier in ("start", "step", "deep"):
             ps = [p for p in g["picks"] if p["tier"] == tier]
             if not ps:
                 continue
             lbl, sub = TIER_LABEL[tier]
-            picks += f'<div class="tier-head" style="margin-top:2.5rem"><h2>{lbl}</h2><p>{sub}</p></div>'
+            picks += f'<div class="tier-head" id="{tier}" style="margin-top:2.5rem"><h2>{lbl}</h2><p>{sub}</p></div>'
             for p in ps:
-                if p.get("q"):
-                    buy = f'<a class="btn sm" href="{e(amazon(p["q"]))}" target="_blank" rel="sponsored nofollow noopener">Check price on Amazon</a><span class="aff">Affiliate link</span>'
-                else:
-                    buy = f'<a class="btn sm" href="{e(p["url"])}" target="_blank" rel="noopener">Find a class</a><span class="aff">Free resource, not an affiliate link</span>'
-                picks += f"""<article class="pick"><div><h3>{e(p['name'])}</h3>
+                picks += f"""<article class="pick" id="pick-{slugify(p['name'])}"><div><h3>{e(p['name'])}</h3>
 <dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
-<div class="buy"><span class="price">{e(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy}</div></article>"""
+<div class="buy"><span class="price">{e(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy_btn(p)}</div></article>"""
         choose = "".join(f"<li>{e(x)}</li>" for x in g["choose"])
         mistakes = "".join(f"<li>{e(x)}</li>" for x in g["mistakes"])
         faqs = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in g["faqs"])
+        srcs = SOURCES.get(g["slug"], [])
+        sources = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in srcs)
         mx = [MX[i] for i in g["matrix"]]
         checklist = ""
         if g.get("checklist"):
             lis = "".join(f'<li><label class="qitem" for="ck-{i}"><input type="checkbox" id="ck-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(g["checklist"]))
-            checklist = f'<section class="section" id="checklist"><div class="wrap"><div class="section-head"><div><h2>Go-bag checklist</h2><p>Tick items as you pack. Your progress stays in this browser.</p></div><span class="muted" id="ck-count"></span></div><ul class="check-grid">{lis}</ul></div></section>'
+            checklist = (f'<section class="section printable" id="checklist"><div class="wrap"><div class="section-head"><div><h2>Go-bag checklist</h2>'
+                         f'<p>Tick items as you pack. Your progress stays in this browser.</p></div>'
+                         f'<div class="ck-tools"><span class="muted" id="ck-count"></span><button type="button" class="btn ghost sm" data-print>Print checklist</button></div></div>'
+                         f'<ul class="check-grid">{lis}</ul></div></section>')
         whymx = "".join(f'<li><b>{e(m["name"])}</b>: {e(m["why"])}</li>' for m in mx)
+        toc = [("quick-picks", "Quick picks")] if quick else []
+        toc += [("how-much", "How much you need"), ("when", "When it matters"), ("start", "All picks")]
+        if g.get("checklist"):
+            toc.append(("checklist", "Checklist"))
+        toc += [("choose", "How to choose"), ("faq", "Questions"), ("sources", "Sources")]
+        toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
         cr = [("Home", "/"), ("Gear guides", "/guides/"), (g["name"], f"/guides/{g['slug']}")]
         body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
-<h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Updated {datetime.date.today().strftime('%B %Y')}. Prices are typical ranges; check the live price before you buy.</p></div></div>
+<h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from {e(", ".join(sorted({t.split(":")[0] for t, _ in srcs})))}. Prices are typical ranges; check the live price before you buy.</p>
+{toc_html}</div></div>
 <section class="section"><div class="wrap stack-l">
-{DISCLOSE(root)}
-<h2>How much you need</h2><dl class="howmuch">{hm}</dl>
+{quick_html}
+<h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
 </div></section>
-<section class="section"><div class="wrap stack-l">
+<section class="section" id="when"><div class="wrap stack-l">
 <div class="section-head" style="margin:0"><div><h2>When it matters</h2><p>How important each item is in each kind of emergency.</p></div><a href="{root}scenarios.html">All items, all emergencies</a></div>
 {matrix_table(mx, caption=g['name'] + ' importance by scenario')}
 <ul class="plain-list read">{whymx}</ul>
 </div></section>
-<section class="section" style="padding-top:0"><div class="wrap">{picks}</div></section>
+<section class="section" style="padding-top:0"><div class="wrap">{DISCLOSE(root)}{picks}</div></section>
 {checklist}
 <section class="section"><div class="wrap two-col">
-<div class="stack-l"><h2>How to choose</h2><ul class="plain-list read">{choose}</ul>
+<div class="stack-l"><h2 id="choose">How to choose</h2><ul class="plain-list read">{choose}</ul>
 <h2 style="margin-top:2.5rem">Mistakes to avoid</h2><ul class="plain-list read">{mistakes}</ul>
-<h2 style="margin-top:2.5rem">Questions</h2><div class="faq">{faqs}</div></div>
+<h2 id="faq" style="margin-top:2.5rem">Questions</h2><div class="faq">{faqs}</div>
+<h2 id="sources" style="margin-top:2.5rem">Sources</h2><ul class="plain-list read sources">{sources}</ul>
+<p class="muted small read">We check this guide against these sources when we review it. Read <a href="{root}about.html">how we research and review</a>.</p></div>
 <aside class="stack-l"><div class="aside"><h3>Other guides</h3><ul>{''.join(f'<li><a href="{o["slug"]}.html">{e(o["short"])}</a></li>' for o in GUIDES if o is not g)}</ul></div>
 <div class="aside"><h3>By location</h3><ul>{''.join(f'<li><a href="{root}where/{l["slug"]}.html">{e(l["name"])}</a></li>' for l in LOCATIONS)}</ul></div></aside>
 </div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
         j = [{"@context": "https://schema.org", "@type": "Article", "headline": g["title"], "description": g["meta"],
-              "dateModified": TODAY, "author": {"@type": "Organization", "name": SITE["name"]},
+              "dateModified": TODAY, "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/about"},
               "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + f"/og/guide-{g['slug']}.png",
-              "mainEntityOfPage": SITE["url"] + f"/guides/{g['slug']}"},
+              "mainEntityOfPage": SITE["url"] + f"/guides/{g['slug']}",
+              "citation": [{"@type": "CreativeWork", "name": t, "url": u} for t, u in srcs]},
              {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in g["faqs"]]},
              {"@context": "https://schema.org", "@type": "ItemList", "name": g["h1"],
@@ -574,7 +669,7 @@ def build_misc():
 <section class="section"><div class="wrap stack read">
 <h2>How we make money</h2>
 <p>Some links on {SITE['name']} are affiliate links. They're labeled <b>Affiliate</b> next to the button. If you buy through one, the retailer pays us a commission. Your price is the same.</p>
-<p>As an Amazon Associate we earn from qualifying purchases.</p>
+<p>{AMAZON_LINE}</p>
 <p>We don't accept paid placements, sponsored rankings or free products in exchange for coverage.</p>
 <h2 style="margin-top:2rem">How we pick</h2>
 <p>We start from what you need in a real emergency, then look for gear that does that job reliably at three budgets. We favor items with long track records, independent certifications where they exist (NIOSH for respirators, NSF/ANSI or EPA registration for water treatment), and makers who publish real specs.</p>
@@ -586,9 +681,45 @@ def build_misc():
 </div></section>"""
     add("disclosure.html", shell(path="/disclosure", title="Affiliate Disclosure and How We Pick Gear", desc=f"How {SITE['name']} makes money, how we choose gear, and how we handle your quiz answers.",
                                  body=body, root=root, og="default", canon="/disclosure"), "/disclosure", "0.3")
-    body = f"""<div class="page-head"><div class="wrap"><h1>Nothing here</h1><p class="dek">This page moved or never existed.</p>
-<p style="margin-top:1.5rem"><a class="btn" href="/quiz">Get your PrepScore</a></p></div></div>"""
-    PAGES.append(("404.html", shell(path="/404", title="Page not found", desc="Page not found.", body=body, root="/", og="default", canon="/404", noindex=True), None, None))
+    # About and editorial standards
+    allsrc = {}
+    for lst in SOURCES.values():
+        for t, u in lst:
+            allsrc[t.split(":")[0]] = allsrc.get(t.split(":")[0]) or u
+    agencies = ", ".join(sorted(allsrc))
+    cr = [("Home", "/"), ("About", "/about")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>About PrepScore</h1><p class="dek">Practical emergency preparedness for ordinary households: what actually matters where you live, in the order you should do it.</p></div></div>
+<section class="section"><div class="wrap stack read">
+<h2>What we do</h2>
+<p>{SITE['name']} is an independent site. We built it because most prep advice is either a 300-item shopping list or a doomsday fantasy. We'd rather help you get the first two weeks right: water, power, light, first aid, a way to get alerts, and a plan to leave.</p>
+<p>The free quiz shows where you stand. The location and city guides show what tends to fail where you live. The gear guides show what to buy, how much you need and what to skip.</p>
+<h2 style="margin-top:2rem">Where our guidance comes from</h2>
+<p>Safety guidance on this site follows official public-health and emergency-management sources, including {e(agencies)}. Every gear guide lists the specific sources it was checked against. City guides link only to official city, county and state alert systems and evacuation-zone tools.</p>
+<p>When official guidance and common prepper advice disagree, we go with the official guidance. Examples: storing two weeks of water rather than three days in earthquake country, never running a generator in a garage, and not taping windows before a hurricane.</p>
+<h2 style="margin-top:2rem">How we review</h2>
+<ul class="plain-list">
+<li>Each guide shows the month it was last reviewed. We re-check guides at least once a year and after major changes in official guidance.</li>
+<li>City alert links are re-checked at least yearly, because cities change their notification systems.</li>
+<li>Prices are typical ranges, not live prices. Check the retailer before you buy.</li>
+<li>When we find a mistake, we fix it and update the review date.</li>
+</ul>
+<h2 style="margin-top:2rem">How we make money</h2>
+<p>We earn commissions from affiliate links, which are always labeled. They never decide what we recommend, and we point to free options first when they exist. {AMAZON_LINE} <a href="{root}disclosure.html">Full disclosure</a>.</p>
+<h2 style="margin-top:2rem">Not professional advice</h2>
+<p>This site is general information, not medical, legal or engineering advice. In an emergency, follow instructions from local officials and call 911 when lives are at risk.</p>
+</div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "AboutPage", "name": "About PrepScore", "url": SITE["url"] + "/about",
+          "dateModified": TODAY, "about": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/"}}, crumbs_ld(cr)]
+    add("about.html", shell(path="/about", title="About PrepScore and Our Editorial Standards", desc="Who runs PrepScore, where our emergency preparedness guidance comes from, how we review it, and how we make money.",
+                            body=body, root=root, og="default", canon="/about", jsonld=j), "/about", "0.4")
+
+    body = f"""<div class="page-head"><div class="wrap"><h1>Nothing here</h1><p class="dek">This page moved or never existed. Try one of these instead.</p>
+<p style="margin-top:1.5rem"><a class="btn" href="/quiz">Get your PrepScore</a></p></div></div>
+<section class="section"><div class="wrap two-col"><div class="stack">{city_picker("/")}</div>
+<div class="aside"><h3>Gear guides</h3><ul>{''.join(f'<li><a href="/guides/{g["slug"]}">{e(g["short"])}</a></li>' for g in GUIDES)}</ul></div></div></section>"""
+    PAGES.append(("404.html", shell(path="/404", title="Page not found", desc="Page not found.", body=body, root="/", og="default", canon="/404", noindex=True, scripts=("site.js",)), None, None))
 
 
 # ---------------------------------------------------------------------------

@@ -13,6 +13,12 @@ Static emergency-preparedness site: a "How prepared am I?" quiz with shareable s
 2. Optional local check: `pip install -r requirements.txt && python3 build.py`, then open `dist/index.html`.
 3. Commit and push. Cloudflare deploys it.
 
+## Keeping it fresh
+- Bump `SITE["updated"]` in `data.py` when you change content. It drives the sitemap dates, the "Reviewed" line on guides and structured data.
+- To link a pick to a specific Amazon product instead of a search, add `"asin": "B0XXXXXXX"` to that pick (copy the ASIN from Amazon's SiteStripe). For a direct brand affiliate link, add `"aff_url"` instead.
+- Quick picks (`QUICK`), cited sources (`SOURCES`) and the quiz shopping list (`QUIZ_BUY`) are at the bottom of `data.py`.
+- Internal links are written as clean URLs (`/guides/water`). To preview locally, serve `dist/` with something that maps `/page` to `page.html`, or open `wrangler dev`.
+
 ## Rules
 - Never edit `dist/` by hand; it is rebuilt every time.
 - Every affiliate button keeps `rel="sponsored nofollow noopener"` and its visible "Affiliate link" label. The disclosure box stays on every guide.

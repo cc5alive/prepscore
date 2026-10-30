@@ -333,3 +333,60 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 46rem; font-si
 .city-strip span { font-weight: 700; color: var(--ink); margin-right: .25rem; }
 .region-h { font-size: 1.6rem; margin-top: 1rem; }
 .region-h:first-child { margin-top: 0; }
+
+/* Skip link */
+.skip-link { position: absolute; left: -999px; top: 8px; z-index: 50; background: var(--signal); color: var(--on-signal); padding: .6rem .9rem; border: 2px solid var(--ink); border-radius: var(--r); font-weight: 700; text-decoration: none; }
+.skip-link:focus { left: max(16px, env(safe-area-inset-left, 0px)); }
+
+/* On this page */
+.toc { display: flex; flex-wrap: wrap; gap: .35rem 1rem; margin-top: 1.25rem; font-size: .9rem; align-items: baseline; }
+.toc span { font-weight: 700; }
+.toc a { color: var(--muted); }
+.toc a:hover { color: var(--ink); }
+[id] { scroll-margin-top: 1rem; }
+
+/* Quick picks */
+.quickpicks { border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); box-shadow: 6px 6px 0 var(--ink); padding: 1.1rem 1.25rem .9rem; }
+.quickpicks h2 { font-size: 1.8rem; }
+.quickpicks ul { list-style: none; margin: .6rem 0 .5rem; padding: 0; }
+.quickpicks li { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) auto; gap: .4rem 1.25rem; align-items: center; padding: .85rem 0; border-top: 1px solid var(--line); }
+.qp-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.qp-name { font-weight: 700; font-size: 1.02rem; text-decoration: none; }
+.qp-name:hover { text-decoration: underline; }
+.qp-why { display: block; color: var(--muted); font-size: .9rem; margin-top: .15rem; }
+.qp-buy { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; justify-content: flex-end; }
+.qp-buy .price { font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; white-space: nowrap; }
+.qp-buy .aff { display: none; }
+@media (max-width: 720px) {
+  .quickpicks li { grid-template-columns: minmax(0, 1fr); }
+  .qp-buy { justify-content: flex-start; }
+}
+
+/* Quiz shopping list */
+.gap-buy { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: .5rem; padding: .5rem .6rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); font-size: .88rem; }
+.gap-buy span { font-weight: 600; }
+.gap-buy .btn { flex: none; }
+
+/* City picker */
+.city-pick { margin-top: 1.5rem; display: grid; gap: .5rem; max-width: 30rem; }
+.city-pick label { font-weight: 700; }
+.city-pick-row { display: flex; gap: .5rem; }
+.city-pick select { flex: 1; min-width: 0; font: 500 1rem var(--f-body); padding: .6rem .7rem; border: 2px solid var(--ink); border-radius: var(--r); background: var(--surface); color: var(--ink); }
+.city-pick a { color: var(--muted); }
+
+/* Sources */
+.sources a { word-break: break-word; }
+.ck-tools { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+/* Print */
+@media print {
+  .site-head, .site-foot, .nav, .btn, .toc, .crumbs, .cta-box, .mobile-bar, .skip-link, aside, .quickpicks .qp-buy { display: none !important; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .tag, .quickpicks, .signups, .cta-box { box-shadow: none !important; }
+  a { color: #000; text-decoration: none; }
+  body.print-checklist main > *:not(.printable) { display: none !important; }
+  body.print-checklist .printable { padding: 0; }
+  .check-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .qbox { border-color: #000 !important; background: #fff !important; }
+}
+.quickpicks + h2 { margin-top: 2.75rem; }
