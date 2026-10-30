@@ -393,3 +393,29 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 46rem; font-si
 .link-to { font-size: .78rem; color: var(--muted); }
 .qp-buy .link-to { flex-basis: 100%; text-align: right; }
 @media (max-width: 720px) { .qp-buy .link-to { text-align: left; } }
+
+/* 3-day kit */
+.hero-alt { margin-top: 1rem; font-size: .95rem; color: var(--muted); }
+.hero-alt a { color: var(--ink); font-weight: 600; }
+.kit-list { list-style: none; counter-reset: k; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.kit-item { counter-increment: k; position: relative; padding: 1.25rem 1.25rem 1.1rem 4.25rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.kit-item::before { content: counter(k); position: absolute; left: 1.1rem; top: 1rem; font-family: var(--f-stencil); font-weight: 900; font-size: 2.4rem; line-height: 1; }
+.kit-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem 1rem; justify-content: space-between; }
+.kit-head h3 { font-size: 1.45rem; }
+.kit-amt { font-weight: 700; font-size: .9rem; background: var(--signal); color: var(--on-signal); padding: .15rem .5rem; border-radius: 3px; }
+.kit-item > p { margin-top: .45rem; }
+.kit-tip { color: var(--muted); font-size: .95rem; }
+.kit-free { color: var(--muted); font-size: .9rem; font-style: italic; margin-top: .75rem; }
+.kit-prod { display: flex; flex-wrap: wrap; gap: .6rem 1.25rem; align-items: center; justify-content: space-between; margin-top: .9rem; padding-top: .8rem; border-top: 1px dashed var(--line); }
+.kit-prod > div:first-child { min-width: 0; flex: 1 1 16rem; }
+.kit-pick { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.kit-note { display: block; font-size: .85rem; color: var(--muted); margin-top: .15rem; }
+.kit-buy { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.kit-buy .price { font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; white-space: nowrap; }
+.kit-also { font-size: .9rem; margin-top: .5rem; }
+.kit-more { display: inline-block; margin-top: .7rem; font-size: .85rem; font-weight: 600; color: var(--muted); }
+.kit-premade { border: 2px solid var(--ink); border-radius: 6px; padding: 1.25rem; background: var(--surface); box-shadow: 6px 6px 0 var(--ink); }
+.kit-premade h3 { font-size: 1.4rem; }
+.kit-premade p { margin: .5rem 0 .9rem; color: var(--muted); }
+.kit-premade .kit-buy b { flex: 1 1 14rem; }
+@media (max-width: 520px) { .kit-item { padding-left: 1.1rem; padding-top: 3.4rem; } .kit-item::before { top: .9rem; } }

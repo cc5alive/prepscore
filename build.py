@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Static site generator for PrepScore. Run: python3 build.py"""
 import html, json, os, posixpath, re, shutil, sys, urllib.parse, datetime
-from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY
+from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES
 from cities import CITIES, REGIONS, ALERTS_CHECKED
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -127,7 +127,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}assets/{s}"></script>' for s in scripts)}"""
     return head, page, body_attr
@@ -246,7 +246,8 @@ def build_home():
     body = f"""<section class="hero"><div class="wrap">
 <div><h1>How many days could you last on your own?</h1>
 <p class="lede">PrepScore is a free emergency preparedness check. Tick off what you already have, and it weighs your supplies against the risks where you live, tells you how long they'd carry you, and shows the few gaps worth fixing first.</p>
-<div class="cta-row"><a class="btn" href="quiz.html">Get your PrepScore</a><span class="muted small">About 3 minutes. No sign-up. Answers stay on your device.</span></div></div>
+<div class="cta-row"><a class="btn" href="quiz.html">Get your PrepScore</a><span class="muted small">About 3 minutes. No sign-up. Answers stay on your device.</span></div>
+<p class="hero-alt">Just want the basics? <a href="72-hour-kit.html">Build the simple 3-day kit</a></p></div>
 <div>{tag_example(root)}</div>
 </div></section>
 
@@ -587,6 +588,7 @@ def build_guides():
         cr = [("Home", "/"), ("Gear guides", "/guides/"), (g["name"], f"/guides/{g['slug']}")]
         body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
 <h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from {e(", ".join(sorted({t.split(":")[0] for t, _ in srcs})))}. Prices are typical ranges; check the live price before you buy.</p>
+<p class="hero-alt">New to prepping? Start with <a href="{root}72-hour-kit.html">the simple 3-day kit</a>.</p>
 {toc_html}</div></div>
 <section class="section"><div class="wrap stack-l">
 {quick_html}
@@ -626,10 +628,100 @@ def build_guides():
     lst = "".join(f'<li><a href="{g["slug"]}.html"><b>{e(g["name"])}</b><span>{e(g["dek"])}</span></a></li>' for g in GUIDES)
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>Emergency gear guides</h1>
 <p class="dek">What to buy, how much of it, and what to skip. Every guide has picks at three budgets and shows which emergencies each item matters for.</p></div></div>
-<section class="section"><div class="wrap stack-l">{DISCLOSE(root)}<ul class="guide-list">{lst}</ul></div></section>"""
+<section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: ten essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
 
+
+
+# ---------------------------------------------------------------------------
+# Simple 3-day kit
+# ---------------------------------------------------------------------------
+def kit_buy(prod, label="Check price"):
+    name, asin, price = prod[0], prod[1], prod[2]
+    url = f"https://www.amazon.com/dp/{asin}?tag={SITE['amazon_tag']}"
+    return (f'<div class="kit-prod"><div><span class="kit-pick">Our pick</span><b>{e(name)}</b>'
+            f'{f"<span class=kit-note>{e(prod[3])}</span>" if len(prod) > 3 and prod[3] else ""}</div>'
+            f'<div class="kit-buy"><span class="price">{e(price)}</span>'
+            f'<a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{label}</a></div></div>')
+
+
+def build_kit():
+    root = ""
+    items = ""
+    for i, k in enumerate(KIT):
+        prod = kit_buy(k["product"]) if k.get("product") else '<p class="kit-free">Nothing to buy. Gather what you already have.</p>'
+        also = ""
+        if k.get("also"):
+            a = k["also"]
+            url = f"https://www.amazon.com/dp/{a[1]}?tag={SITE['amazon_tag']}"
+            also = f'<p class="kit-also">Plus: <a href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{e(a[0])}</a> ({e(a[2])})</p>'
+        items += f"""<li class="kit-item" id="kit-{k['id']}"><div class="kit-head"><h3>{e(k['name'])}</h3><span class="kit-amt">{e(k['amount'])}</span></div>
+<p>{e(k['why'])}</p><p class="kit-tip">{e(k['tip'])}</p>{prod}{also}
+<a class="kit-more" href="guides/{k['guide']}.html">More on {e(GD[k['guide']]['short'].lower())}</a></li>"""
+    checklist = "".join(f'<li><label class="qitem" for="k3-{i}"><input type="checkbox" id="k3-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(k["name"])}: {e(k["amount"].lower())}</span></label></li>' for i, k in enumerate(KIT))
+    checklist += "".join(f'<li><label class="qitem" for="k3-x{i}"><input type="checkbox" id="k3-x{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(KIT_EXTRAS))
+    pm = KIT_PREMADE
+    pm_url = f"https://www.amazon.com/dp/{pm[1]}?tag={SITE['amazon_tag']}"
+    faqs = [
+        ["What should be in a 72-hour emergency kit?", "At minimum: 3 gallons of water per person, 3 days of food that needs no cooking, a manual can opener, a headlamp or flashlight per person, an emergency radio, a charged power bank, a first-aid kit, 3 days of medications, copies of important documents with some cash, N95 masks, and toilet bags with hygiene basics."],
+        ["How much water do I need for 3 days?", "Plan on one gallon per person per day, so 3 gallons per person for 3 days. Add more for pets, nursing mothers, sick family members and hot weather."],
+        ["Is a 3-day kit enough?", "It's the classic starting point and covers most power outages and short emergencies. If you live in earthquake country or a hurricane zone, emergency managers suggest building toward two weeks of supplies, especially water."],
+        ["Should I just buy a pre-made kit?", "A pre-made kit is a fine way to start today. Most cover water, food bars and basic first aid, but their flashlights, radios and first-aid kits are usually minimal, so plan to add the items above."],
+    ]
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in faqs)
+    srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in KIT_SOURCES)
+    cr = [("Home", "/"), ("3-day kit", "/72-hour-kit")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>The simple 3-day emergency kit</h1>
+<p class="dek">Ten things that get your household through the first 72 hours of most emergencies. One shopping trip, one afternoon, and you're ahead of most of your neighbors.</p>
+<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against Ready.gov and CDC guidance. Prices are typical ranges.</p>
+<dl class="howmuch kit-stats" style="margin-top:1.75rem">
+<div><dt>Water</dt><dd><span class="v">3 gal</span>per person</dd></div>
+<div><dt>Food</dt><dd><span class="v">3 days</span>no cooking needed</dd></div>
+<div><dt>Time</dt><dd><span class="v">1 afternoon</span>to gather and pack</dd></div>
+<div><dt>Cost if buying new</dt><dd><span class="v">$300+</span>for two people, less if you own some of it</dd></div>
+</dl></div></div>
+<section class="section"><div class="wrap two-col">
+<div class="stack-l">
+<p class="disclose">Product links on this page are affiliate links. {AMAZON_LINE} Commissions never decide what we recommend. <a href="{root}disclosure.html">How we pick</a>.</p>
+<h2>The 10 essentials</h2>
+<ol class="kit-list">{items}</ol>
+<div class="kit-premade"><h3>Short on time? Start with a pre-made kit</h3>
+<p>A ready-made backpack gets you water pouches, a food bar, a light stick and a small first-aid kit in one click. Then add a real headlamp, radio and power bank from the list above.</p>
+<div class="kit-buy"><b>{e(pm[0])}</b><span class="price">{e(pm[2])}</span><a class="btn sm" href="{e(pm_url)}" target="_blank" rel="sponsored nofollow noopener">Check price</a></div></div>
+</div>
+<aside class="stack-l"><div class="aside"><h3>Keep it working</h3><ul class="plain-list small">
+<li>Store it all in one bin or bag by the door or in a hall closet.</li>
+<li>Check it twice a year, when the clocks change. Swap expired food, meds and batteries.</li>
+<li>Tell everyone at home where it is.</li></ul></div>
+<div class="aside"><h3>Ready for more?</h3><ul>
+<li><a href="{root}quiz.html">See how prepared you are</a></li>
+<li><a href="{root}guides/go-bag.html">Build a go-bag to evacuate</a></li>
+<li><a href="{root}guides/water.html">Store two weeks of water</a></li>
+<li><a href="{root}city/index.html">Find your city's alert sign-ups</a></li></ul></div></aside>
+</div></section>
+<section class="section printable" id="checklist"><div class="wrap">
+<div class="section-head"><div><h2>Your 3-day kit checklist</h2><p>Tick things off as you gather them. Your progress stays in this browser.</p></div>
+<div class="ck-tools"><span class="muted" id="ck-count"></span><button type="button" class="btn ghost sm" data-print>Print checklist</button></div></div>
+<ul class="check-grid">{checklist}</ul></div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2>Questions</h2><div class="faq">{faq_html}</div>
+<h2 style="margin-top:2.5rem">Sources</h2><ul class="plain-list read sources">{srcs}</ul></div><div></div></div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    prods = [k["product"] for k in KIT if k.get("product")]
+    j = [{"@context": "https://schema.org", "@type": "Article", "headline": "The Simple 3-Day (72-Hour) Emergency Kit", "description": "Ten essentials for a 72-hour emergency kit, with how much you need and one recommended product for each.",
+          "dateModified": TODAY, "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/about"},
+          "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + "/og/kit.png", "mainEntityOfPage": SITE["url"] + "/72-hour-kit",
+          "citation": [{"@type": "CreativeWork", "name": t, "url": u} for t, u in KIT_SOURCES]},
+         {"@context": "https://schema.org", "@type": "ItemList", "name": "72-hour emergency kit essentials",
+          "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": k["name"]} for i, k in enumerate(KIT)]},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]},
+         crumbs_ld(cr)]
+    add("72-hour-kit.html", shell(path="/72-hour-kit", title="72-Hour Emergency Kit: The Simple 3-Day Checklist",
+                                  desc="The simplest 72-hour emergency kit: 10 essentials for 3 days, how much water and food you need, and one recommended product for each. Printable checklist included.",
+                                  body=body, root=root, og="kit", canon="/72-hour-kit", jsonld=j, scripts=("site.js",)), "/72-hour-kit", "0.9")
 
 # ---------------------------------------------------------------------------
 # Scenarios
@@ -789,6 +881,7 @@ def build_og():
         im.save(os.path.join(od, name + ".png"), optimize=True)
 
     card("default", "Emergency preparedness", "How many days could you last?", "Free 3-minute preparedness score, location guides and honest gear guides.")
+    card("kit", "The simple 3-day kit", "Your 72-hour kit", "Ten essentials, one afternoon. How much you need and what to buy for each.")
     card("quiz", "How prepared am I?", "Get your PrepScore", "Check off what you have. See how long you'd last, your top gaps, and a card to share.")
     card("scenarios", "Emergencies", "What matters when", "Outages, earthquakes, evacuations, bad water, sheltering in place and long grid-down events.", bigfont="display")
     for t in TIERS:
@@ -820,7 +913,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_kit(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
