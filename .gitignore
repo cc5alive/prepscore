@@ -1,0 +1,6 @@
+dist/
+artifact/
+src/data.js
+__pycache__/
+*.zip
+.DS_Store
