@@ -315,3 +315,21 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 46rem; font-si
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* City guides */
+.risk-chips { list-style: none; margin: 1.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.risk-chips li { font-weight: 700; font-size: .85rem; padding: .35rem .7rem; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--surface); }
+.signups { border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); box-shadow: 6px 6px 0 var(--ink); padding: 1.25rem 1.25rem 1rem; }
+.signups h2 { font-size: clamp(1.7rem, 3vw, 2.1rem); }
+.signups > p.muted { margin-top: .35rem; }
+.signups ul { list-style: none; margin: 1rem 0 .75rem; padding: 0; }
+.signup { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem 1.25rem; align-items: center; padding: .9rem 0; border-top: 1px solid var(--line); }
+.signup b { font-size: 1.05rem; }
+.signup p { color: var(--muted); font-size: .95rem; margin-top: .15rem; }
+.signup .btn { white-space: nowrap; }
+.ext { width: .75rem; height: .75rem; flex: none; }
+@media (max-width: 600px) { .signup { grid-template-columns: minmax(0, 1fr); } .signup .btn { justify-self: start; } }
+.city-strip { margin-top: 1.25rem; color: var(--muted); font-size: .95rem; }
+.city-strip span { font-weight: 700; color: var(--ink); margin-right: .25rem; }
+.region-h { font-size: 1.6rem; margin-top: 1rem; }
+.region-h:first-child { margin-top: 0; }

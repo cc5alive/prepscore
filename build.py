@@ -2,6 +2,7 @@
 """Static site generator for PrepScore. Run: python3 build.py"""
 import html, json, os, shutil, sys, urllib.parse, datetime
 from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES
+from cities import CITIES, REGIONS, ALERTS_CHECKED
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "dist")
@@ -56,7 +57,12 @@ def crumbs_html(items, root):
         if i == len(items) - 1:
             parts.append(f'<span aria-current="page">{e(n)}</span>')
         else:
-            href = root + (p.strip("/") + ".html" if p != "/" else "index.html")
+            if p == "/":
+                href = root + "index.html"
+            elif p.endswith("/"):
+                href = root + p.strip("/") + "/index.html"
+            else:
+                href = root + p.strip("/") + ".html"
             parts.append(f'<a href="{href}">{e(n)}</a><span aria-hidden="true">/</span>')
     return '<nav class="crumbs" aria-label="Breadcrumb">' + "".join(parts) + "</nav>"
 
@@ -102,7 +108,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">We earn commissions from links marked Affiliate. <a href="{root}disclosure.html">How we make money</a>. Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}assets/{s}"></script>' for s in scripts)}"""
     return head, page, body_attr
@@ -188,6 +194,7 @@ def build_home():
 <section class="section"><div class="wrap">
 <div class="section-head"><div><h2>Where you live changes the plan</h2><p>An apartment on the 14th floor and a farmhouse on a well fail in completely different ways. Start with your situation.</p></div><a href="where/index.html">All locations</a></div>
 <div class="loc-grid">{locs}</div>
+<p class="city-strip"><span>City guides:</span> {city_links("")}</p>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -330,6 +337,8 @@ def build_locations():
             pri += f"<li><div><b>{e(name)}</b><p>{e(why)}</p>{more}</div></li>"
         skip = "".join(f"<li>{e(s)}</li>" for s in l["skip"])
         others = "".join(f'<li><a href="{o["slug"]}.html">{e(o["name"])}</a></li>' for o in LOCATIONS if o is not l)
+        mine = [c for c in CITIES if c["parent"] == l["slug"]]
+        city_aside = ('<div class="aside"><h3>City guides</h3><ul>' + "".join(f'<li><a href="{root}city/{c["slug"]}.html">{e(c["name"])}</a></li>' for c in mine) + "</ul></div>") if mine else ""
         gl = sorted({g for _, _, g in l["priorities"] if g})
         guides = "".join(f'<li><a href="{root}guides/{g}.html">{e(GD[g]["short"])}</a></li>' for g in gl)
         cr = [("Home", "/"), ("Where you live", "/where/"), (l["name"], f"/where/{l['slug']}")]
@@ -342,7 +351,7 @@ def build_locations():
 <h2 style="margin-top:3rem">Do these first, in this order</h2><ol class="priority">{pri}</ol>
 <h2 style="margin-top:3rem">Skip or put off</h2><ul class="skip read">{skip}</ul>
 </div>
-<aside class="stack-l"><div class="aside"><h3>Gear guides for you</h3><ul>{guides}</ul></div>
+<aside class="stack-l">{city_aside}<div class="aside"><h3>Gear guides for you</h3><ul>{guides}</ul></div>
 <div class="aside"><h3>Other places</h3><ul>{others}</ul></div></aside>
 </div></section>
 <section class="section"><div class="wrap">{cta_quiz(root, l)}</div></section>"""
@@ -357,11 +366,99 @@ def build_locations():
     cr = [("Home", "/"), ("Where you live", "/where/")]
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>Prep for where you actually live</h1>
 <p class="dek">Generic checklists treat every household the same. These guides start from what tends to fail in your kind of place, then put the fixes in order.</p></div></div>
-<section class="section"><div class="wrap"><div class="loc-grid">{items}</div></div></section>
+<section class="section"><div class="wrap"><div class="loc-grid">{items}</div>
+<p class="city-strip"><span>City guides:</span> {city_links(root)}</p></div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
     add("where/index.html", shell(path="/where/", title="Emergency Preparedness by Location: City, Suburbs, Rural and More",
                                   desc="Emergency prep guides for city apartments, suburbs, rural homes, hurricane coasts, wildfire country and earthquake zones.",
                                   body=body, root=root, og="default", canon="/where/", jsonld=[crumbs_ld(cr)], active="where"), "/where/", "0.8")
+
+
+# ---------------------------------------------------------------------------
+# Cities
+# ---------------------------------------------------------------------------
+LOC = {l["slug"]: l for l in LOCATIONS}
+
+
+def city_links(root):
+    return ", ".join(f'<a href="{root}city/{c["slug"]}.html">{e(c["name"])}</a>' for c in CITIES)
+
+
+EXT = '<svg class="ext" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5h5v5M9.5 2.5 3 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+
+
+def alert_item(a, kind="alert"):
+    return (f'<li class="signup"><div><b>{e(a["name"])}</b><p>{e(a["how"])}</p></div>'
+            f'<a class="btn sm ghost" href="{e(a["url"])}" target="_blank" rel="noopener">{e(a["label"])}{EXT}</a></li>')
+
+
+def build_cities():
+    root = "../"
+    for c in CITIES:
+        parent = LOC[c["parent"]]
+        risks = "".join(f'<li>{e(r)}</li>' for r in c["risks"])
+        alerts = "".join(alert_item(a) for a in c["alerts"])
+        if c.get("zone"):
+            alerts += alert_item(c["zone"])
+        hazards = "".join(f"<div><dt>{e(a)}</dt><dd>{e(b)}</dd></div>" for a, b in c["hazards"])
+        notes = "".join(f"<p>{e(p)}</p>" for p in c["notes"])
+        pri = ""
+        for name, why, g in c["priorities"]:
+            more = f'<a class="more" href="{root}guides/{g}.html">{e(GD[g]["short"])} guide</a>' if g else ""
+            pri += f"<li><div><b>{e(name)}</b><p>{e(why)}</p>{more}</div></li>"
+        faqs = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in c["faqs"])
+        same = [o for o in CITIES if o is not c and o["parent"] == c["parent"]]
+        region = [o for o in CITIES if o is not c and o["region"] == c["region"] and o not in same]
+        near = (same + region)[:5]
+        near_html = "".join(f'<li><a href="{o["slug"]}.html">{e(o["name"])}</a></li>' for o in near)
+        gl = sorted({g for _, _, g in c["priorities"] if g})
+        guides = "".join(f'<li><a href="{root}guides/{g}.html">{e(GD[g]["short"])}</a></li>' for g in gl)
+        cr = [("Home", "/"), ("City guides", "/city/"), (c["name"], f"/city/{c['slug']}")]
+        body = f"""<div class="page-head"><div class="wrap">
+{crumbs_html(cr, root)}<h1>Prepping in {e(c['name'])}</h1><p class="dek">{e(c['dek'])}</p>
+<ul class="risk-chips" aria-label="Main risks">{risks}</ul></div></div>
+<section class="section"><div class="wrap two-col">
+<div class="stack-l">
+<div class="signups"><h2>Sign up today</h2><p class="muted">The official {e(c['name'])} alert and lookup tools. Each takes a few minutes and works even if you do nothing else on this page.</p>
+<ul>{alerts}</ul><p class="muted small">Links checked {ALERTS_CHECKED}. Wireless Emergency Alerts reach most phones automatically; these add local detail.</p></div>
+<h2 style="margin-top:3rem">What can go wrong in {e(c['name'])}</h2><dl class="threats">{hazards}</dl>
+<h2 style="margin-top:3rem">What that means for your plan</h2><div class="stack read">{notes}</div>
+<h2 style="margin-top:3rem">Do these first, in this order</h2><ol class="priority">{pri}</ol>
+<h2 style="margin-top:3rem">Questions</h2><div class="faq">{faqs}</div>
+</div>
+<aside class="stack-l"><div class="aside"><h3>The full {e(parent['name'].lower())} guide</h3><p class="muted small" style="margin-bottom:.5rem">{e(c['name'])} follows the same playbook, with local details above.</p><ul><li><a href="{root}where/{parent['slug']}.html">{e(parent['h1'])}</a></li></ul></div>
+<div class="aside"><h3>Gear guides</h3><ul>{guides}</ul></div>
+<div class="aside"><h3>More cities</h3><ul>{near_html}<li><a href="index.html">All city guides</a></li></ul></div></aside>
+</div></section>
+<section class="section"><div class="wrap"><div class="cta-box"><div><h2>How ready is your {e(c['name'])} home?</h2>
+<p>The quiz weights every item for {e(parent['name'].lower())} risks and shows your top gaps. About 3 minutes, no sign-up.</p></div>
+<a class="btn" href="{root}quiz.html#{parent['slug']}">Get your PrepScore</a></div></div></section>"""
+        j = [{"@context": "https://schema.org", "@type": "Article", "headline": c["title"], "description": c["meta"],
+              "dateModified": TODAY, "author": {"@type": "Organization", "name": SITE["name"]},
+              "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + f"/og/city-{c['slug']}.png",
+              "mainEntityOfPage": SITE["url"] + f"/city/{c['slug']}",
+              "about": {"@type": "City", "name": f"{c['name']}, {c['state']}"}},
+             {"@context": "https://schema.org", "@type": "FAQPage",
+              "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in c["faqs"]]},
+             crumbs_ld(cr)]
+        add(f"city/{c['slug']}.html", shell(path=f"/city/{c['slug']}", title=c["title"], desc=c["meta"], body=body, root=root,
+                                           og=f"city-{c['slug']}", canon=f"/city/{c['slug']}", jsonld=j, active="where"), f"/city/{c['slug']}", "0.8")
+    # index
+    groups = ""
+    for r in REGIONS:
+        cs = [c for c in CITIES if c["region"] == r]
+        if not cs:
+            continue
+        items = "".join(f'<a href="{c["slug"]}.html"><h3>{e(c["name"])}</h3><p>{e(", ".join(c["risks"]))}</p></a>' for c in cs)
+        groups += f'<h2 class="region-h">{e(r)}</h2><div class="loc-grid">{items}</div>'
+    cr = [("Home", "/"), ("City guides", "/city/")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>City prep guides</h1>
+<p class="dek">The local version: each city's official alert sign-ups, how to find your evacuation zone, what tends to go wrong there and what to do first.</p></div></div>
+<section class="section"><div class="wrap stack-l">{groups}</div></section>
+<section class="section"><div class="wrap stack-l"><p class="muted read">Don't see your city? Start with the guide for <a href="{root}where/index.html">your kind of place</a>, then search your county's name plus "emergency alerts" to find your local sign-up.</p>{cta_quiz(root)}</div></section>"""
+    add("city/index.html", shell(path="/city/", title="Emergency Preparedness by City: Local Alerts, Zones and Risks",
+                                 desc="City-by-city emergency prep guides with official alert sign-ups, evacuation zone lookups and local risks for Los Angeles, New York, Houston, Miami and more.",
+                                 body=body, root=root, og="default", canon="/city/", jsonld=[crumbs_ld(cr)], active="where"), "/city/", "0.8")
 
 
 # ---------------------------------------------------------------------------
@@ -561,6 +658,8 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
+    for c in CITIES:
+        card(f"city-{c['slug']}", f"City guide  ·  {c['state']}", f"Prepping in {c['name']}", "  ·  ".join(c["risks"]) + ". Local alerts, zones and what to do first.", bigfont="display")
 
 
 def build_files():
@@ -582,7 +681,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_guides(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
