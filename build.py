@@ -138,7 +138,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}"""
     return head, page, body_attr
@@ -648,7 +648,7 @@ def build_guides():
 <p class="dek">What to buy, how much of it, and what to skip. Every guide has picks at three budgets and shows which emergencies each item matters for.</p></div></div>
 <section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: ten essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul>
 <h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li></ul>
-<p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a> and what each is good for.</p></div></section>"""
+<p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
 
@@ -864,7 +864,7 @@ def build_resources():
 <li>Independent sites only when they add something the official ones don't, like tested gear or a deeper explanation.</li>
 <li>Each one is here for a specific job. If a site is weak on something, we say so.</li>
 <li>Know a resource that belongs here? Tell us on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a>.</li></ul></div>
-<aside class="stack-l"><div class="aside"><h3>On PrepScore</h3><ul><li><a href="quiz.html">How prepared am I?</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="guides/index.html">Gear guides</a></li><li><a href="city/index.html">City guides</a></li></ul></div></aside></div></section>
+<aside class="stack-l"><div class="aside"><h3>On PrepScore</h3><ul><li><a href="library.html">Printable guides and books</a></li><li><a href="quiz.html">How prepared am I?</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="guides/index.html">Gear guides</a></li><li><a href="city/index.html">City guides</a></li></ul></div></aside></div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
     j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": R.TITLE, "description": R.META, "url": SITE["url"] + "/resources",
           "dateModified": TODAY, "publisher": {"@type": "Organization", "name": SITE["name"]},
@@ -872,6 +872,61 @@ def build_resources():
          crumbs_ld(cr)]
     add("resources.html", shell(path="/resources", title=R.TITLE, desc=R.META, body=body, root=root, og="resources",
                                 canon="/resources", jsonld=j), "/resources", "0.7")
+
+
+# ---------------------------------------------------------------------------
+# Library: printable PDFs and books
+# ---------------------------------------------------------------------------
+def build_library():
+    import library as L
+    root = ""
+    pdf_html = ""
+    for sid, title, sub, items in L.PDF_SECTIONS:
+        cards = ""
+        for name, url, by, kind, best, about in items:
+            lbl = "Download PDF" if kind == "PDF" else "Go to download page"
+            cards += f"""<article class="rs-card"><div class="rs-top"><span class="rs-kind rs-free">Free</span><span class="rs-kind">{e(kind)}</span><span class="rs-by">{e(by)}</span></div>
+<h3><a href="{e(url)}" target="_blank" rel="noopener">{e(name)}</a></h3>
+<p class="rs-best"><b>Best for:</b> {e(best)}</p><p class="rs-about">{e(about)}</p>
+<a class="btn ghost sm lb-dl" href="{e(url)}" target="_blank" rel="noopener">{lbl}</a></article>"""
+        pdf_html += f"""<div class="lb-sub" id="{sid}"><h3 class="lb-h">{e(title)}</h3><p class="muted">{e(sub)}</p><div class="rs-grid">{cards}</div></div>"""
+    books_html = ""
+    allbooks = []
+    for sid, title, items in L.BOOK_SECTIONS:
+        rows = ""
+        for name, author, asin, price, best, why in items:
+            allbooks.append((name, author))
+            rows += f"""<article class="pick"><div><h3>{e(name)}</h3><p class="muted" style="margin-top:.2rem">{e(author)}</p>
+<dl class="facts"><dt>Best for</dt><dd>{e(best)}</dd><dt>Why</dt><dd>{e(why)}</dd></dl></div>
+<div class="buy"><span class="price">{e(price)}</span>{aff_btn(asin, "See it on Amazon")}<span class="aff">Affiliate link</span></div></article>"""
+        books_html += f'<div class="lb-sub" id="{sid}"><h3 class="lb-h">{e(title)}</h3>{rows}</div>'
+    tips = "".join(f"<li>{e(t)}</li>" for t in L.PRINT_TIPS)
+    toc = [("free-guides", "Free printable guides")] + [(s[0], s[1]) for s in L.PDF_SECTIONS] + [("books", "Books")]
+    toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
+    cr = [("Home", "/"), ("Library", "/library")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(L.H1)}</h1><p class="dek">{e(L.DEK)}</p>
+<p class="muted small" style="margin-top:1rem">Links checked {REVIEWED}. The guides are free from their publishers; book links are affiliate links.</p>
+{toc_html}</div></div>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<div class="pw-verdict"><h2>How to build your binder</h2><ol>{tips}</ol></div></div>
+<aside class="stack-l"><div class="aside"><h3>Also print</h3><ul><li><a href="72-hour-kit.html#checklist">The PrepScore 3-day kit checklist</a></li><li><a href="guides/go-bag.html#checklist">The go-bag checklist</a></li><li><a href="city/index.html">Your city's alert sign-ups</a></li></ul></div></aside></div></section>
+<section class="section" id="free-guides"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Free printable guides</h2><p>Official and nonprofit guides, free from the people who wrote them. We link to the source, not to copies.</p></div></div>
+{pdf_html}</div></section>
+<section class="section" id="books"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The best prepper and survival books</h2><p>Books for the skills and judgment that checklists can't teach. Prices are typical for the paperback.</p></div></div>
+{DISCLOSE(root)}{books_html}</div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l read"><h2>More to read online</h2>
+<p>For websites, apps and classes, see <a href="resources.html">the best prep resources beyond PrepScore</a>.</p></div><div></div></div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    items = [{"@type": "ListItem", "position": i + 1, "item": {"@type": "DigitalDocument", "name": n, "url": u, "publisher": {"@type": "Organization", "name": by}}}
+             for i, (n, u, by, *_rest) in enumerate(x for s in L.PDF_SECTIONS for x in s[3])]
+    n0 = len(items)
+    items += [{"@type": "ListItem", "position": n0 + i + 1, "item": {"@type": "Book", "name": n, "author": {"@type": "Person", "name": a}}} for i, (n, a) in enumerate(allbooks)]
+    j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": L.TITLE, "description": L.META, "url": SITE["url"] + "/library",
+          "dateModified": TODAY, "publisher": {"@type": "Organization", "name": SITE["name"]},
+          "mainEntity": {"@type": "ItemList", "itemListElement": items}}, crumbs_ld(cr)]
+    add("library.html", shell(path="/library", title=L.TITLE, desc=L.META, body=body, root=root, og="library",
+                              canon="/library", jsonld=j), "/library", "0.8")
 
 
 # ---------------------------------------------------------------------------
@@ -1041,6 +1096,7 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
+    card("library", "The prepper's library", "Print it before you need it", "Free survival guides from FEMA, the CDC, the Army and Hesperian, plus the best prepper books.", bigfont="display")
     card("resources", "Beyond PrepScore", "The best prep resources", "Ready.gov, Wirecutter, Watch Duty, Stop the Bleed and more, with what each one is best for.", bigfont="display")
     card("guide-pool-water", "Water deep dive", "Drinking pool water", "Chlorine and saltwater pools: why a filter isn't enough, and what makes it drinkable.", bigfont="display")
     for c in CITIES:
@@ -1066,7 +1122,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_kit(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_kit(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
