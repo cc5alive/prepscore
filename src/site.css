@@ -458,3 +458,22 @@ table.pw-table { min-width: 44rem; }
   .pw-buy::before { width: 100%; }
   .pw-buy .price { margin: 0; }
 }
+
+/* Resources page */
+.rs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 1.25rem; }
+.rs-card { border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); padding: 1.15rem 1.25rem; display: flex; flex-direction: column; gap: .55rem; }
+.rs-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.rs-kind { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .5rem; border-radius: 3px; border: 1.5px solid var(--ink); }
+.rs-official { background: var(--ink); color: var(--paper); }
+.rs-nonprofit { background: color-mix(in srgb, var(--aid) 18%, transparent); }
+.rs-independent { background: color-mix(in srgb, var(--signal) 35%, transparent); }
+.rs-app { background: color-mix(in srgb, var(--alert) 15%, transparent); }
+.rs-by { font-size: .82rem; color: var(--muted); }
+.rs-card h3 { font-size: 1.4rem; line-height: 1.15; }
+.rs-card h3 a { color: var(--ink); text-decoration: none; }
+.rs-card h3 a:hover { text-decoration: underline; }
+.rs-best { font-size: .97rem; }
+.rs-about { font-size: .92rem; color: var(--muted); }
+.rs-watch { font-size: .88rem; border-left: 3px solid var(--signal); padding-left: .6rem; }
+.rs-go { margin-top: auto; padding-top: .4rem; font-weight: 600; font-size: .92rem; color: var(--ink); }
+@media (max-width: 480px) { .rs-grid { grid-template-columns: minmax(0, 1fr); } }

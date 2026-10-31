@@ -138,7 +138,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}"""
     return head, page, body_attr
@@ -647,7 +647,8 @@ def build_guides():
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>Emergency gear guides</h1>
 <p class="dek">What to buy, how much of it, and what to skip. Every guide has picks at three budgets and shows which emergencies each item matters for.</p></div></div>
 <section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: ten essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul>
-<h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li></ul></div></section>"""
+<h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li></ul>
+<p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a> and what each is good for.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
 
@@ -832,6 +833,48 @@ def build_pool():
 
 
 # ---------------------------------------------------------------------------
+# Outside resources
+# ---------------------------------------------------------------------------
+def build_resources():
+    import resources as R
+    root = ""
+    secs = ""
+    allres = []
+    for sid, title, sub, items in R.SECTIONS:
+        cards = ""
+        for name, url, by, kind, best, about, watch in items:
+            allres.append((name, url))
+            w = f'<p class="rs-watch"><b>Keep in mind:</b> {e(watch)}</p>' if watch else ""
+            cards += f"""<article class="rs-card"><div class="rs-top"><span class="rs-kind rs-{kind.lower()}">{e(kind)}</span><span class="rs-by">{e(by)}</span></div>
+<h3><a href="{e(url)}" target="_blank" rel="noopener">{e(name)}</a></h3>
+<p class="rs-best"><b>Best for:</b> {e(best)}</p><p class="rs-about">{e(about)}</p>{w}
+<a class="rs-go" href="{e(url)}" target="_blank" rel="noopener">Visit {e(url.split("//")[1].split("/")[0].replace("www.", ""))}<span aria-hidden="true"> ↗</span></a></article>"""
+        secs += f"""<section class="section" id="{sid}"><div class="wrap"><div class="section-head"><div><h2>{e(title)}</h2><p>{e(sub)}</p></div></div>
+<div class="rs-grid">{cards}</div></div></section>"""
+    toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{s[0]}">{e(s[1])}</a>' for s in R.SECTIONS) + "</nav>"
+    cr = [("Home", "/"), ("Resources", "/resources")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(R.H1)}</h1><p class="dek">{e(R.DEK)}</p>
+<p class="muted small" style="margin-top:1rem">Checked {REVIEWED}. None of these are affiliate links, and nobody paid to be listed.</p>
+{toc_html}</div></div>
+{secs}
+<section class="section"><div class="wrap two-col"><div class="stack-l read">
+<h2>How we chose these</h2>
+<ul class="plain-list"><li>Official and nonprofit sources first, because they're accountable and free.</li>
+<li>Independent sites only when they add something the official ones don't, like tested gear or a deeper explanation.</li>
+<li>Each one is here for a specific job. If a site is weak on something, we say so.</li>
+<li>Know a resource that belongs here? Tell us on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a>.</li></ul></div>
+<aside class="stack-l"><div class="aside"><h3>On PrepScore</h3><ul><li><a href="quiz.html">How prepared am I?</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="guides/index.html">Gear guides</a></li><li><a href="city/index.html">City guides</a></li></ul></div></aside></div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": R.TITLE, "description": R.META, "url": SITE["url"] + "/resources",
+          "dateModified": TODAY, "publisher": {"@type": "Organization", "name": SITE["name"]},
+          "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "url": u} for i, (n, u) in enumerate(allres)]}},
+         crumbs_ld(cr)]
+    add("resources.html", shell(path="/resources", title=R.TITLE, desc=R.META, body=body, root=root, og="resources",
+                                canon="/resources", jsonld=j), "/resources", "0.7")
+
+
+# ---------------------------------------------------------------------------
 # Scenarios
 # ---------------------------------------------------------------------------
 def build_scenarios():
@@ -900,7 +943,7 @@ def build_misc():
 <p>{SITE['name']} is an independent site. We built it because most prep advice is either a 300-item shopping list or a doomsday fantasy. We'd rather help you get the first two weeks right: water, power, light, first aid, a way to get alerts, and a plan to leave.</p>
 <p>The free quiz shows where you stand. The location and city guides show what tends to fail where you live. The gear guides show what to buy, how much you need and what to skip.</p>
 <h2 style="margin-top:2rem">Where our guidance comes from</h2>
-<p>Safety guidance on this site follows official public-health and emergency-management sources, including {e(agencies)}. Every gear guide lists the specific sources it was checked against. City guides link only to official city, county and state alert systems and evacuation-zone tools.</p>
+<p>Safety guidance on this site follows official public-health and emergency-management sources, including {e(agencies)}. Every gear guide lists the specific sources it was checked against. City guides link only to official city, county and state alert systems and evacuation-zone tools. For other sites we trust, see <a href="{root}resources.html">our list of the best prep resources</a>.</p>
 <p>When official guidance and common prepper advice disagree, we go with the official guidance. Examples: storing two weeks of water rather than three days in earthquake country, never running a generator in a garage, and not taping windows before a hurricane.</p>
 <h2 style="margin-top:2rem">How we review</h2>
 <ul class="plain-list">
@@ -998,6 +1041,7 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
+    card("resources", "Beyond PrepScore", "The best prep resources", "Ready.gov, Wirecutter, Watch Duty, Stop the Bleed and more, with what each one is best for.", bigfont="display")
     card("guide-pool-water", "Water deep dive", "Drinking pool water", "Chlorine and saltwater pools: why a filter isn't enough, and what makes it drinkable.", bigfont="display")
     for c in CITIES:
         card(f"city-{c['slug']}", f"City guide  ·  {c['state']}", f"Prepping in {c['name']}", "  ·  ".join(c["risks"]) + ". Local alerts, zones and what to do first.", bigfont="display")
@@ -1022,7 +1066,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_kit(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_kit(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
