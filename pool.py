@@ -138,4 +138,5 @@ SOURCES = [
 
 # City pages that get a "Have a pool?" link (hot, pool-heavy metros)
 POOL_CITIES = {"los-angeles", "san-diego", "phoenix", "miami", "tampa", "orlando", "houston", "dallas", "new-orleans",
-               "san-antonio", "fort-worth", "austin", "jacksonville", "el-paso"}
+               "san-antonio", "fort-worth", "austin", "jacksonville", "el-paso",
+               "las-vegas", "tucson", "mesa", "fresno", "sacramento"}

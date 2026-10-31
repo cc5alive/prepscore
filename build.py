@@ -487,7 +487,7 @@ def build_cities():
             more = f'<a class="more" href="{root}guides/{g}.html">{e(GD[g]["short"])} guide</a>' if g else ""
             pri += f"<li><div><b>{e(name)}</b><p>{e(why)}</p>{more}</div></li>"
         faqs = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in c["faqs"])
-        region = [o for o in CITIES if o is not c and o["region"] == c["region"]]
+        region = sorted([o for o in CITIES if o is not c and o["region"] == c["region"]], key=lambda o: o["state"] != c["state"])
         same = [o for o in CITIES if o is not c and o["parent"] == c["parent"] and o not in region]
         near = (region + same)[:5]
         near_html = "".join(f'<li><a href="{o["slug"]}.html">{e(o["name"])}</a></li>' for o in near)
