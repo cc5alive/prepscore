@@ -804,7 +804,7 @@ def build_pool():
 <div class="section-head" style="margin:0"><div><h2>Filters compared</h2><p>Every one of these is a good final step after distilling or RO. None of them removes salt or stabilizer on its own.</p></div></div>
 {DISCLOSE(root)}
 <div class="pw-cc"><div><span class="kit-pick">What I bought</span><h3>{e(cc['name'])}</h3>
-<p class="pw-quote">“{e(P.CC_NOTE)}” <span class="muted">CC Pearce, founder</span></p>
+<p class="pw-quote">“{e(P.CC_NOTE)}” <span class="muted">CC Pearce, site creator</span></p>
 <ul class="pw-stages">{stages}</ul><p class="muted small">{e(cc['limits'])}</p></div>
 <div class="kit-buy"><span class="price">{e(cc['price'])}</span>{aff_btn(cc['asin'])}</div></div>
 <div class="table-wrap"><table class="matrix pw-table"><thead><tr><th scope="col">Filter</th><th scope="col">Germs</th><th scope="col">Chlorine and taste</th><th scope="col">Salt and stabilizer</th><th scope="col">Price</th></tr></thead><tbody>{frow}</tbody></table></div>
