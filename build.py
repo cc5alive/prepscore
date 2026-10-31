@@ -3,6 +3,9 @@
 import html, json, os, posixpath, re, shutil, sys, urllib.parse, datetime
 from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES
 from cities import CITIES, REGIONS, ALERTS_CHECKED
+from pool import POOL_CITIES
+POOL_ASIDE = lambda root: (f'<div class="aside"><h3>Have a backyard pool?</h3><p class="muted small">It can back up your water supply, but not through a filter alone. '
+                            f'<a href="{root}guides/pool-water.html">What it takes to drink pool water</a>.</p></div>')
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "dist")
@@ -505,7 +508,7 @@ def build_cities():
 </div>
 <aside class="stack-l"><div class="aside"><h3>The full {e(parent['name'].lower())} guide</h3><p class="muted small" style="margin-bottom:.5rem">{e(c['name'])} follows the same playbook, with local details above.</p><ul><li><a href="{root}where/{parent['slug']}.html">{e(parent['h1'])}</a></li></ul></div>
 <div class="aside"><h3>Gear guides</h3><ul>{guides}</ul></div>
-<div class="aside"><h3>More cities</h3><ul>{near_html}<li><a href="index.html">All city guides</a></li></ul></div></aside>
+{POOL_ASIDE(root) if c["slug"] in POOL_CITIES else ""}<div class="aside"><h3>More cities</h3><ul>{near_html}<li><a href="index.html">All city guides</a></li></ul></div></aside>
 </div></section>
 <section class="section"><div class="wrap"><div class="cta-box"><div><h2>How ready is your {e(c['name'])} home?</h2>
 <p>The quiz weights every item for {e(parent['name'].lower())} risks and shows your top gaps. About 3 minutes, no sign-up.</p></div>
@@ -541,6 +544,10 @@ def build_cities():
 # ---------------------------------------------------------------------------
 # Guides
 # ---------------------------------------------------------------------------
+POOL_CALLOUT = ('<div class="cta-box"><div><h2>Have a pool?</h2><p>It can hold years of water, but a filter alone won\'t make it drinkable, '
+                'especially a saltwater pool. Here\'s what it takes.</p></div><a class="btn" href="pool-water.html">Read the pool water guide</a></div>')
+
+
 def build_guides():
     root = "../"
     for g in GUIDES:
@@ -603,6 +610,7 @@ def build_guides():
 <section class="section"><div class="wrap stack-l">
 {quick_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
+{POOL_CALLOUT if g["slug"] == "water" else ""}
 </div></section>
 <section class="section" id="when"><div class="wrap stack-l">
 <div class="section-head" style="margin:0"><div><h2>When it matters</h2><p>How important each item is in each kind of emergency.</p></div><a href="{root}scenarios.html">All items, all emergencies</a></div>
@@ -638,7 +646,8 @@ def build_guides():
     lst = "".join(f'<li><a href="{g["slug"]}.html"><b>{e(g["name"])}</b><span>{e(g["dek"])}</span></a></li>' for g in GUIDES)
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>Emergency gear guides</h1>
 <p class="dek">What to buy, how much of it, and what to skip. Every guide has picks at three budgets and shows which emergencies each item matters for.</p></div></div>
-<section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: ten essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul></div></section>"""
+<section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: ten essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul>
+<h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li></ul></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
 
@@ -732,6 +741,95 @@ def build_kit():
     add("72-hour-kit.html", shell(path="/72-hour-kit", title="72-Hour Emergency Kit: The Simple 3-Day Checklist",
                                   desc="The simplest 72-hour emergency kit: 10 essentials for 3 days, how much water and food you need, and one recommended product for each. Printable checklist included.",
                                   body=body, root=root, og="kit", canon="/72-hour-kit", jsonld=j, scripts=("site.js",)), "/72-hour-kit", "0.9")
+
+# ---------------------------------------------------------------------------
+# Pool water deep dive
+# ---------------------------------------------------------------------------
+def aff_btn(asin, label="Check price"):
+    url = f"https://www.amazon.com/dp/{asin}?tag={SITE['amazon_tag']}"
+    return f'<a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{label}</a>'
+
+
+def build_pool():
+    import pool as P
+    root = "../"
+    hm = "".join(f'<div><dt>{e(a)}</dt><dd><span class="v">{e(b)}</span>{e(c)}</dd></div>' for a, b, c in P.HOWMUCH)
+    verdict = "".join(f"<li><b>{e(a)}</b> {e(b)}</li>" for a, b in P.VERDICT)
+    crow = "".join(f'<tr><th scope="row">{e(a)}</th><td data-l="Typical in a pool">{e(b)}</td><td data-l="Guideline">{e(c)}</td><td data-l="What removes it">{e(d)}</td></tr>' for a, b, c, d in P.CONTAMINANTS)
+    before = "".join(f"<li>{e(x)}</li>" for x in P.BEFORE)
+    steps = lambda lst: "".join(f"<li><b>{e(a)}</b><span>{e(b)}</span></li>" for a, b in lst)
+    salt_facts = "".join(f"<li>{e(x)}</li>" for x in P.SALT_FACTS)
+    nopower = "".join(f"<li>{e(x)}</li>" for x in P.NO_POWER)
+    cc = P.CC_PICK
+    stages = "".join(f"<li><b>{e(a)}</b>{e(b)}</li>" for a, b in cc["stages"])
+    yn = lambda v: f'<span class="yn {"y" if v.lower().startswith("yes") else "n"}">{e(v)}</span>'
+    frow = "".join(f'<tr><th scope="row">{e(n)}<span class="pw-kind">{e(k)}</span></th><td data-l="Germs">{e(g)}</td><td data-l="Chlorine and taste">{yn(c)}</td><td data-l="Salt and stabilizer">{yn(s)}</td>'
+                   f'<td class="pw-buy" data-l="Price"><span class="price">{e(pr)}</span>{aff_btn(a)}</td></tr>' for n, a, pr, k, g, c, s, _ in P.FILTERS)
+    fnotes = "".join(f"<li><b>{e(n.replace(' (CC' + chr(39) + 's pick)', ''))}:</b> {e(note)}</li>" for n, _, _, _, _, _, _, note in P.FILTERS)
+    gear = "".join(f"""<article class="pick"><div><h3>{e(n)}</h3><dl class="facts"><dt>What it is</dt><dd>{e(w)}</dd><dt>Why</dt><dd>{e(y)}</dd></dl></div>
+<div class="buy"><span class="price">{e(pr)}</span>{aff_btn(a, "Check price on Amazon")}<span class="aff">Affiliate link</span></div></article>""" for n, a, pr, w, y in P.GEAR)
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in P.FAQS)
+    srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in P.SOURCES)
+    toc = [("short-answer", "Short answer"), ("whats-in-it", "What's in pool water"), ("chlorine", "Chlorine pools"), ("salt", "Saltwater pools"),
+           ("filters", "Filters compared"), ("gear", "Gear that removes salt"), ("faq", "Questions"), ("sources", "Sources")]
+    toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
+    cr = [("Home", "/"), ("Gear guides", "/guides/"), ("Water", "/guides/water"), ("Pool water", "/guides/pool-water")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(P.H1)}</h1><p class="dek">{e(P.DEK)}</p>
+<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from the CDC, FEMA, EPA and WHO. Prices are typical ranges; check the live price before you buy.</p>
+{toc_html}</div></div>
+<section class="section"><div class="wrap stack-l">
+<div class="pw-verdict" id="short-answer"><h2>The short answer</h2><ol>{verdict}</ol></div>
+<dl class="howmuch">{hm}</dl>
+</div></section>
+<section class="section" id="whats-in-it"><div class="wrap stack-l">
+<div class="section-head" style="margin:0"><div><h2>What's in pool water</h2><p>Germs are the easy part. The hard part is what's dissolved in the water, because filters can't catch it.</p></div></div>
+<div class="table-wrap"><table class="matrix pw-table"><thead><tr><th scope="col">What</th><th scope="col">Typical in a pool</th><th scope="col">Drinking-water guideline</th><th scope="col">What removes it</th></tr></thead><tbody>{crow}</tbody></table></div>
+</div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2>Before an emergency</h2><ul class="plain-list read">{before}</ul>
+<h2 id="chlorine" style="margin-top:2.5rem">Chlorinated pools, step by step</h2>
+<ol class="pw-steps">{steps(P.CHLORINE_STEPS)}</ol>
+<div class="disclose"><b>If you can't distill or run RO.</b> {e(P.LAST_RESORT)}</div>
+<h2 id="salt" style="margin-top:2.5rem">Saltwater pools, step by step</h2>
+<ul class="plain-list read">{salt_facts}</ul>
+<ol class="pw-steps">{steps(P.SALT_STEPS)}</ol>
+<h2 style="margin-top:2.5rem">No power? Distill it on a stove</h2>
+<ul class="plain-list read">{nopower}</ul>
+</div>
+<aside class="stack-l"><div class="aside"><h3>Use pool water for</h3><ul class="plain-list small"><li>Flushing toilets (pour a bucket into the bowl)</li><li>Washing hands, bodies and dishes</li><li>Cleaning</li><li>Drinking only after distilling or RO</li></ul></div>
+<div class="aside"><h3>Related guides</h3><ul><li><a href="water.html">Emergency water storage</a></li><li><a href="power.html">Power for a distiller</a></li><li><a href="sanitation.html">Sanitation without running water</a></li><li><a href="{root}72-hour-kit.html">The simple 3-day kit</a></li></ul></div></aside>
+</div></section>
+<section class="section" id="filters"><div class="wrap stack-l">
+<div class="section-head" style="margin:0"><div><h2>Filters compared</h2><p>Every one of these is a good final step after distilling or RO. None of them removes salt or stabilizer on its own.</p></div></div>
+{DISCLOSE(root)}
+<div class="pw-cc"><div><span class="kit-pick">What I bought</span><h3>{e(cc['name'])}</h3>
+<p class="pw-quote">“{e(P.CC_NOTE)}” <span class="muted">CC Pearce, founder</span></p>
+<ul class="pw-stages">{stages}</ul><p class="muted small">{e(cc['limits'])}</p></div>
+<div class="kit-buy"><span class="price">{e(cc['price'])}</span>{aff_btn(cc['asin'])}</div></div>
+<div class="table-wrap"><table class="matrix pw-table"><thead><tr><th scope="col">Filter</th><th scope="col">Germs</th><th scope="col">Chlorine and taste</th><th scope="col">Salt and stabilizer</th><th scope="col">Price</th></tr></thead><tbody>{frow}</tbody></table></div>
+<ul class="plain-list read small pw-notes">{fnotes}</ul>
+</div></section>
+<section class="section" id="gear"><div class="wrap"><h2>Gear that removes salt and stabilizer</h2>
+<p class="muted read" style="margin-top:.5rem">These are the pieces that make pool water drinkable, plus the cheap tools that tell you it worked.</p>{gear}</div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2 id="faq">Questions</h2><div class="faq">{faq_html}</div>
+<h2 id="sources" style="margin-top:2.5rem">Sources</h2><ul class="plain-list read sources">{srcs}</ul>
+<p class="muted small read">This guide is general information, not medical advice. If someone gets sick after drinking treated water, call a doctor or poison control (1-800-222-1222).</p></div><div></div></div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "Article", "headline": P.TITLE, "description": P.META, "dateModified": TODAY,
+          "author": {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com"},
+          "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + "/og/guide-pool-water.png",
+          "mainEntityOfPage": SITE["url"] + "/guides/pool-water",
+          "citation": [{"@type": "CreativeWork", "name": t, "url": u} for t, u in P.SOURCES]},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in P.FAQS]},
+         {"@context": "https://schema.org", "@type": "HowTo", "name": "How to make chlorinated pool water drinkable in an emergency",
+          "step": [{"@type": "HowToStep", "name": a, "text": b} for a, b in P.CHLORINE_STEPS]},
+         crumbs_ld(cr)]
+    add("guides/pool-water.html", shell(path="/guides/pool-water", title=P.TITLE, desc=P.META, body=body, root=root, og="guide-pool-water",
+                                       canon="/guides/pool-water", jsonld=j, active="guides"), "/guides/pool-water", "0.8")
+
 
 # ---------------------------------------------------------------------------
 # Scenarios
@@ -900,6 +998,7 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
+    card("guide-pool-water", "Water deep dive", "Drinking pool water", "Chlorine and saltwater pools: why a filter isn't enough, and what makes it drinkable.", bigfont="display")
     for c in CITIES:
         card(f"city-{c['slug']}", f"City guide  ·  {c['state']}", f"Prepping in {c['name']}", "  ·  ".join(c["risks"]) + ". Local alerts, zones and what to do first.", bigfont="display")
 
@@ -923,7 +1022,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_kit(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_kit(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:

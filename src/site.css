@@ -419,3 +419,42 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 46rem; font-si
 .kit-premade p { margin: .5rem 0 .9rem; color: var(--muted); }
 .kit-premade .kit-buy b { flex: 1 1 14rem; }
 @media (max-width: 520px) { .kit-item { padding-left: 1.1rem; padding-top: 3.4rem; } .kit-item::before { top: .9rem; } }
+
+/* Pool water guide */
+.pw-verdict { border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); box-shadow: 6px 6px 0 var(--ink); padding: 1.5rem; }
+.pw-verdict ol { margin: 1rem 0 0; padding-left: 1.4rem; display: grid; gap: .75rem; max-width: var(--measure); }
+.pw-verdict b { display: block; }
+table.pw-table { min-width: 44rem; }
+.pw-table td { text-align: left; vertical-align: top; }
+.pw-table tbody th { vertical-align: top; min-width: 11rem; }
+.pw-kind { display: block; font-family: var(--f-body); font-weight: 400; font-size: .82rem; color: var(--muted); margin-top: .2rem; }
+.pw-buy { white-space: nowrap; }
+.pw-buy .price { display: block; font-family: var(--f-display); font-weight: 800; font-size: 1.25rem; margin-bottom: .4rem; }
+.yn { font-weight: 700; }
+.yn.y { color: var(--aid); }
+.yn.n { color: var(--alert); }
+.pw-steps { list-style: none; counter-reset: pw; padding: 0; margin: 1rem 0 0; display: grid; gap: 1rem; max-width: var(--measure); }
+.pw-steps li { counter-increment: pw; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); column-gap: .9rem; }
+.pw-steps li::before { content: counter(pw); grid-row: span 2; width: 2.2rem; height: 2.2rem; border: 2px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 1.15rem; }
+.pw-steps b { display: block; }
+.pw-steps span { color: var(--muted); }
+.pw-cc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem 2rem; align-items: start; border: 2px solid var(--ink); border-radius: 6px; padding: 1.25rem; background: var(--surface); box-shadow: 6px 6px 0 var(--signal); }
+.pw-cc h3 { font-size: 1.5rem; margin-top: .4rem; }
+.pw-quote { margin: .6rem 0 .9rem; max-width: var(--measure); }
+.pw-quote .muted { display: block; font-size: .85rem; margin-top: .3rem; }
+.pw-stages { list-style: none; padding: 0; margin: 0 0 .8rem; display: grid; gap: .45rem; }
+.pw-stages li { display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: .2rem 1rem; }
+.pw-notes { margin-top: 1rem !important; }
+@media (max-width: 720px) { .pw-cc { grid-template-columns: minmax(0, 1fr); } .pw-stages li { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 720px) {
+  .table-wrap:has(.pw-table) { border: 0; background: none; overflow: visible; }
+  table.pw-table, .pw-table tbody, .pw-table tr, .pw-table th, .pw-table td { display: block; min-width: 0; }
+  .pw-table thead { display: none; }
+  .pw-table tr { border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); padding: .85rem 1rem; margin-bottom: .9rem; }
+  .pw-table th, .pw-table td { border: 0; padding: .3rem 0; }
+  .pw-table tbody th { font-family: var(--f-display); font-size: 1.25rem; font-weight: 800; }
+  .pw-table td::before { content: attr(data-l); display: block; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .pw-buy { display: flex !important; align-items: center; gap: .75rem; flex-wrap: wrap; }
+  .pw-buy::before { width: 100%; }
+  .pw-buy .price { margin: 0; }
+}
