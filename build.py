@@ -590,8 +590,9 @@ def build_guides():
         mx = [MX[i] for i in g["matrix"]]
         checklist = ""
         if g.get("checklist"):
-            lis = "".join(f'<li><label class="qitem" for="ck-{i}"><input type="checkbox" id="ck-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(g["checklist"]))
-            checklist = (f'<section class="section printable" id="checklist"><div class="wrap"><div class="section-head"><div><h2>Go-bag checklist</h2>'
+            pfx = "ck" if g["slug"] == "go-bag" else f"ck-{g['slug']}"  # keep go-bag ids stable for saved progress
+            lis = "".join(f'<li><label class="qitem" for="{pfx}-{i}"><input type="checkbox" id="{pfx}-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(g["checklist"]))
+            checklist = (f'<section class="section printable" id="checklist"><div class="wrap"><div class="section-head"><div><h2>{e(g["name"])} checklist</h2>'
                          f'<p>Tick items as you pack. Your progress stays in this browser.</p></div>'
                          f'<div class="ck-tools"><span class="muted" id="ck-count"></span><button type="button" class="btn ghost sm" data-print>Print checklist</button></div></div>'
                          f'<ul class="check-grid">{lis}</ul></div></section>')

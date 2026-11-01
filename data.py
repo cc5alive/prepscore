@@ -7,7 +7,7 @@ SITE = {
     "tagline": "How many days could you last on your own?",
     "amazon_tag": "ccpearce-20",
     "twitter": "@cc5alive",                 # used for twitter:site on every page
-    "updated": "2026-10-30",                # bump when content changes; drives sitemap and "Reviewed" dates
+    "updated": "2026-11-01",                # bump when content changes; drives sitemap and "Reviewed" dates
 }
 
 # ---------------------------------------------------------------------------
@@ -90,6 +90,12 @@ MATRIX = [
     {"id": "co-alarm", "name": "Battery CO alarm", "guide": "power",
      "why": "Generators, heaters and stoves used during outages are a leading cause of carbon monoxide deaths.",
      "lv": {"outage": 3, "griddown": 3, "evac": 0, "shelter": 1, "water": 0, "quake": 2}},
+    {"id": "pet-kit", "name": "Pet go-kit and carrier", "guide": "pets",
+     "why": "Many shelters and hotels turn pets away, and animals left behind can be hard to find again. Food, meds, records and a carrier let you leave together.",
+     "lv": {"outage": 1, "griddown": 2, "evac": 3, "shelter": 1, "water": 1, "quake": 2}},
+    {"id": "car-kit", "name": "Car emergency kit", "guide": "car",
+     "why": "A breakdown or winter storm can strand you for hours. Warmth, a charged phone and jump-start gear turn a crisis into an inconvenience.",
+     "lv": {"outage": 1, "griddown": 2, "evac": 3, "shelter": 0, "water": 0, "quake": 1}},
 ]
 
 # ---------------------------------------------------------------------------
@@ -919,6 +925,139 @@ GUIDES = [
             ["Can I flush with a bucket of water?", "Only if sewer lines are intact. After earthquakes or floods, wait for official word, since damaged lines can back up into homes."],
         ],
     },
+    {
+        "slug": "pets", "name": "Pets", "short": "Pets and animals",
+        "title": "Pet Emergency Kit: What to Pack and How to Evacuate With Pets",
+        "h1": "Pets: keep them with you, fed and identifiable",
+        "meta": "Build a pet emergency kit: food and water amounts, medications and records, carriers, ID and microchips, and how to find pet-friendly shelter before you need it.",
+        "dek": "Pets are family, and they're also the first thing people forget. The rule that matters most: if it isn't safe for you to stay, it isn't safe for them.",
+        "matrix": ["pet-kit", "water-storage", "documents"],
+        "howmuch": [
+            ["Food", "3 to 7 days", "Sealed, in a waterproof container. Rotate it with your regular bag."],
+            ["Water", "~1 oz per lb/day", "A 50 lb dog needs a bit over a quart a day. Add more in heat."],
+            ["Medications", "7+ days", "Ask your vet about an extra supply and a written list of doses."],
+            ["Records", "1 set", "Vaccinations, microchip number, vet contact and a recent photo."],
+        ],
+        "picks": [
+            {"tier": "start", "name": "Collar with ID tag, plus a microchip registered to your cell number", "price": "$10 to $50",
+             "what": "A tag with your cell number and a chip with current contact details.",
+             "why": "Identification is how lost pets get home. Microchips only work if the registration is up to date.",
+             "watch": "Check your registration after every move or phone number change.",
+             "best": "Every dog and cat", "q": "dog cat id tag engraved"},
+            {"tier": "start", "name": "Pet food and water, sealed in a grab-and-go container", "price": "$20 to $50",
+             "what": "A few days of your pet's regular food, bowls and water in one bin or bag.",
+             "why": "A sudden food change can upset stomachs, and stores sell out fast.",
+             "watch": "Rotate dry food every few months. Include a manual can opener if you feed cans.",
+             "best": "Every household with pets", "q": "pet emergency food water kit"},
+            {"tier": "step", "name": "Hard-sided carrier or crate sized for your pet", "price": "$40 to $120",
+             "what": "A secure carrier that your pet can stand and turn around in.",
+             "why": "Shelters, hotels and vehicles usually require pets to be crated. A scared animal can bolt.",
+             "watch": "Practice with it before an emergency, so it isn't a frightening surprise.",
+             "best": "Cats, small dogs and any evacuation plan", "q": "airline approved pet carrier hard sided"},
+            {"tier": "step", "name": "Leash, harness and waste bags", "price": "$20 to $40",
+             "what": "A sturdy leash and a well-fitted harness, plus waste bags.",
+             "why": "Shelter areas are crowded and loud. Control matters for your pet's safety and everyone else's.",
+             "watch": "Cats need a harness too. A collar alone can slip off.",
+             "best": "Dogs, and cats you may need to walk", "q": "dog harness leash set escape proof"},
+            {"tier": "deep", "name": "Pet first aid kit and a pet first aid guide", "price": "$25 to $60",
+             "what": "Gauze, bandages, tweezers, a thermometer and a pet-specific reference.",
+             "why": "Vets may be closed or unreachable for days after a disaster.",
+             "watch": "Never give human medications unless a vet tells you to.",
+             "best": "Homes far from a vet, large dogs, and farm animals", "q": "pet first aid kit"},
+        ],
+        "choose": [
+            "Find pet-friendly shelter before you need it: hotels, relatives, boarding facilities and your county's emergency pet shelter plan.",
+            "Keep a written list of everyone who can take your pet if you can't get home.",
+            "Put a rescue alert sticker on your door only if you keep it current, and list your vet's number inside.",
+            "Plan for livestock, birds and exotics separately. Their transport and shelter needs are different.",
+        ],
+        "mistakes": [
+            "Leaving pets behind in the hope you'll return in a day or two. Many evacuations last far longer.",
+            "Assuming a Red Cross shelter will accept pets. Service animals are accepted, but pets vary by shelter.",
+            "Out-of-date microchip registration or a missing recent photo.",
+            "Not knowing your pet's medication dose or your vet's after-hours number.",
+        ],
+        "faqs": [
+            ["Can I bring my pet to an emergency shelter?", "Service animals are always allowed. Other pets depend on your area: some counties run pet-friendly or co-located shelters, others don't. Check your local emergency management site before a disaster, and keep a backup plan with a hotel or a friend."],
+            ["How much food and water does a pet need?", "Plan on at least 3 days, ideally 7, of the food they already eat. For water, about 1 ounce per pound of body weight per day is a common rule. Add more for hot weather, nursing animals or dry food."],
+            ["Should I microchip my pet?", "A chip is a good backup, not a replacement for a collar and tag. It works only if the registry has your current contact info."],
+        ],
+    },
+    {
+        "slug": "car", "name": "Car kit", "short": "Car and winter driving kit",
+        "title": "Car Emergency Kit: What to Keep in Your Vehicle (Winter Checklist)",
+        "h1": "The car kit: be ready if the road stops moving",
+        "meta": "What to keep in your car for breakdowns, blizzards and evacuations: jumper cables, a tire inflator, warm layers, traction aids, a phone charger and what to do if stranded.",
+        "dek": "Your car is where you spend the most hours away from home, and where a breakdown or storm can strand you. A small kit that lives in the trunk covers the most likely emergency most people will actually face.",
+        "matrix": ["car-kit", "power-bank", "go-bag"],
+        "howmuch": [
+            ["Fuel", "Half tank minimum", "Fill up at half, not empty. Gas stations can't pump during outages."],
+            ["Warmth", "1 layer per person", "A wool blanket or sleeping bag for each seat, plus hats and gloves in winter."],
+            ["Water and snacks", "1 day", "Water freezes in winter. Keep it in the cabin or use a bottle with room to expand."],
+            ["Check-up", "Twice a year", "Swap seasonal gear, test the jump starter and check tire pressure."],
+        ],
+        "picks": [
+            {"tier": "start", "name": "Jumper cables or a portable jump starter", "price": "$20 to $120",
+             "what": "Cables need a second car. A lithium jump starter works alone and often charges your phone.",
+             "why": "A dead battery is the most common roadside problem, and it's worse in the cold.",
+             "watch": "Recharge a jump starter every few months. Cold drains it quickly.",
+             "best": "Every vehicle", "q": "portable car jump starter"},
+            {"tier": "start", "name": "Warm blanket or sleeping bag, hat and gloves", "price": "$20 to $60",
+             "what": "Wool or synthetic insulation for each person who rides with you.",
+             "why": "If you're stranded, you can't run the engine constantly. Insulation keeps you safe between short warm-ups.",
+             "watch": "Cotton gets cold when damp. Avoid it. Thin foil blankets are a backup, not a replacement.",
+             "best": "Anyone who drives in cold climates", "q": "wool blanket emergency car"},
+            {"tier": "start", "name": "Phone car charger and charged power bank", "price": "$15 to $40",
+             "what": "A cable for your car outlet, and a power bank that works when the engine is off.",
+             "why": "Your phone is how you call for help and share your location.",
+             "watch": "Keep the bank charged and bring the right cable for your phone.",
+             "best": "Every driver", "q": "power bank usb c with car charger"},
+            {"tier": "step", "name": "Reflective triangles or LED road flares", "price": "$15 to $40",
+             "what": "Warning devices that make your car visible to other drivers.",
+             "why": "A disabled car on a dark road or in a storm is a serious collision risk.",
+             "watch": "Place them well behind the car, only if it's safe to leave the vehicle.",
+             "best": "Highway and rural drivers", "q": "led road flares emergency"},
+            {"tier": "step", "name": "Ice scraper, small shovel and cat litter or sand", "price": "$20 to $50",
+             "what": "A scraper for glass, a compact shovel to dig out, and a bag of litter or sand for traction.",
+             "why": "Ready.gov lists these as winter basics. Traction under the drive wheels often gets you unstuck.",
+             "watch": "A bag of litter also adds weight over the rear wheels in a rear-drive car.",
+             "best": "Snow and ice regions", "q": "folding snow shovel car emergency"},
+            {"tier": "step", "name": "12V tire inflator and plug kit", "price": "$30 to $70",
+             "what": "A compressor that runs off your car's outlet, plus a plug kit for small punctures.",
+             "why": "A slow leak is far easier to deal with than waiting hours for a tow.",
+             "watch": "A temporary plug is for getting to a tire shop, not for the long term.",
+             "best": "Anyone without a trusted spare", "q": "12v tire inflator portable"},
+            {"tier": "deep", "name": "Tow strap, work gloves and a first aid kit", "price": "$40 to $90",
+             "what": "A recovery strap, sturdy gloves and a basic first aid kit.",
+             "why": "Helps in getting out of a ditch or helping someone else.",
+             "watch": "Use only proper recovery points and learn the technique first.",
+             "best": "Rural drivers and long trips", "q": "car emergency first aid kit"},
+        ],
+        "choose": [
+            "Keep the kit in the cabin or trunk, not at home. The one that's in the car is the one you have.",
+            "Match the kit to your climate and trip length. A city commuter and a rural driver need different amounts.",
+            "Tell someone your route and expected arrival on long winter trips.",
+            "Keep the gas tank at least half full. It helps in an evacuation, a power outage or a storm.",
+        ],
+        "checklist": [
+            "Jumper cables or jump starter", "Blanket or sleeping bag", "Hat, gloves, warm socks",
+            "Phone charger + power bank", "Flashlight or headlamp", "Water and non-perishable snacks",
+            "Reflective triangles or flares", "Ice scraper + small shovel", "Cat litter or sand",
+            "Tire inflator + plug kit", "First aid kit", "Paper map", "Rain poncho",
+            "Basic tools + duct tape", "Any prescription meds you'd need for 24 hours",
+        ],
+        "mistakes": [
+            "Running the engine nonstop when stranded. Run it about 10 minutes an hour for heat, and keep the tailpipe clear of snow to avoid carbon monoxide.",
+            "Leaving the car in a blizzard to look for help. Most people are safer staying with the vehicle unless help is clearly in sight.",
+            "Driving into floodwater. A foot of moving water can sweep a vehicle away, per Ready.gov.",
+            "Letting the tank run low in winter, so you can't idle for heat and the fuel line may freeze.",
+        ],
+        "faqs": [
+            ["What should I do if I get stranded in a snowstorm?", "Stay in the car, call for help and share your location. Run the engine briefly for heat and keep the exhaust pipe clear of snow, since blocked exhaust can push carbon monoxide into the cabin. Crack a window slightly and keep moving your limbs to stay warm."],
+            ["Do I need a full kit if I only drive in the city?", "Not a big one. Jumper cables or a jump starter, a charger, a blanket, water and a flashlight cover most city problems. Add traction and warmth if you see snow."],
+            ["Should I keep my kit in the trunk all year?", "Yes, but check it twice a year. Heat can damage batteries, bottled water and medicines, so don't leave those in a hot car for months."],
+        ],
+    },
 ]
 
 
@@ -939,10 +1078,14 @@ QUICK = {'water': [['Store this first', 'Stackable 5-gallon water containers (Sa
     ['Every bag', 'N95 masks (3M Aura or similar NIOSH-approved)'],
     ['Protect your papers', 'Fire- and water-resistant document bag']], 'sanitation': [['The setup', 'Reliance Luggable Loo seat + 5-gallon bucket'],
     ['Cleanest option', 'Waste bags with gelling powder (Double Doodie or similar)'],
-    ['Cheap backup', 'Contractor bags and clumping cat litter']]}
+    ['Cheap backup', 'Contractor bags and clumping cat litter']], 'pets': [['Do first', 'Collar with ID tag, plus a microchip registered to your cell number'],
+    ['Keep ready', 'Pet food and water, sealed in a grab-and-go container'],
+    ['For evacuation', 'Hard-sided carrier or crate sized for your pet']], 'car': [['Do first', 'Jumper cables or a portable jump starter'],
+    ['Winter must', 'Warm blanket or sleeping bag, hat and gloves'],
+    ['Always', 'Phone car charger and charged power bank']]}
 
 # Official sources cited on each guide: [title, url]
-SOURCES = {'water': [['Ready.gov: Water', 'https://www.ready.gov/water'], ['CDC: How to Create an Emergency Water Supply', 'https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html'], ['CDC: How to Make Water Safe in an Emergency', 'https://www.cdc.gov/water-emergency/about/index.html']], 'food': [['Ready.gov: Food', 'https://www.ready.gov/food'], ['USDA FSIS: Keep Your Food Safe During Emergencies', 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/emergencies/keep-your-food-safe-during-emergencies'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html']], 'power': [['CDC: What to Do During a Power Outage', 'https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html'], ['CPSC: Portable Generator Safety Alert', 'https://www.cpsc.gov/s3fs-public/5123_SafetyAlert_PortableGenerators_102021.pdf'], ['FEMA: Be Prepared for a Power Outage', 'https://www.ready.gov/sites/default/files/2024-03/ready.gov_power-outage_hazard-info-sheet.pdf']], 'first-aid': [['American Red Cross: Make a First Aid Kit', 'https://www.redcross.org/get-help/how-to-prepare-for-emergencies/anatomy-of-a-first-aid-kit.html'], ['Stop the Bleed: Get Trained', 'https://www.stopthebleed.org/get-trained/'], ['Ready.gov: Build a Kit', 'https://www.ready.gov/kit']], 'radios': [['National Weather Service: NOAA Weather Radio Help', 'https://www.weather.gov/ohx/nwrhelp'], ['FCC: General Mobile Radio Service (GMRS)', 'https://www.fcc.gov/wireless/bureau-divisions/mobility-division/general-mobile-radio-service-gmrs'], ['FCC: Personal Radio Services', 'https://www.fcc.gov/consumers/guides/personal-radio-services-prs-keeping-touch']], 'light-heat': [['Ready.gov: #WinterReady', 'https://www.ready.gov/winter-ready'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html'], ['FEMA: Be Prepared for a Power Outage', 'https://www.ready.gov/sites/default/files/2024-03/ready.gov_power-outage_hazard-info-sheet.pdf']], 'go-bag': [['Ready.gov: Build a Kit', 'https://www.ready.gov/kit'], ['Ready.gov: Evacuation', 'https://www.ready.gov/evacuation'], ['EPA: Protect Yourself From Wildfire Smoke and Ash', 'https://www.epa.gov/wildfires/protect-yourself-wildfire-smoke-and-ash']], 'sanitation': [['King County: How to Create an Emergency Toilet', 'https://kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets'], ['Seattle Public Utilities: Emergency Sanitation', 'https://seattle.gov/documents/Departments/Emergency/Preparedness/SPU%20Emergency%20Sanitation%20Trifold.pdf'], ['Ready.gov: Build a Kit', 'https://www.ready.gov/kit']]}
+SOURCES = {'water': [['Ready.gov: Water', 'https://www.ready.gov/water'], ['CDC: How to Create an Emergency Water Supply', 'https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html'], ['CDC: How to Make Water Safe in an Emergency', 'https://www.cdc.gov/water-emergency/about/index.html']], 'food': [['Ready.gov: Food', 'https://www.ready.gov/food'], ['USDA FSIS: Keep Your Food Safe During Emergencies', 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/emergencies/keep-your-food-safe-during-emergencies'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html']], 'power': [['CDC: What to Do During a Power Outage', 'https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html'], ['CPSC: Portable Generator Safety Alert', 'https://www.cpsc.gov/s3fs-public/5123_SafetyAlert_PortableGenerators_102021.pdf'], ['FEMA: Be Prepared for a Power Outage', 'https://www.ready.gov/sites/default/files/2024-03/ready.gov_power-outage_hazard-info-sheet.pdf']], 'first-aid': [['American Red Cross: Make a First Aid Kit', 'https://www.redcross.org/get-help/how-to-prepare-for-emergencies/anatomy-of-a-first-aid-kit.html'], ['Stop the Bleed: Get Trained', 'https://www.stopthebleed.org/get-trained/'], ['Ready.gov: Build a Kit', 'https://www.ready.gov/kit']], 'radios': [['National Weather Service: NOAA Weather Radio Help', 'https://www.weather.gov/ohx/nwrhelp'], ['FCC: General Mobile Radio Service (GMRS)', 'https://www.fcc.gov/wireless/bureau-divisions/mobility-division/general-mobile-radio-service-gmrs'], ['FCC: Personal Radio Services', 'https://www.fcc.gov/consumers/guides/personal-radio-services-prs-keeping-touch']], 'light-heat': [['Ready.gov: #WinterReady', 'https://www.ready.gov/winter-ready'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html'], ['FEMA: Be Prepared for a Power Outage', 'https://www.ready.gov/sites/default/files/2024-03/ready.gov_power-outage_hazard-info-sheet.pdf']], 'go-bag': [['Ready.gov: Build a Kit', 'https://www.ready.gov/kit'], ['Ready.gov: Evacuation', 'https://www.ready.gov/evacuation'], ['EPA: Protect Yourself From Wildfire Smoke and Ash', 'https://www.epa.gov/wildfires/protect-yourself-wildfire-smoke-and-ash']], 'pets': [['Ready.gov: Pets', 'https://www.ready.gov/pets'], ['American Red Cross: Pet Disaster Preparedness', 'https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/pet-disaster-preparedness.html'], ['ASPCA: Disaster Preparedness', 'https://www.aspca.org/pet-care/general-pet-care/disaster-preparedness']], 'car': [['Ready.gov: Car Safety', 'https://www.ready.gov/car'], ['Ready.gov: #WinterReady', 'https://www.ready.gov/winter-ready'], ['CDC: Avoiding Carbon Monoxide Poisoning', 'https://www.cdc.gov/natural-disasters/psa-toolkit/avoiding-carbon-monoxide-poisoning.html']], 'sanitation': [['King County: How to Create an Emergency Toilet', 'https://kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets'], ['Seattle Public Utilities: Emergency Sanitation', 'https://seattle.gov/documents/Departments/Emergency/Preparedness/SPU%20Emergency%20Sanitation%20Trifold.pdf'], ['Ready.gov: Build a Kit', 'https://www.ready.gov/kit']]}
 
 # Quiz item -> product for the "Fix these first" shopping list: [guide slug, exact pick name] or ["q", search query, label]
 QUIZ_BUY = {
