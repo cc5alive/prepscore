@@ -949,7 +949,7 @@ def build_blackfriday():
         return (f'<article class="bf-card">{badge}<h3>{e(name)}</h3><p class="bf-why">{e(why)}</p>'
                 f'<p class="bf-best">Best for: {e(best)}{more}</p>'
                 f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price we saw {e(B.CHECKED.split(",")[0])}</span><b>{e(price)}</b></div>'
-                f'{aff_btn(asin, "See today\'s price")}</div></article>')
+                f'<div class="bf-cta">{aff_btn(asin, "See today\'s price")}<span class="aff">Affiliate link</span></div></div></article>')
 
     ess = "".join(card(p, i + 1) for i, p in enumerate(B.ESSENTIALS))
     big = "".join(card(p) for p in B.BIG_TICKET)
