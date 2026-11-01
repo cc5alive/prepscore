@@ -138,7 +138,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}"""
     return head, page, body_attr
@@ -258,7 +258,7 @@ def build_home():
 <div><h1>How many days could you last on your own?</h1>
 <p class="lede">PrepScore is a free emergency preparedness check. Tick off what you already have, and it weighs your supplies against the risks where you live, tells you how long they'd carry you, and shows the few gaps worth fixing first.</p>
 <div class="cta-row"><a class="btn" href="quiz.html">Get your PrepScore</a><span class="muted small">About 3 minutes. No sign-up. Answers stay on your device.</span></div>
-<p class="hero-alt">Just want the basics? <a href="72-hour-kit.html">Build the simple 3-day kit</a></p></div>
+<p class="hero-alt">Just want the basics? <a href="72-hour-kit.html">Build the simple 3-day kit</a></p>{BF_PROMO(root) if bf_active() else ""}</div>
 <div>{tag_example(root)}</div>
 </div></section>
 
@@ -931,6 +931,68 @@ def build_library():
 
 
 # ---------------------------------------------------------------------------
+# Black Friday
+# ---------------------------------------------------------------------------
+BF_UNTIL = datetime.date(2026, 12, 15)   # hide the homepage promo after this date (page itself stays up)
+bf_active = lambda: datetime.date.today() <= BF_UNTIL
+BF_PROMO = lambda root: f'<p class="hero-alt bf-promo">Shopping the sales? <a href="{root}black-friday.html">See the Black Friday prep gear worth buying</a></p>'
+
+
+def build_blackfriday():
+    import blackfriday as B
+    root = ""
+
+    def card(p, num=None):
+        name, asin, price, why, best, guide = p
+        more = f' · <a href="guides/{guide}.html">{e(GD[guide]["short"])} guide</a>' if guide else ""
+        badge = f'<span class="bf-num">{num}</span>' if num else ""
+        return (f'<article class="bf-card">{badge}<h3>{e(name)}</h3><p class="bf-why">{e(why)}</p>'
+                f'<p class="bf-best">Best for: {e(best)}{more}</p>'
+                f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price we saw {e(B.CHECKED.split(",")[0])}</span><b>{e(price)}</b></div>'
+                f'{aff_btn(asin, "See today\'s price")}</div></article>')
+
+    ess = "".join(card(p, i + 1) for i, p in enumerate(B.ESSENTIALS))
+    big = "".join(card(p) for p in B.BIG_TICKET)
+    gifts = "".join(card(p) for p in B.GIFTS)
+    cats = "".join(f'<div class="bf-cat" id="{sid}"><h3 class="lb-h">{e(t)}</h3><div class="bf-grid">{"".join(card(p) for p in items)}</div></div>' for sid, t, items in B.CATEGORIES)
+    tips = "".join(f"<li><b>{e(a)}</b> {e(c)}</li>" for a, c in B.TIPS)
+    dates = "".join(f'<div><dt>{e(a)}</dt><dd>{e(c)}</dd></div>' for a, c in B.DATES)
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in B.FAQS)
+    toc = [("essentials", "Essentials"), ("big-ticket", "Worth waiting for"), ("gifts", "Gifts under $50")] + [(s[0], s[1]) for s in B.CATEGORIES] + [("faq", "Questions")]
+    toc_html = '<nav class="toc" aria-label="On this page"><span>Jump to</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
+    cr = [("Home", "/"), ("Black Friday", "/black-friday")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(B.H1)}</h1><p class="dek">{e(B.DEK)}</p>
+<dl class="bf-dates">{dates}</dl>
+{toc_html}</div></div>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+{DISCLOSE(root)}
+<div class="pw-verdict"><h2>How to shop the sales</h2><ol>{tips}</ol></div></div>
+<aside class="stack-l"><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li></ul></div></aside></div></section>
+<section class="section" id="essentials"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The essentials, in order</h2><p>If you buy nothing else this season, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
+<div class="bf-grid">{ess}</div></div></section>
+<section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p></div></div>
+<div class="bf-grid">{big}</div></div></section>
+<section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Prep gifts under $50</h2><p>Useful gifts for the person who has everything except a plan.</p></div></div>
+<div class="bf-grid">{gifts}</div></div></section>
+<section class="section"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>More picks by category</h2><p>The rest of our recommended gear, each from one of our free guides.</p></div></div>
+{cats}</div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2 id="faq">Questions</h2><div class="faq">{faq_html}</div>
+<p class="muted small read">Prices change constantly and may be different when you click. We recorded each price on {e(B.CHECKED)}. {AMAZON_LINE}</p></div><div></div></div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    allp = [p for p in B.ESSENTIALS + B.BIG_TICKET + B.GIFTS] + [p for _, _, items in B.CATEGORIES for p in items]
+    j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": B.TITLE, "description": B.META, "url": SITE["url"] + "/black-friday",
+          "dateModified": TODAY, "publisher": {"@type": "Organization", "name": SITE["name"]},
+          "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p[0]} for i, p in enumerate(allp)]}},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in B.FAQS]},
+         crumbs_ld(cr)]
+    add("black-friday.html", shell(path="/black-friday", title=B.TITLE, desc=B.META, body=body, root=root, og="black-friday",
+                                   canon="/black-friday", jsonld=j), "/black-friday", "0.8")
+
+
+# ---------------------------------------------------------------------------
 # Scenarios
 # ---------------------------------------------------------------------------
 def build_scenarios():
@@ -1097,6 +1159,7 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
+    card("black-friday", "Black Friday 2026", "Prep gear worth buying", "The essentials to get first, big-ticket items worth waiting for, and the price we saw before the sales.", bigfont="display")
     card("library", "The prepper's library", "Print it before you need it", "Free survival guides from FEMA, the CDC, the Army and Hesperian, plus the best prepper books.", bigfont="display")
     card("resources", "Beyond PrepScore", "The best prep resources", "Ready.gov, Wirecutter, Watch Duty, Stop the Bleed and more, with what each one is best for.", bigfont="display")
     card("guide-pool-water", "Water deep dive", "Drinking pool water", "Chlorine and saltwater pools: why a filter isn't enough, and what makes it drinkable.", bigfont="display")
@@ -1123,7 +1186,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_kit(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
