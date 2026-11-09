@@ -390,7 +390,8 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 46rem; font-si
   .qbox { border-color: #000 !important; background: #fff !important; }
 }
 .quickpicks + h2 { margin-top: 2.75rem; }
-.link-to { font-size: .78rem; color: var(--muted); }
+.link-to { font-size: .82rem; color: var(--ink); line-height: 1.35; }
+.link-to b { font-weight: 700; }
 .qp-buy .link-to { flex-basis: 100%; text-align: right; }
 @media (max-width: 720px) { .qp-buy .link-to { text-align: left; } }
 
@@ -505,3 +506,4 @@ table.pw-table { min-width: 44rem; }
 .bf-promo a { color: var(--ink); font-weight: 700; }
 @media (max-width: 480px) { .bf-grid { grid-template-columns: minmax(0, 1fr); } }
 .bf-cta { display: flex; flex-direction: column; align-items: flex-end; gap: .25rem; }
+.qp-buy .link-to { order: -1; }

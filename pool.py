@@ -1,4 +1,4 @@
-"""Content for /guides/pool-water: making chlorinated and saltwater pool water drinkable as a last resort."""
+"""Content for /guides/pool-water: what pool water is good for, and what it takes to make it drinkable."""
 
 TITLE = "Can You Drink Pool Water? Chlorine and Saltwater Pools Explained"
 META = ("Official agencies say don't drink pool water. Here's what's in it, why a filter alone isn't enough, "
@@ -9,9 +9,9 @@ DEK = ("Not straight from the pool, and not through a filter alone. A backyard p
 
 HOWMUCH = [
     ("A 15 × 30 ft pool", "≈17,000 gal", "at a 5 ft average depth. Years of drinking water for a family of four."),
-    ("Salt in a saltwater pool", "3,200 ppm", "the level salt systems aim for. Nearly 8× the EPA guideline for chloride."),
+    ("Salt in a saltwater pool", "3,200 ppm", "the level salt systems aim for. That's about 1,940 mg/L of chloride, nearly 8× the EPA guideline."),
     ("Stabilizer in many pools", "30–100 ppm", "of cyanuric acid. The WHO drinking-water guideline is 40."),
-    ("Distilling 1 gallon", "≈2.7 kWh", "of heat. Roughly a 1 lb propane canister on a camp stove."),
+    ("Distilling 1 gallon", "2.5–3 kWh", "of heat. Roughly a 1 lb propane canister on a camp stove."),
 ]
 
 VERDICT = [
@@ -23,10 +23,10 @@ VERDICT = [
 
 # name, typical level, guideline, what removes it
 CONTAMINANTS = [
-    ("Germs, including Crypto", "Chlorine kills most quickly. Crypto survives more than 7 days in properly chlorinated water, and once the pump stops, chlorine fades and algae grows.", "None should be present", "A 0.1-micron or finer filter, a purifier, distillation or RO"),
+    ("Germs, including Crypto", "Chlorine kills most quickly. The CDC says Crypto survives more than 7 days in properly chlorinated water, and once the pump stops, chlorine fades and algae grows.", "None should be present", "A 0.1-micron or finer filter, a purifier, distillation or RO"),
     ("Chlorine", "1–4 ppm in a maintained pool", "Not the main risk, but it tastes bad", "Activated carbon, KDF, or letting it sit uncovered in sun"),
     ("Cyanuric acid (stabilizer)", "30–100+ ppm in outdoor pools", "WHO: 40 mg/L", "Only distillation or reverse osmosis. It doesn't break down, and pools can only lower it by draining."),
-    ("Salt (saltwater pools)", "2,700–3,400 ppm", "EPA chloride guideline: 250 mg/L", "Only distillation or reverse osmosis"),
+    ("Salt (saltwater pools)", "2,700–3,400 ppm of salt, or about 1,640–2,060 mg/L as chloride (salt is about 61% chloride)", "EPA chloride guideline: 250 mg/L", "Only distillation or reverse osmosis"),
     ("Copper", "From copper algaecides, ionizers or corroding heaters", "EPA: 1.0 mg/L", "Distillation or RO. KDF and carbon reduce some."),
     ("Total dissolved solids", "Rise every time chemicals are added and water evaporates", "EPA: 500 mg/L", "Only distillation or reverse osmosis"),
     ("Flood water, fuel, wildfire ash", "Anything that washed or blew in", "CDC: water with fuel or toxic chemicals can't be made safe", "Don't drink it. Use it for flushing only, if at all."),
@@ -46,7 +46,7 @@ CHLORINE_STEPS = [
     ("Draw clean water", "Dip from the middle of the pool, below the surface and away from the steps and skimmer. Pour it through a clean cloth and let sediment settle."),
     ("Distill it, or run it through reverse osmosis", "Distillation is the most reliable at home: it leaves the chlorine salts, stabilizer, copper and minerals behind. A countertop RO unit is a good second choice if you have power."),
     ("Polish it with a carbon filter", "A filter with activated carbon removes any chlorine smell that carried over and improves taste. This is where a 3-stage filter earns its place."),
-    ("Check it with a TDS meter", "Distilled water should read close to zero. Anything you drink should be under 500 ppm, the EPA guideline. If it reads high, treat it again."),
+    ("Check it with a TDS meter", "Distilled water should read close to zero. Anything you drink should be under 500 ppm, the EPA guideline. If it reads high, treat it again. A TDS meter confirms salt and minerals are gone, but it can't detect every chemical, which is why distilling or RO comes first."),
 ]
 
 SALT_STEPS = [
@@ -62,10 +62,12 @@ SALT_FACTS = [
     "That load is riskiest for babies, older adults and anyone with kidney disease, heart failure or high blood pressure.",
 ]
 
-LAST_RESORT = ("If you have no way to distill or run RO, a chlorine-only pool (never a salt pool) is the least-bad case. "
-               "That's only if your tested numbers are low (TDS under 500 ppm, cyanuric acid under 40, no copper), "
-               "nothing flooded or blew into it, and you run it through a filter with carbon and a 0.1-micron or finer membrane. "
-               "Official guidance still says don't drink it. Treat this as a bridge until you can get safe water.")
+LAST_RESORT = ("If you can't distill it or run it through reverse osmosis, don't drink pool water. "
+               "Carbon and 0.1-micron filters remove particles, many germs and some chlorine byproducts, but not stabilizer "
+               "(cyanuric acid), metals like copper, or dissolved salts. Those stay in the water however well it's filtered, "
+               "and a home TDS meter can't tell you which substances are present. Use pool water for flushing, washing and cleaning, "
+               "and keep stored water for drinking. If your only alternative is no water at all, call local emergency management "
+               "or poison control (1-800-222-1222) for advice before drinking anything from a pool.")
 
 # CC's own purchase
 CC_PICK = {
@@ -80,7 +82,9 @@ CC_PICK = {
     "limits": ("What it can't do: remove salt, stabilizer, calcium or most dissolved solids. The listing says it reduces TDS, "
                "but none of its stages are built for that, so check its output with a TDS meter. The listing cites NSF/ANSI test "
                "standards without showing a certification, so treat its claims as the maker's. It's rated for 2,000 liters, and "
-               "chlorinated water uses up carbon faster."),
+               "chlorinated water uses up carbon faster. Our disclosure says we favor independently certified gear, and this "
+               "filter isn't certified. It's here because it's what CC actually bought; the better-documented filters in the table "
+               "below are the stronger choice if you're buying new."),
 }
 CC_NOTE = ("I bought this filter for my own kit because of its three stages: carbon and KDF for chlorine on top of a fine membrane for germs. "
            "Researching this page changed how I'll use it. For pool water it's the final step after distilling, not the whole answer. "
@@ -97,7 +101,7 @@ FILTERS = [
 
 # Gear that actually removes salt and stabilizer, plus testing
 GEAR = [
-    ("Countertop distiller (CO-Z 4L)", "B078GHJ921", "$120", "Electric distiller: 750 W, about 0.3 gal an hour, glass pot.", "The budget way to remove salt, stabilizer and metals. Needs about 2.5 kWh a gallon, so plan on a generator, a home battery or the grid."),
+    ("Countertop distiller (CO-Z 4L)", "B078GHJ921", "$120", "Electric distiller: 750 W, about 0.3 gal an hour, glass pot.", "The budget way to remove salt, stabilizer and metals. Needs about 2.5–3 kWh a gallon, so plan on a generator, a home battery or the grid."),
     ("Countertop distiller (Megahome)", "B000ANW7HQ", "$300", "Stainless distiller with a glass collection jug, 1 gallon every 5.5 hours.", "Better built and widely recommended. Water doesn't touch plastic."),
     ("Countertop reverse osmosis (Bluevua RO100ROPOT)", "B09KRDK677", "$390", "No-install RO with a carbon pre-filter, an output TDS display and a glass carafe.", "Faster and uses less power than distilling. Built for tap water, so expect slower output and shorter filter life on salt pool water."),
     ("TDS meter (HM Digital TDS-3)", "B000VTQM70", "$15", "Reads 0 to 9,990 ppm, so it covers salt pools.", "The cheapest way to know your treated water is actually clean. Distilled should read near zero."),
