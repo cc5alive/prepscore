@@ -96,7 +96,7 @@
   "date": "2026-11-10"
  },
  "city/los-angeles.html": {
-  "hash": "a40ea0b47f5e0f9c",
+  "hash": "9ad6b26bc234e9cf",
   "date": "2026-11-10"
  },
  "city/louisville.html": {
@@ -200,19 +200,19 @@
   "date": "2026-11-09"
  },
  "guides/car.html": {
-  "hash": "328e3ecaa5e44985",
+  "hash": "910eca7471b036ea",
   "date": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "29a00a066aec32ad",
+  "hash": "6d76d171da8d7149",
   "date": "2026-11-10"
  },
  "guides/food.html": {
-  "hash": "b4cca3ed2ac542a0",
+  "hash": "7df6863689e58d1b",
   "date": "2026-11-10"
  },
  "guides/go-bag.html": {
-  "hash": "85639e689b95515e",
+  "hash": "018abb088eeaaa45",
   "date": "2026-11-10"
  },
  "guides/index.html": {
@@ -220,11 +220,11 @@
   "date": "2026-11-09"
  },
  "guides/light-heat.html": {
-  "hash": "9c9c9c566c9193df",
+  "hash": "b3015437984adfdf",
   "date": "2026-11-10"
  },
  "guides/pets.html": {
-  "hash": "8da46fe006239b33",
+  "hash": "664f16d99d092a06",
   "date": "2026-11-10"
  },
  "guides/pool-water.html": {
@@ -232,24 +232,28 @@
   "date": "2026-11-10"
  },
  "guides/power.html": {
-  "hash": "e328a0992dc5e02d",
+  "hash": "489240f0f36bd51d",
   "date": "2026-11-10"
  },
  "guides/radios.html": {
-  "hash": "437abc63c58c4b00",
+  "hash": "bab15731b846bf99",
   "date": "2026-11-10"
  },
  "guides/sanitation.html": {
-  "hash": "935a05f681f6b985",
+  "hash": "0c713e478497d50f",
   "date": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "d7675f190b3dc0b0",
+  "hash": "3526ef1adadc5324",
   "date": "2026-11-10"
  },
  "index.html": {
   "hash": "ce8cb4f338eb4572",
   "date": "2026-11-09"
+ },
+ "la-renters.html": {
+  "hash": "3573055e031a588c",
+  "date": "2026-11-10"
  },
  "library.html": {
   "hash": "1953ab5e06f218dc",
@@ -294,6 +298,10 @@
  "score/weekend-ready.html": {
   "hash": "ee1cd9e0839ff1c3",
   "date": "2026-11-09"
+ },
+ "water-calculator.html": {
+  "hash": "3ef3ce95c889ea6d",
+  "date": "2026-11-10"
  },
  "where/city-apartment.html": {
   "hash": "2b45ac9213ab08a7",

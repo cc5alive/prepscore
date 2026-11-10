@@ -139,7 +139,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}{BEACON}"""
     return head, page, body_attr
@@ -238,6 +238,9 @@ def cta_quiz(root, loc=None):
 <p>Check off what you have. Get a score, your top gaps and a card to share. About 3 minutes, no sign-up.</p></div>
 <a class="btn" href="{root}quiz.html">Get your PrepScore</a></div>"""
 
+
+LA_ASIDE = lambda root: (f'<div class="aside"><h3>Renting in LA?</h3><p class="muted small" style="margin-bottom:.5rem">A free one-page checklist with alert sign-ups, a building drill and what to ask your landlord. No product links.</p>'
+                         f'<ul><li><a href="{root}../la-renters.html">LA renter emergency checklist</a></li></ul></div>')
 
 # Cloudflare Web Analytics: cookieless, no consent banner needed. Set SITE["cf_beacon"] to the site token to turn it on.
 BEACON = (f'\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{SITE["cf_beacon"]}"}}\'></script>'
@@ -535,7 +538,7 @@ def build_cities():
 </div>
 <aside class="stack-l"><div class="aside"><h3>The full {e(parent['name'].lower())} guide</h3><p class="muted small" style="margin-bottom:.5rem">{e(c['name'])} follows the same playbook, with local details above.</p><ul><li><a href="{root}where/{parent['slug']}.html">{e(parent['h1'])}</a></li></ul></div>
 <div class="aside"><h3>Gear guides</h3><ul>{guides}</ul></div>
-{POOL_ASIDE(root) if c["slug"] in POOL_CITIES else ""}<div class="aside"><h3>More cities</h3><ul>{near_html}<li><a href="index.html">All city guides</a></li></ul></div></aside>
+{POOL_ASIDE(root) if c["slug"] in POOL_CITIES else ""}{LA_ASIDE(root) if c["slug"] == "los-angeles" else ""}<div class="aside"><h3>More cities</h3><ul>{near_html}<li><a href="index.html">All city guides</a></li></ul></div></aside>
 </div></section>
 <section class="section"><div class="wrap"><div class="cta-box"><div><h2>How ready is your {e(c['name'])} home?</h2>
 <p>The quiz weights every item for {e(parent['name'].lower())} risks and shows your top gaps. About 3 minutes, no sign-up.</p></div>
@@ -641,6 +644,7 @@ def build_guides():
 <section class="section"><div class="wrap stack-l">
 {quick_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
+{f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>.</p>' if g["slug"] == "water" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
 </div></section>
 <section class="section" id="when"><div class="wrap stack-l">
@@ -1045,6 +1049,162 @@ def build_blackfriday():
 
 
 # ---------------------------------------------------------------------------
+# Water storage calculator
+# ---------------------------------------------------------------------------
+WATER_CALC_FAQ = [
+    ("How much water should I store per person?",
+     "Plan on at least 1 gallon per person per day, for drinking and basic hygiene. That's the CDC and Ready.gov guideline. Store at least 3 days, and build toward two weeks if you can."),
+    ("Why two weeks?",
+     "After a major earthquake, hurricane or water main failure, tap water can be out or unsafe for days to weeks, and stores sell out fast. Many local emergency agencies recommend two weeks for that reason."),
+    ("Do I need more in hot weather?",
+     "Yes. Ready.gov notes that in very hot temperatures, water needs can double. Children, nursing mothers and people who are sick may need more too."),
+    ("How much water do pets need?",
+     "Store at least three days of water for each pet, separate from your own. A common rule of thumb is about an ounce of water per pound of body weight per day; ask your vet if your pet has special needs."),
+    ("Does the water in my water heater count?",
+     "It can. A typical tank holds 40 to 50 gallons. Shut off the cold water supply first so the tank isn't contaminated, let the water cool, and drain it from the valve at the bottom. The calculator counts 40 gallons if you tick the box."),
+    ("How do I store water safely?",
+     "Use food-grade containers with tight lids, or unopened commercially bottled water. Keep it somewhere cool and dark, away from chemicals. Replace water you bottled yourself every six months, and follow the date on store-bought water."),
+    ("Where do I put it in a small apartment?",
+     "Stackable 5-gallon containers take about two square feet of floor per 20 gallons. Spread heavy water around the apartment rather than in one spot, and use closets, under beds and behind the couch. Fill collapsible jugs or a bathtub when a storm is forecast for extra washing and flushing water."),
+]
+
+
+def build_water_calc():
+    root = ""
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in WATER_CALC_FAQ)
+    cr = [("Home", "/"), ("Water storage calculator", "/water-calculator")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>How much emergency water should you store?</h1>
+<p class="dek">Enter your household and what you already have. You'll get the 3-day, 1-week and 2-week amounts, what's left to store, and how much room and weight it takes.</p></div></div>
+<section class="section"><div class="wrap wc">
+<form class="wc-in" onsubmit="return false" aria-label="Your household">
+<div><span class="wc-l" id="wc-people-l">People in your household</span>
+<div class="stepper" role="group" aria-labelledby="wc-people-l"><button type="button" id="wc-minus" aria-label="Fewer people">&minus;</button><output id="wc-people" aria-live="polite">2</output><button type="button" id="wc-plus" aria-label="More people">+</button></div></div>
+<label class="wc-field"><span class="wc-l">Total weight of your pets, in pounds</span><input type="number" id="wc-petlb" inputmode="decimal" min="0" step="1" placeholder="0"><span class="wc-h">Leave blank if you have none.</span></label>
+<label class="wc-check"><input type="checkbox" id="wc-hot"><span>We live somewhere very hot, or plan for summer heat <span class="wc-h">Doubles each person's water.</span></span></label>
+<label class="wc-field"><span class="wc-l">Drinking water you already have, in gallons</span><input type="number" id="wc-have" inputmode="decimal" min="0" step="1" placeholder="0"><span class="wc-h">A 24-pack of half-liter bottles is about 3 gallons.</span></label>
+<label class="wc-check"><input type="checkbox" id="wc-heater"><span>Count my water heater (40 gallons) <span class="wc-h">Only if you know how to drain it safely.</span></span></label>
+</form>
+<div class="wc-out" aria-live="polite">
+<div class="wc-stats"><div><span>You need each day</span><b id="wc-daily">2 gal</b></div><div><span>Your water lasts</span><b id="wc-lasts">0 days</b></div></div>
+<p class="wc-note" id="wc-lasts-note"></p>
+<div class="table-wrap"><table class="wc-table"><thead><tr><th scope="col">Goal</th><th scope="col">You need</th><th scope="col">Left to store</th><th scope="col">5-gal containers</th><th scope="col">Weight</th><th scope="col">Floor space</th></tr></thead><tbody id="wc-rows"></tbody></table></div>
+<p class="wc-note">In an apartment, two weeks of water for your household weighs about <b id="wc-weight">0 lb</b>. Spread it around rather than stacking it all in one spot.</p>
+<p class="wc-assume"><b>How this is calculated:</b> 1 gallon per person per day (CDC and Ready.gov), doubled in very hot weather (Ready.gov). Pets at about 1 ounce per pound per day. Water weighs 8.34 pounds a gallon; stacked 5-gallon containers take roughly 2 square feet per 20 gallons. Your entries stay in your browser.</p>
+</div>
+</div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2>Next steps</h2>
+<ul class="plain-list read"><li><a href="{root}guides/water.html">Water storage and filters guide</a>: containers that fit your space, filters and purification for when storage runs out.</li>
+<li><a href="{root}quiz.html">Get your PrepScore</a>: see where water ranks among your gaps and print a one-page plan.</li>
+<li><a href="{root}72-hour-kit.html">The simple 3-day kit</a>: the other ten essentials.</li></ul>
+<h2 id="faq" style="margin-top:2rem">Questions</h2><div class="faq">{faq_html}</div>
+<h2 style="margin-top:2rem">Sources</h2><ul class="sources plain-list small">
+<li><a href="https://www.ready.gov/water" target="_blank" rel="noopener">Ready.gov: Water</a></li>
+<li><a href="https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html" target="_blank" rel="noopener">CDC: Creating and storing an emergency water supply</a></li>
+<li><a href="https://www.caloes.ca.gov/wp-content/uploads/Preparedness/Documents/Pet-Fact-Sheet.pdf" target="_blank" rel="noopener">Cal OES: Pet preparedness fact sheet</a></li></ul>
+</div><div></div></div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "WebApplication", "name": "Emergency water storage calculator",
+          "url": SITE["url"] + "/water-calculator", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any",
+          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+          "description": "Calculate how much emergency drinking water to store for 3 days, 1 week and 2 weeks, how much you still need, and how much space and weight it takes."},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in WATER_CALC_FAQ]},
+         crumbs_ld(cr)]
+    add("water-calculator.html", shell(path="/water-calculator", title="Emergency Water Storage Calculator: How Much Water to Store",
+                                       desc="How much emergency water should you store? Enter your household to get 3-day, 1-week and 2-week amounts, what you still need, and the space and weight it takes.",
+                                       body=body, root=root, og="water-calc", canon="/water-calculator", jsonld=j, scripts=("calc.js",)),
+        "/water-calculator", "0.9")
+
+
+# ---------------------------------------------------------------------------
+# LA renter checklist: a free, product-link-free handout for neighborhood groups
+# ---------------------------------------------------------------------------
+LA_HOME = [
+    ("Water", "At least 3 gallons per person to start, then build to two weeks: about 14 gallons each. A major quake can break water mains for weeks."),
+    ("Food", "Two weeks of food you can eat without cooking, and a manual can opener."),
+    ("By every bed", "Sturdy shoes and a flashlight or headlamp. Broken glass is the most common earthquake injury."),
+    ("Emergency toilet", "A bucket, heavy trash bags and cat litter. After a quake, don't flush until you know the sewer lines are OK."),
+    ("Smoke", "N95 masks for everyone, for wildfire smoke and quake dust."),
+    ("Medicine and papers", "A week or more of prescriptions, spare glasses, and copies of IDs, your lease and insurance."),
+    ("Power and cash", "A charged power bank for each phone, and some cash in small bills."),
+    ("Go-bag", "A packed bag by the door in case you have to leave fast for a fire."),
+]
+LA_DRILL = [
+    "At night, with the lights off, walk from your bed to the nearest stairwell using a flashlight. Count the doors. Elevators won't run after a quake or in a fire.",
+    "Practice drop, cover and hold on next to your bed, desk and couch.",
+    "Find your unit's water shutoff, and ask where the building's gas shutoff and wrench are. Only shut off gas if you smell it or hear hissing.",
+    "Pick a meeting spot outside your building and one outside the neighborhood.",
+    "Swap numbers with two neighbors, and note who might need help: older neighbors, people with disabilities, families with babies.",
+]
+LA_ASK = [
+    "Is our building on the city's soft-story or concrete retrofit list, and is the work done? You can also look up the building's address on the LA Department of Building and Safety website.",
+    "Is the water heater strapped? A falling water heater can start a fire or flood the unit.",
+    "Where are the gas and water shutoffs, and who has the tools?",
+    "Does every unit have working smoke alarms, and carbon monoxide alarms where there are gas appliances?",
+]
+
+
+def build_la_renters():
+    root = ""
+    la = next(c for c in CITIES if c["slug"] == "los-angeles")
+    signups = la["alerts"] + ([la["zone"]] if la.get("zone") else [])
+    qr = open(os.path.join(HERE, "src", "qr-la-renters.svg")).read()
+    qr = re.sub(r"<\?xml[^>]*>", "", qr).replace('width="33mm" height="33mm"', 'width="100%" height="100%" role="img" aria-label="QR code for prepscore.org/la-renters"')
+    box = '<span class="lr-box" aria-hidden="true"></span>'
+    sign_html = "".join(f'<li>{box}<div><b><a href="{e(a["url"])}" target="_blank" rel="noopener">{e(a["label"])}</a></b> <span class="lr-url">{e(a["url"].replace("https://", "").rstrip("/"))}</span><p>{e(a["how"])}</p></div></li>' for a in signups)
+    home_html = "".join(f"<li>{box}<div><b>{e(t)}.</b> {e(d)}</div></li>" for t, d in LA_HOME)
+    drill_html = "".join(f"<li>{box}<div>{e(d)}</div></li>" for d in LA_DRILL)
+    ask_html = "".join(f"<li>{box}<div>{e(d)}</div></li>" for d in LA_ASK)
+    cr = [("Home", "/"), ("Cities", "/city/"), ("Los Angeles", "/city/los-angeles"), ("Renter checklist", "/la-renters")]
+    body = f"""<div class="page-head no-print"><div class="wrap">{crumbs_html(cr, root)}
+<h1>Los Angeles renter emergency checklist</h1>
+<p class="dek">A free one-page checklist for LA apartment renters: the official alert sign-ups, what to keep at home, a 10-minute building drill, and what to ask your landlord.</p>
+<div class="lr-actions"><button type="button" class="btn" onclick="window.print()">Print the checklist</button><a class="btn ghost" href="{root}la-renters-checklist.pdf">Download the PDF</a></div>
+<p class="muted small" style="margin-top:1rem">This page has no product or affiliate links. Neighborhood councils, tenant groups, libraries and building managers are welcome to print and share it. Checked {e(ALERTS_CHECKED)}.</p></div></div>
+<section class="section"><div class="wrap">
+<article class="lr" id="handout">
+<header class="lr-head"><div><p class="lr-kicker">Free · No sign-up · No product links</p><h2>LA renter emergency checklist</h2>
+<p>Earthquakes come without warning, fires can move in minutes, and heat waves strain the grid. Ten minutes today makes the first days much easier.</p></div>
+<div class="lr-qr">{qr}<span>Scan for the full list and a free plan for your household</span></div></header>
+<div class="lr-cols">
+<section><h3>1. Sign up for alerts today</h3><ul class="lr-list">{sign_html}</ul>
+<h3>2. Keep at home, for each person</h3><ul class="lr-list">{home_html}</ul></section>
+<section><h3>3. Run a 10-minute building drill</h3><ul class="lr-list">{drill_html}</ul>
+<h3>4. Ask your landlord</h3><ul class="lr-list">{ask_html}</ul>
+<h3>5. Check your insurance</h3><p class="lr-p">Standard renters insurance usually doesn't cover earthquake damage. The California Earthquake Authority sells renters earthquake policies through participating insurers; ask your agent.</p>
+<h3>6. Write it down</h3>
+<div class="lr-line"><span>Our evacuation zone</span><i></i></div><div class="lr-line"><span>Meeting spot near home</span><i></i></div>
+<div class="lr-line"><span>Out-of-area contact</span><i></i></div><div class="lr-line"><span>Neighbor's phone</span><i></i></div></section>
+</div>
+<footer class="lr-foot">From PrepScore, a free emergency preparedness site · prepscore.org/la-renters · General information, not professional advice. In an emergency, follow local officials and call 911 for life-threatening situations.</footer>
+</article>
+</div></section>
+<section class="section no-print"><div class="wrap two-col"><div class="stack-l">
+<h2>Go further</h2>
+<ul class="plain-list read"><li><a href="{root}quiz.html#earthquake-country,los-angeles">Get your PrepScore</a>: a free 3-minute check that gives your household a one-page plan with these LA alert links built in.</li>
+<li><a href="{root}water-calculator.html">Water storage calculator</a>: exactly how much water your household needs, and the space it takes.</li>
+<li><a href="{root}city/los-angeles.html">The full Los Angeles guide</a>: earthquakes, wildfire, heat and power shutoffs in more detail.</li>
+<li><a href="{root}where/city-apartment.html">Prepping in a city apartment</a>: what's different when you rent and live up high.</li></ul>
+<h2 style="margin-top:2rem">Sources</h2><ul class="sources plain-list small">
+<li><a href="https://emergency.lacity.gov/notifyla" target="_blank" rel="noopener">City of Los Angeles Emergency Management: NotifyLA</a></li>
+<li><a href="https://lacounty.gov/emergency/" target="_blank" rel="noopener">LA County: Alert LA County</a></li>
+<li><a href="https://www.earthquakecountry.org/" target="_blank" rel="noopener">Earthquake Country Alliance: Seven Steps to Earthquake Safety</a></li>
+<li><a href="https://www.earthquakeauthority.com/California-Earthquake-Insurance-Policies/Renters" target="_blank" rel="noopener">California Earthquake Authority: Renters policies</a></li>
+<li><a href="https://www.ready.gov/kit" target="_blank" rel="noopener">Ready.gov: Build a kit</a></li></ul>
+</div><div></div></div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "Article", "headline": "Los Angeles renter emergency checklist",
+          "description": "A free printable emergency checklist for Los Angeles apartment renters.", "dateModified": TODAY,
+          "author": {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com"},
+          "publisher": {"@type": "Organization", "name": SITE["name"]}, "mainEntityOfPage": SITE["url"] + "/la-renters"},
+         crumbs_ld(cr)]
+    add("la-renters.html", shell(path="/la-renters", title="Los Angeles Renter Emergency Checklist (Free Printable)",
+                                 desc="A free one-page emergency checklist for LA apartment renters: NotifyLA and Alert LA County sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.",
+                                 body=body, root=root, og="la-renters", canon="/la-renters", jsonld=j, body_attr=' class="print-handout"'),
+        "/la-renters", "0.8")
+
+
+# ---------------------------------------------------------------------------
 # Scenarios
 # ---------------------------------------------------------------------------
 def build_scenarios():
@@ -1236,6 +1396,8 @@ def build_og():
         im.save(os.path.join(od, name + ".png"), optimize=True)
 
     card("default", "Emergency preparedness", "How many days could you last?", "Free 3-minute preparedness score, location guides and honest gear guides.")
+    card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
+    card("water-calc", "Free calculator", "How much water to store", "Enter your household: 3-day, 1-week and 2-week amounts, what you still need, and the space it takes.", bigfont="display")
     card("kit", "The simple 3-day kit", "Your 72-hour kit", "Eleven essentials, one afternoon. How much you need and what to buy for each.")
     card("quiz", "How prepared am I?", "Get your PrepScore", "Check off what you have. See how long you'd last, your top gaps, and a card to share.")
     card("scenarios", "Emergencies", "What matters when", "Outages, earthquakes, evacuations, bad water, sheltering in place and long grid-down events.", bigfont="display")
@@ -1283,6 +1445,9 @@ def build_files():
     open(os.path.join(OUT, "_redirects"), "w").write("/score /quiz 302\n/how-prepared-am-i /quiz 301\n")
     open(os.path.join(OUT, "assets", "favicon.svg"), "w").write(BRAND_SVG.replace('aria-hidden="true"', 'xmlns="http://www.w3.org/2000/svg"')
                                                               .replace('fill="none" stroke="currentColor"', 'fill="#F7F8F3" stroke="currentColor"').replace("currentColor", "#142019"))
+    # LA renter checklist PDF (rendered by tools/make_handout_pdf.py from the built page)
+    if os.path.exists(os.path.join(HERE, "src", "la-renters-checklist.pdf")):
+        shutil.copy(os.path.join(HERE, "src", "la-renters-checklist.pdf"), os.path.join(OUT, "la-renters-checklist.pdf"))
     # Favicon set (rendered by tools/make_icons.py): /favicon.ico and /apple-touch-icon.png at the root, where browsers look for them
     ICONS = os.path.join(HERE, "src", "icons")
     os.makedirs(os.path.join(OUT, "assets", "icons"), exist_ok=True)
@@ -1302,8 +1467,8 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_scenarios(); build_misc()
-    for f in ("site.css", "quiz.js", "site.js", "data.js"):
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_la_renters(); build_scenarios(); build_misc()
+    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
         write(rel, parts)
