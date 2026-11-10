@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Static site generator for PrepScore. Run: python3 build.py"""
 import hashlib, html, json, os, posixpath, re, shutil, sys, urllib.parse, datetime
-from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES
+from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES, QUIZ_ACTIONS
 from cities import CITIES, REGIONS, ALERTS_CHECKED
 from pool import POOL_CITIES
 POOL_ASIDE = lambda root: (f'<div class="aside"><h3>Have a backyard pool?</h3><p class="muted small">It can back up your water supply, but not through a filter alone. '
@@ -333,6 +333,7 @@ def build_quiz():
 </div></div>
 <div class="wrap"><div class="quiz-layout">
 <div>
+<p class="city-note" id="city-note" hidden></p>
 <div class="setup" style="margin-top:2rem">
 <div><span class="lbl" style="font-weight:700;display:block;margin-bottom:.55rem">Where do you live?</span><div class="chips" role="group" aria-label="Where do you live">{chips}</div></div>
 <div><span style="font-weight:700;display:block;margin-bottom:.55rem" id="people-label">People in your household</span>
@@ -353,9 +354,12 @@ def build_quiz():
 <details class="how-scored"><summary>How this is calculated</summary><p><b>Days of supplies</b> is the shorter of your stored drinking water and your no-cook food. Water you can drain from a water heater counts; a filter doesn't, because it needs a water source. <b>The PrepScore</b> is the share of the checklist you have, with each item weighted for where you live (water and earthquake prep count more in earthquake country, for example). Your answers stay in your browser.</p></details>
 <div style="margin-top:1.75rem"><h3>Your 2-week targets</h3>
 <div class="targets" style="margin-top:.6rem"><div><b id="t-water">28 gal</b><span>water</span></div><div><b id="t-food">56k kcal</b><span>food</span></div><div><b id="t-bags">56</b><span>toilet bags</span></div></div></div>
-<div style="margin-top:1.75rem"><h3>Fix these first</h3><p style="margin:.2rem 0 .6rem;color:var(--muted);font-size:.92rem">Your biggest gaps, ranked by how much each one would raise your score. Tick it off above once it's handled.</p><ul class="gaps" id="gaps"></ul><p class="aff" style="margin-top:.6rem">Buy links are affiliate links. {AMAZON_LINE}</p></div>
+<div style="margin-top:1.75rem" id="plan"><h3>Your plan for this week</h3><p style="margin:.2rem 0 .6rem;color:var(--muted);font-size:.92rem">Your three biggest gaps, weighted for where you live, each with a free or use-what-you-have option where there is one. Tick each one off above once it's handled.</p><ol class="gaps" id="gaps"></ol>
+<div id="next-wrap" hidden><h4 class="next-h">After that</h4><ul class="next-list" id="next"></ul></div>
+<div class="print-box"><button type="button" class="btn" id="btn-print">Print my plan</button><p>One page with your three actions, supply targets, local alert links and space to write down your household plan. No product links, so it's easy to share.</p></div>
+<p class="aff" style="margin-top:.6rem">Buy links are affiliate links. {AMAZON_LINE}</p></div>
 <div class="share-panel" style="margin-top:1.75rem" id="share">
-<h3 style="margin-bottom:.75rem">Share your card</h3>
+<h3 style="margin-bottom:.75rem">Share your score</h3>
 <canvas id="card" width="1200" height="630" aria-label="Your shareable PrepScore card"></canvas>
 <div class="share-row"><button type="button" class="btn sm" id="btn-share">Share</button><button type="button" class="btn ghost sm" id="btn-save">Save image</button><button type="button" class="btn ghost sm" id="btn-copy">Copy link</button></div>
 <div class="share-row small"><a id="s-x" href="#" target="_blank" rel="noopener">Post on X</a><a id="s-fb" href="#" target="_blank" rel="noopener">Facebook</a><a id="s-reddit" href="#" target="_blank" rel="noopener">Reddit</a><a id="s-wa" href="#" target="_blank" rel="noopener">WhatsApp</a></div>
@@ -364,7 +368,8 @@ def build_quiz():
 </div>
 </aside>
 </div></div>
-<div class="mobile-bar"><span><b data-out="score">0</b> <span data-out="tier">Sitting Duck</span></span><a href="#result">See result</a></div>"""
+<div class="mobile-bar"><span><b data-out="score">0</b> <span data-out="tier">Sitting Duck</span></span><a href="#result">See result</a></div>
+<section class="plan-print" id="plan-print" aria-hidden="true"></section>"""
     buy = {}
     for qid, spec in QUIZ_BUY.items():
         if spec[0] == "q":
@@ -374,7 +379,10 @@ def build_quiz():
         else:
             pk = next(p for p in GD[spec[0]]["picks"] if p["name"] == spec[1])
             buy[qid] = {"name": pk["name"], "url": buy_url(pk) if pk.get("q") or pk.get("asin") else pk.get("url"), "aff": bool(pk.get("q") or pk.get("asin"))}
-    data = {"quiz": QUIZ, "cats": QUIZ_CATS, "tiers": TIERS, "buy": buy,
+    cities = {c["slug"]: {"name": c["name"], "state": c["state"], "loc": c["parent"],
+                          "alerts": [[a["label"], a["url"]] for a in c["alerts"][:2]] + ([[c["zone"]["label"], c["zone"]["url"]]] if c.get("zone") else []),
+                          "pri": [[p[1], p[2]] for p in c["priorities"] if p[2]]} for c in CITIES}
+    data = {"quiz": QUIZ, "cats": QUIZ_CATS, "tiers": TIERS, "buy": buy, "act": QUIZ_ACTIONS, "cities": cities,
             "locations": [{"slug": l["slug"], "name": l["name"], "mult": l["mult"], "item": l["item"]} for l in LOCATIONS],
             "site": {"url": SITE["url"], "host": HOST}}
     with open(os.path.join(HERE, "src", "data.js"), "w") as f:
@@ -531,7 +539,7 @@ def build_cities():
 </div></section>
 <section class="section"><div class="wrap"><div class="cta-box"><div><h2>How ready is your {e(c['name'])} home?</h2>
 <p>The quiz weights every item for {e(parent['name'].lower())} risks and shows your top gaps. About 3 minutes, no sign-up.</p></div>
-<a class="btn" href="{root}quiz.html#{parent['slug']}">Get your PrepScore</a></div></div></section>"""
+<a class="btn" href="{root}quiz.html#{parent['slug']},{c['slug']}">Get your PrepScore</a></div></div></section>"""
         j = [{"@context": "https://schema.org", "@type": "Article", "headline": c["title"], "description": c["meta"],
               "dateModified": TODAY, "author": {"@type": "Organization", "name": SITE["name"]},
               "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + f"/og/city-{c['slug']}.png",
@@ -627,7 +635,7 @@ def build_guides():
         toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
         cr = [("Home", "/"), ("Gear guides", "/guides/"), (g["name"], f"/guides/{g['slug']}")]
         body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
-<h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from {e(", ".join(sorted({t.split(":")[0] for t, _ in srcs})))}. Prices are typical ranges; check the live price before you buy.</p>
+<h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from {e(", ".join(sorted({t.split(":")[0] for t, _ in srcs})))}. {BAND_NOTE}</p>
 <p class="hero-alt">New to prepping? Start with <a href="{root}72-hour-kit.html">the simple 3-day kit</a>.</p>
 {toc_html}</div></div>
 <section class="section"><div class="wrap stack-l">
@@ -738,7 +746,7 @@ def build_kit():
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
 <h1>The simple 3-day emergency kit</h1>
 <p class="dek">Eleven things that get your household through the first 72 hours of most emergencies. One shopping trip, one afternoon, and you're ahead of most of your neighbors.</p>
-<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against Ready.gov, CDC and FDA guidance. Latest update: added warmth, and clarified food, water and medication amounts. Prices are typical ranges.</p>
+<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against Ready.gov, CDC and FDA guidance. Latest update: added warmth, and clarified food, water and medication amounts. {BAND_NOTE}</p>
 <dl class="howmuch kit-stats" style="margin-top:1.75rem">
 <div><dt>Water</dt><dd><span class="v">3 gal</span>per person, minimum</dd></div>
 <div><dt>Food</dt><dd><span class="v">6,000 cal</span>per adult, no cooking needed</dd></div>
@@ -810,10 +818,10 @@ def build_pool():
     stages = "".join(f"<li><b>{e(a)}</b>{e(b)}</li>" for a, b in cc["stages"])
     yn = lambda v: f'<span class="yn {"y" if v.lower().startswith("yes") else "n"}">{e(v)}</span>'
     frow = "".join(f'<tr><th scope="row">{e(n)}<span class="pw-kind">{e(k)}</span></th><td data-l="Germs">{e(g)}</td><td data-l="Chlorine and taste">{yn(c)}</td><td data-l="Salt and stabilizer">{yn(s)}</td>'
-                   f'<td class="pw-buy" data-l="Price"><span class="price">{e(pr)}</span>{aff_btn(a)}</td></tr>' for n, a, pr, k, g, c, s, _ in P.FILTERS)
+                   f'<td class="pw-buy" data-l="Price band"><span class="price">{band(pr)}</span>{aff_btn(a)}</td></tr>' for n, a, pr, k, g, c, s, _ in P.FILTERS)
     fnotes = "".join(f"<li><b>{e(n.replace(' (CC' + chr(39) + 's pick)', ''))}:</b> {e(note)}</li>" for n, _, _, _, _, _, _, note in P.FILTERS)
     gear = "".join(f"""<article class="pick"><div><h3>{e(n)}</h3><dl class="facts"><dt>What it is</dt><dd>{e(w)}</dd><dt>Why</dt><dd>{e(y)}</dd></dl></div>
-<div class="buy"><span class="price">{e(pr)}</span>{aff_btn(a, "Check price on Amazon")}<span class="aff">Affiliate link</span></div></article>""" for n, a, pr, w, y in P.GEAR)
+<div class="buy"><span class="price">{band(pr)}</span>{aff_btn(a, "Check price on Amazon")}<span class="aff">Affiliate link</span></div></article>""" for n, a, pr, w, y in P.GEAR)
     faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in P.FAQS)
     srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in P.SOURCES)
     toc = [("short-answer", "Short answer"), ("whats-in-it", "What's in pool water"), ("chlorine", "Chlorine pools"), ("salt", "Saltwater pools"),
@@ -822,7 +830,7 @@ def build_pool():
     cr = [("Home", "/"), ("Gear guides", "/guides/"), ("Water", "/guides/water"), ("Pool water", "/guides/pool-water")]
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
 <h1>{e(P.H1)}</h1><p class="dek">{e(P.DEK)}</p>
-<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from the CDC, FEMA, EPA and WHO. Prices are typical ranges; check the live price before you buy.</p>
+<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from the CDC, FEMA, EPA and WHO. {BAND_NOTE}</p>
 {toc_html}</div></div>
 <section class="section"><div class="wrap stack-l">
 <div class="pw-verdict" id="short-answer"><h2>The short answer</h2><ol>{verdict}</ol></div>
@@ -852,8 +860,8 @@ def build_pool():
 <div class="pw-cc"><div><span class="kit-pick">What I bought</span><h3>{e(cc['name'])}</h3>
 <p class="pw-quote">“{e(P.CC_NOTE)}” <span class="muted">CC Pearce, site creator</span></p>
 <ul class="pw-stages">{stages}</ul><p class="muted small">{e(cc['limits'])}</p></div>
-<div class="kit-buy"><span class="price">{e(cc['price'])}</span>{aff_btn(cc['asin'])}</div></div>
-<div class="table-wrap"><table class="matrix pw-table"><thead><tr><th scope="col">Filter</th><th scope="col">Germs</th><th scope="col">Chlorine and taste</th><th scope="col">Salt and stabilizer</th><th scope="col">Price</th></tr></thead><tbody>{frow}</tbody></table></div>
+<div class="kit-buy"><span class="price">{band(cc['price'])}</span>{aff_btn(cc['asin'])}</div></div>
+<div class="table-wrap"><table class="matrix pw-table"><thead><tr><th scope="col">Filter</th><th scope="col">Germs</th><th scope="col">Chlorine and taste</th><th scope="col">Salt and stabilizer</th><th scope="col">Price band</th></tr></thead><tbody>{frow}</tbody></table></div>
 <ul class="plain-list read small pw-notes">{fnotes}</ul>
 </div></section>
 <section class="section" id="gear"><div class="wrap"><h2>Gear that removes salt and stabilizer</h2>

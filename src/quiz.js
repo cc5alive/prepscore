@@ -7,8 +7,12 @@
 
   function load() {
     try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && s.a) state = Object.assign(state, s); } catch (e) {}
-    var h = (location.hash || "").replace("#", "");
-    if (h && D.locations.some(function (l) { return l.slug === h; })) state.loc = h;
+    // #earthquake-country or #earthquake-country,los-angeles (from a city guide)
+    var h = (location.hash || "").replace("#", "").split(",");
+    if (h[0] && D.locations.some(function (l) { return l.slug === h[0]; })) {
+      state.loc = h[0];
+      state.city = (h[1] && D.cities[h[1]]) ? h[1] : null;
+    }
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
@@ -45,7 +49,7 @@
     var days = (wd == null || fd == null) ? null : Math.min(wd, fd);
     var gaps = D.quiz.map(function (q) { return { q: q, miss: weight(q) * (1 - value(q)) }; })
       .filter(function (g) { return g.miss > 0.01; })
-      .sort(function (a, b) { return b.miss - a.miss; }).slice(0, 5);
+      .sort(function (a, b) { return b.miss - a.miss; }).slice(0, 8);
     var catPct = {};
     Object.keys(cats).forEach(function (k) { catPct[k] = Math.round(100 * cats[k].g / cats[k].t); });
     return { score: score, days: days, water: wd, food: fd, heater: heater, tier: tierFor(score), cats: catPct, gaps: gaps };
@@ -103,34 +107,110 @@
     $("#t-food").textContent = (28 * n) + "k kcal";
     $("#t-bags").textContent = (14 * n * 2);
 
+    renderPlan(r);
+    renderCityNote();
+    window.__result = r;
+    drawCard(r);
+    renderPrint(r);
+  }
+
+  // ---------- plan ----------
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function catOf(q) { return D.cats.filter(function (c) { return c.id === q.cat; })[0]; }
+  function city() { return (state.city && D.cities[state.city]) || null; }
+  function act(q) {
+    // Partly done (e.g. 3 days of water stored): use the "build on it" wording
+    if (q.type === "choice" && state.a[q.id] != null && value(q) > 0 && D.act[q.id + "+"]) return D.act[q.id + "+"];
+    return D.act[q.id] || [q.label, null];
+  }
+  function localWhy(q) {
+    var c = catOf(q), C = city();
+    if (C && c.guide) {
+      var p = C.pri.filter(function (x) { return x[1] === c.guide; })[0];
+      if (p) return C.name + ": " + p[0];
+    }
+    var L = loc(), m = ((L.mult || {})[q.cat] || 1) * ((L.item || {})[q.id] || 1);
+    return m >= 1.3 ? "This counts extra where you live (" + L.name.toLowerCase() + ")." : "";
+  }
+  function alertLinks() {
+    var C = city();
+    return C ? C.alerts : null;
+  }
+
+  function renderPlan(r) {
     var ul = $("#gaps"); ul.innerHTML = "";
-    if (!r.gaps.length) { ul.innerHTML = "<li><b>No gaps left.</b><span>Now practice the plan with your household.</span></li>"; }
-    r.gaps.forEach(function (g) {
-      var c = D.cats.filter(function (c) { return c.id === g.q.cat; })[0];
-      var li = document.createElement("li");
-      var label = g.q.type === "choice" ? g.q.label.replace(/\?$/, "") : g.q.label;
-      li.innerHTML = "<b></b><span></span>" + (c.guide ? ' <a href="/guides/' + c.guide + '">' + c.name + " guide</a>" : "");
-      li.querySelector("b").textContent = label;
-      li.querySelector("span").textContent = g.q.tip + " ";
+    var top = r.gaps.slice(0, 3), rest = r.gaps.slice(3);
+    if (!top.length) { ul.innerHTML = "<li><b>No gaps left.</b><span class=\"why\">Now practice the plan with your household, and check your kit twice a year.</span></li>"; }
+    top.forEach(function (g) {
+      var a = act(g.q), c = catOf(g.q), li = document.createElement("li");
+      var html = "<b>" + esc(a[0]) + "</b><span class=\"why\">" + esc(g.q.tip) + "</span>";
+      var lw = localWhy(g.q);
+      if (lw) html += "<span class=\"local\">" + esc(lw) + "</span>";
+      html += a[1] ? "<span class=\"free\"><b>Free option:</b> " + esc(a[1]) + "</span>" : "<span class=\"free\"><b>Costs nothing.</b></span>";
+      if (g.q.id === "c_alerts" && alertLinks()) {
+        html += "<span class=\"alert-links\">" + alertLinks().map(function (x) { return "<a href=\"" + esc(x[1]) + "\" target=\"_blank\" rel=\"noopener\">" + esc(x[0]) + "</a>"; }).join("") + "</span>";
+      }
+      if (c.guide) html += " <a class=\"guide-link\" href=\"/guides/" + c.guide + "\">" + esc(c.name) + " guide</a>";
+      li.innerHTML = html;
       var buy = D.buy && D.buy[g.q.id];
-      if (buy && buy.url) {
+      if (buy && buy.url && a[1]) {
         var row = document.createElement("div");
         row.className = "gap-buy";
-        var a = document.createElement("a");
-        a.className = "btn sm";
-        a.href = buy.url;
-        a.target = "_blank";
-        a.rel = buy.aff === false ? "noopener" : "sponsored nofollow noopener";
-        a.textContent = buy.aff === false ? "Find one" : "Check price";
+        var btn = document.createElement("a");
+        btn.className = "btn sm"; btn.href = buy.url; btn.target = "_blank";
+        btn.rel = buy.aff === false ? "noopener" : "sponsored nofollow noopener";
+        btn.textContent = buy.aff === false ? "Find one" : "Check price";
         var nm = document.createElement("span");
-        nm.textContent = buy.name;
-        row.appendChild(nm); row.appendChild(a);
+        nm.textContent = (buy.aff === false ? "" : "Our pick: ") + buy.name;
+        row.appendChild(nm); row.appendChild(btn);
         li.appendChild(row);
       }
       ul.appendChild(li);
     });
-    window.__result = r;
-    drawCard(r);
+    var nx = $("#next"), wrap = $("#next-wrap");
+    nx.innerHTML = rest.map(function (g) { return "<li>" + esc(act(g.q)[0]) + "</li>"; }).join("");
+    wrap.hidden = !rest.length;
+  }
+
+  function renderCityNote() {
+    var el = $("#city-note"), C = city();
+    if (!C) { el.hidden = true; return; }
+    el.hidden = false;
+    el.innerHTML = "Set up for <b>" + esc(C.name) + ", " + esc(C.state) + "</b>, with local alert links in your plan. Weighted for " +
+      esc(loc().name.toLowerCase()) + "; if your home is different, such as an apartment, pick that setting below.";
+  }
+
+  function renderPrint(r) {
+    var el = $("#plan-print"); if (!el) return;
+    var n = state.people, L = loc(), C = city();
+    var date = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    var top = r.gaps.slice(0, 3), rest = r.gaps.slice(3);
+    var acts = top.length ? top.map(function (g) {
+      var a = act(g.q), lw = localWhy(g.q);
+      return "<li><span class=\"pp-box\"></span><div><b>" + esc(a[0]) + "</b><p>" + esc(g.q.tip) + (lw ? " " + esc(lw) : "") + "</p>" +
+        (a[1] ? "<p class=\"pp-free\"><b>Free option:</b> " + esc(a[1]) + "</p>" : "<p class=\"pp-free\"><b>Costs nothing.</b></p>") + "</div></li>";
+    }).join("") : "<li><div><b>No gaps left.</b><p>Practice the plan with your household and check your kit twice a year.</p></div></li>";
+    var next = rest.map(function (g) { return "<li><span class=\"pp-box\"></span>" + esc(act(g.q)[0]) + "</li>"; }).join("");
+    var alerts = C ? C.alerts.map(function (x) { return "<li><span class=\"pp-box\"></span>" + esc(x[0]) + ": " + esc(x[1].replace(/^https?:\/\//, "").replace(/\/$/, "")) + "</li>"; }).join("")
+      : "<li><span class=\"pp-box\"></span>Sign up for your county's emergency alerts. Search your county name plus \"emergency alerts\".</li>";
+    var where = C ? esc(C.name) + ", " + esc(C.state) + " (" + esc(L.name.toLowerCase()) + ")" : esc(L.name);
+    var line = function (label) { return "<div class=\"pp-line\"><span>" + label + "</span><i></i></div>"; };
+    el.innerHTML =
+      "<header class=\"pp-head\"><div><h1>Our emergency plan</h1><p>" + where + " · " + n + (n === 1 ? " person" : " people") + " · made " + esc(date) + "</p></div>" +
+      "<div class=\"pp-score\"><b>" + r.score + "</b><span>PrepScore / 100</span></div></header>" +
+      "<p class=\"pp-days\"><b>" + esc(daysLabel(r.days)) + " " + (r.days === 1 ? "day" : "days") + " of supplies.</b> " + esc(limitsText(r)) + "</p>" +
+      "<div class=\"pp-cols\"><section><h2>This week</h2><ol class=\"pp-acts\">" + acts + "</ol>" +
+      (next ? "<h2>After that</h2><ul class=\"pp-next\">" + next + "</ul>" : "") + "</section>" +
+      "<section><h2>Supply targets</h2><table class=\"pp-targets\"><tr><th></th><th>3 days</th><th>2 weeks</th></tr>" +
+      "<tr><td>Water</td><td>" + (3 * n) + " gal</td><td>" + (14 * n) + " gal</td></tr>" +
+      "<tr><td>Food (adults)</td><td>" + (6 * n) + ",000 cal</td><td>" + (28 * n) + ",000 cal</td></tr>" +
+      "<tr><td>Toilet bags</td><td>" + (3 * n * 2) + "</td><td>" + (14 * n * 2) + "</td></tr></table>" +
+      "<p class=\"pp-note\">1 gallon of water per person per day, more in heat. Add extra for pets, nursing parents and anyone sick.</p>" +
+      "<h2>Local alerts</h2><ul class=\"pp-next\">" + alerts + "</ul>" +
+      "<h2>Our household plan</h2>" + line("Meeting spot near home") + line("Meeting spot outside the neighborhood") +
+      line("Out-of-area contact and phone") + line("Evacuation zone or route") + line("Where our kit is") + line("Gas, water and power shutoffs") +
+      line("Doctor, pharmacy and vet") + "</section></div>" +
+      "<footer class=\"pp-foot\">Made with the free PrepScore quiz at " + esc(D.site.host) + "/quiz. General information, not professional advice. In an emergency, follow local officials.</footer>";
   }
 
   // ---------- share card ----------
@@ -257,6 +337,10 @@
       save(); render();
     });
     $("#btn-reset").addEventListener("click", function () { state.a = {}; save(); syncInputs(); render(); status(""); });
+    // Printing the quiz page always prints the plan, whether from the button or the browser's Print command.
+    $("#btn-print").addEventListener("click", function () { window.print(); });
+    window.addEventListener("beforeprint", function () { renderPrint(window.__result); document.body.classList.add("print-plan"); });
+    window.addEventListener("afterprint", function () { document.body.classList.remove("print-plan"); });
     wireShare();
   }
 

@@ -2,7 +2,7 @@
 
 CHECKED = "November 1, 2026"   # the date products were last checked as available
 # Prices are shown only as bands ($ to $$$$); Amazon only allows prices pulled live from its API.
-TITLE = "Black Friday Emergency Prep Deals 2026: Gear Worth Buying"
+TITLE = "Black Friday Emergency Prep 2026: Gear Worth Buying on Sale"
 META = ("The emergency gear worth buying on Black Friday and Cyber Monday 2026: the essentials to get first, big-ticket items "
         "worth waiting for, small gifts, and how to tell a real deal from a fake one.")
 H1 = "Black Friday prep gear worth buying"
