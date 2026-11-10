@@ -34,7 +34,7 @@ MATRIX = [
      "why": "You can last weeks without food but about three days without water. Mains break in quakes and pumps stop in outages.",
      "lv": {"outage": 2, "griddown": 3, "evac": 2, "shelter": 2, "water": 3, "quake": 3}},
     {"id": "water-filter", "name": "Portable water filter", "guide": "water",
-     "why": "Turns a creek, lake or rain barrel into drinking water once your stored supply runs out. Pool water needs more; see the pool water guide.",
+     "why": "Makes creek, lake or rain-barrel water safe from bacteria and parasites once your stored supply runs out. It won't remove chemicals; pool water needs more, see the pool water guide.",
      "lv": {"outage": 1, "griddown": 3, "evac": 2, "shelter": 1, "water": 2, "quake": 2}},
     {"id": "purification", "name": "Purification tablets or bleach", "guide": "water",
      "why": "Filters miss viruses. Tablets or unscented bleach cover that gap and weigh almost nothing.",
@@ -121,7 +121,7 @@ QUIZ = [
      "tip": "Plan on 1 gallon per person per day, more in heat. Two weeks is the common target.",
      "choices": [["None", 0, 0], ["About 3 days", 0.35, 3], ["About 2 weeks", 0.8, 14], ["30 days or more", 1, 30]]},
     {"id": "w_filter", "cat": "water", "w": 2, "label": "A portable water filter (Sawyer, LifeStraw or similar)",
-     "tip": "A $30 filter turns any fresh water source into drinking water once storage runs out."},
+     "tip": "Once storage runs out, a filter makes water from a stream, lake or rain barrel safe from bacteria and parasites. It won't remove chemicals or salt, and most don't stop viruses."},
     {"id": "w_treat", "cat": "water", "w": 1, "label": "Purification tablets or unscented bleach with a dropper",
      "tip": "Filters don't stop viruses. Tablets or bleach do."},
     {"id": "w_heater", "cat": "water", "w": 1, "label": "I know how to drain drinking water from my water heater",
@@ -595,7 +595,7 @@ GUIDES = [
         "howmuch": [
             ["Phone recharge", "~15 Wh", "A 20,000 mAh bank holds about four recharges."],
             ["Fridge per day", "1 to 2 kWh", "Newer fridges are on the lower end. Run it in cycles to stretch battery."],
-            ["CPAP per night", "~30 to 60 Wh", "Without heated humidifier. Check your machine's spec."],
+            ["CPAP per night", "~30 to 60 Wh", "About 8 hours with the heated humidifier and tube off. Heat can multiply that several times, so check your machine's power spec."],
             ["Generator distance", "20+ ft", "From doors, windows and vents, pointing away from the house."],
         ],
         "picks": [
@@ -611,7 +611,7 @@ GUIDES = [
              "best": "Every floor of every home", "q": "battery operated carbon monoxide detector"},
             {"tier": "step", "name": "1 kWh power station (Anker SOLIX C1000 or similar)", "asin": "B0C5C89QKZ", "asin_name": "Anker SOLIX C1000",  "price": "$400 to $900",
              "what": "A silent lithium battery with AC outlets, USB ports and solar input.",
-             "why": "Runs a fridge in cycles, a CPAP for several nights, or lights and phones for a week. Safe indoors.",
+             "why": "About 850 Wh usable through the AC outlets: roughly 14 nights of a 60 Wh CPAP with the humidifier off (far fewer with heat on), 10 to 20 hours of a typical fridge, or phones and lights for a week. Safe indoors.",
              "watch": "Compare usable capacity (Wh), surge rating and battery chemistry. LiFePO4 lasts far more cycles.",
              "best": "Apartments, CPAP users, short to medium outages", "q": "1000wh portable power station lifepo4"},
             {"tier": "step", "name": "100 to 200 W folding solar panel", "asin": "B0CNPHD4VY", "asin_name": "Renogy 200W portable panel", "price": "$150 to $400",
@@ -632,6 +632,7 @@ GUIDES = [
         ],
         "choose": [
             "List what you need running and add up watt-hours per day. Buy capacity for that, plus 20%.",
+            "Runtime math: rated Wh × 0.85 (inverter losses when you use the AC outlets) ÷ your device's Wh per hour or per night. Example: 1,000 Wh × 0.85 ÷ 60 Wh per night ≈ 14 nights of CPAP. A DC cable for the CPAP, if your maker sells one, stretches that further.",
             "Check surge watts for motors: fridges, pumps and furnace blowers spike at start.",
             "Prefer LiFePO4 batteries for longevity and safety.",
             "For generators, dual-fuel adds flexibility. Propane doesn't go stale like gasoline.",

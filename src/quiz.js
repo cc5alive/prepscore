@@ -36,20 +36,36 @@
     var score = Math.round(100 * got / tot);
     var qw = D.quiz.filter(function (q) { return q.id === "w_store"; })[0];
     var qf = D.quiz.filter(function (q) { return q.id === "f_store"; })[0];
-    var wd = state.a.w_store == null ? 0 : qw.choices[state.a.w_store][2];
-    var fd = state.a.f_store == null ? 1 : qf.choices[state.a.f_store][2];
-    if (state.a.w_filter) wd += 7;
-    if (state.a.w_heater) wd += Math.max(1, Math.round(12 / state.people));
-    var days = Math.min(wd, fd);
+    // Days come only from what's actually stored. A filter needs a water source, so it adds no days.
+    // An unanswered question means "unknown", never a guess.
+    var wd = state.a.w_store == null ? null : qw.choices[state.a.w_store][2];
+    var heater = 0;
+    if (wd != null && state.a.w_heater) { heater = Math.max(1, Math.round(12 / state.people)); wd += heater; }
+    var fd = state.a.f_store == null ? null : qf.choices[state.a.f_store][2];
+    var days = (wd == null || fd == null) ? null : Math.min(wd, fd);
     var gaps = D.quiz.map(function (q) { return { q: q, miss: weight(q) * (1 - value(q)) }; })
       .filter(function (g) { return g.miss > 0.01; })
       .sort(function (a, b) { return b.miss - a.miss; }).slice(0, 5);
     var catPct = {};
     Object.keys(cats).forEach(function (k) { catPct[k] = Math.round(100 * cats[k].g / cats[k].t); });
-    return { score: score, days: days, tier: tierFor(score), cats: catPct, gaps: gaps };
+    return { score: score, days: days, water: wd, food: fd, heater: heater, tier: tierFor(score), cats: catPct, gaps: gaps };
   }
 
-  function daysLabel(d) { return d >= 90 ? "90+" : String(d); }
+  function daysLabel(d) { return d == null ? "?" : d >= 90 ? "90+" : String(d); }
+  function dayWord(d) { return d === 1 ? "day" : "days"; }
+  function limitsText(r) {
+    var w = r.water == null ? "Water: not answered yet" :
+      r.water === 0 ? "Water: none stored" :
+      "Water: about " + daysLabel(r.water) + " " + dayWord(r.water) + (r.heater ? ", counting your water heater" : "");
+    var f = r.food == null ? "Food: not answered yet" : "Food: about " + daysLabel(r.food) + " " + dayWord(r.food);
+    var lead = "";
+    if (r.days == null) lead = "Answer the water and food questions to see how long your supplies last. ";
+    else if (r.water === 0) lead = "You have no stored water, so that is the gap to fix first. ";
+    else if (r.water < r.food) lead = "Water runs out first. ";
+    else if (r.food < r.water) lead = "Food runs out first. ";
+    else lead = "Water and food run out about the same time. ";
+    return lead + w + ". " + f + ".";
+  }
 
   // ---------- render ----------
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -74,7 +90,8 @@
     $$("[data-out=days]").forEach(function (e) { e.textContent = daysLabel(r.days); });
     $$("[data-out=tier]").forEach(function (e) { e.textContent = t.name; });
     $$("[data-out=line]").forEach(function (e) { e.textContent = t.line; });
-    $$("[data-out=dayword]").forEach(function (e) { e.textContent = r.days === 1 ? "day on your own" : "days on your own"; });
+    $$("[data-out=dayword]").forEach(function (e) { e.textContent = r.days == null ? "days of supplies" : r.days === 1 ? "day of supplies" : "days of supplies"; });
+    $$("[data-out=limits]").forEach(function (e) { e.textContent = limitsText(r); });
     $$(".tier-chip").forEach(function (e) { e.style.setProperty("--tier", t.color); e.style.color = t.text; e.textContent = t.name; });
     $$("[data-cat-bar]").forEach(function (e) { e.style.width = r.cats[e.dataset.catBar] + "%"; });
     $$("[data-cat-pct]").forEach(function (e) { e.textContent = r.cats[e.dataset.catPct] + "%"; });
@@ -148,7 +165,7 @@
       var dw = x.measureText(dl).width;
       x.font = '800 44px "Big Shoulders Display", sans-serif';
       x.fillText(r.days === 1 ? "DAY" : "DAYS", 80 + dw, 248);
-      x.fillText("ON MY OWN", 80 + dw, 298);
+      x.fillText("OF SUPPLIES", 80 + dw, 298);
       // score
       x.textAlign = "right";
       x.font = '900 150px "Big Shoulders Display", Impact, sans-serif';
@@ -180,11 +197,12 @@
 
   function shareUrl() {
     var r = window.__result;
-    return D.site.url + "/score/" + r.tier.slug + "#s" + r.score + "-d" + r.days;
+    return D.site.url + "/score/" + r.tier.slug + "#s" + r.score + (r.days == null ? "" : "-d" + r.days);
   }
   function shareText() {
     var r = window.__result;
-    return "I could last " + daysLabel(r.days) + (r.days === 1 ? " day" : " days") + " on my own. PrepScore " + r.score + "/100: " + r.tier.name + ". How long would you last?";
+    if (r.days == null) return "My PrepScore is " + r.score + "/100: " + r.tier.name + ". How prepared are you?";
+    return "I have " + daysLabel(r.days) + " " + dayWord(r.days) + " of water and food stored. PrepScore " + r.score + "/100: " + r.tier.name + ". How long would you last?";
   }
   function status(msg) { var s = $("#share-status"); if (s) s.textContent = msg; }
 

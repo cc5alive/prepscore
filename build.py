@@ -210,7 +210,7 @@ def tag_example(root):
     t = TIERS[2]
     return f"""<figure class="tag" aria-label="Example PrepScore result" style="margin:0">
 <div class="tag-top"><span>PrepScore manifest</span><span class="tier-chip" style="--tier:{t['color']};color:{t['text']}">{t['name']}</span></div>
-<div class="tag-body"><div class="tag-days">11<small>days on your own</small></div>
+<div class="tag-body"><div class="tag-days">11<small>days of supplies</small></div>
 <div class="tag-score"><b>58</b><span>PrepScore / 100</span></div>
 <div class="tag-tier">{t['name']}</div><p class="tag-line">{t['line']}</p></div>
 <ul class="manifest">{man}</ul><div class="hazard"></div>
@@ -338,11 +338,13 @@ def build_quiz():
 <aside class="quiz-side" aria-label="Your result" id="result">
 <div class="tag" style="margin-top:2rem">
 <div class="tag-top"><span data-out="loc">Suburbs</span><span class="tier-chip">Sitting Duck</span></div>
-<div class="tag-body" aria-live="polite"><div class="tag-days"><span data-out="days">0</span><small data-out="dayword">days on your own</small></div>
+<div class="tag-body" aria-live="polite"><div class="tag-days"><span data-out="days">?</span><small data-out="dayword">days of supplies</small></div>
 <div class="tag-score"><b data-out="score">0</b><span>PrepScore / 100</span></div>
-<div class="tag-tier" data-out="tier">Sitting Duck</div><p class="tag-line" data-out="line"></p></div>
+<div class="tag-tier" data-out="tier">Sitting Duck</div><p class="tag-line" data-out="line"></p>
+<p class="tag-limits" data-out="limits">Answer the water and food questions to see how long your supplies last.</p></div>
 <ul class="manifest">{man}</ul><div class="hazard"></div>
 </div>
+<details class="how-scored"><summary>How this is calculated</summary><p><b>Days of supplies</b> is the shorter of your stored drinking water and your no-cook food. Water you can drain from a water heater counts; a filter doesn't, because it needs a water source. <b>The PrepScore</b> is the share of the checklist you have, with each item weighted for where you live (water and earthquake prep count more in earthquake country, for example). Your answers stay in your browser.</p></details>
 <div style="margin-top:1.75rem"><h3>Your 2-week targets</h3>
 <div class="targets" style="margin-top:.6rem"><div><b id="t-water">28 gal</b><span>water</span></div><div><b id="t-food">56k kcal</b><span>food</span></div><div><b id="t-bags">56</b><span>toilet bags</span></div></div></div>
 <div style="margin-top:1.75rem"><h3>Fix these first</h3><p style="margin:.2rem 0 .6rem;color:var(--muted);font-size:.92rem">Your biggest gaps, ranked by how much each one would raise your score. Tick it off above once it's handled.</p><ul class="gaps" id="gaps"></ul><p class="aff" style="margin-top:.6rem">Buy links are affiliate links. {AMAZON_LINE}</p></div>
@@ -396,7 +398,7 @@ def build_scores():
 <p style="margin-top:1.75rem"><a class="btn" href="{root}quiz.html">How long would you last?</a></p></div>
 <figure class="tag" style="margin:0">
 <div class="tag-top"><span>PrepScore manifest</span><span class="tier-chip" style="--tier:{t['color']};color:{t['text']}">{e(t['name'])}</span></div>
-<div class="tag-body"><div class="tag-days"><span id="d">?</span><small>days on their own</small></div>
+<div class="tag-body"><div class="tag-days"><span id="d">?</span><small>days of supplies</small></div>
 <div class="tag-score"><b id="s">{t['min']}+</b><span>PrepScore / 100</span></div>
 <div class="tag-tier">{e(t['name'])}</div><p class="tag-line">Score range {t['min']} to {t['max']}</p></div><div class="hazard"></div></figure>
 </div></div>
@@ -408,7 +410,7 @@ def build_scores():
 <li><a href="{root}guides/sanitation.html">An emergency toilet</a></li></ul></div>
 </div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>
-<script>(function(){{var m=(location.hash||"").match(/s(\\d+)-d(\\d+)/);if(!m)return;var s=+m[1],d=+m[2];document.getElementById("s").textContent=s;document.getElementById("d").textContent=d>=90?"90+":d;document.getElementById("who").textContent="Someone scored "+s+" and could last about "+(d>=90?"90+":d)+(d===1?" day":" days")+" on their own.";}})();</script>"""
+<script>(function(){{var m=(location.hash||"").match(/s(\\d+)(?:-d(\\d+))?/);if(!m)return;var s=+m[1];document.getElementById("s").textContent=s;if(m[2]==null){{document.getElementById("who").textContent="Someone scored "+s+".";return;}}var d=+m[2];document.getElementById("d").textContent=d>=90?"90+":d;document.getElementById("who").textContent="Someone scored "+s+" and has about "+(d>=90?"90+":d)+(d===1?" day":" days")+" of water and food stored.";}})();</script>"""
         add(f"score/{t['slug']}.html", shell(path=f"/score/{t['slug']}", title=f"I'm {t['name']} on PrepScore. How long would you last?",
                                            desc=f"{t['line']} Take the free 3-minute preparedness quiz and see how many days you could last on your own.",
                                            body=body, root=root, og=f"tier-{t['slug']}", canon=f"/score/{t['slug']}", noindex=True), None, None)
@@ -581,9 +583,9 @@ def build_guides():
         for label, name in QUICK.get(g["slug"], []):
             p = PK[name]
             quick += (f'<li><span class="qp-label">{e(label)}</span><div class="qp-main"><a class="qp-name" href="#pick-{slugify(name)}">{e(name)}</a>'
-                      f'<span class="qp-why">{e(p["why"])}</span></div><div class="qp-buy"><span class="price">{e(p["price"])}</span>{buy_btn(p, True)}</div></li>')
+                      f'<span class="qp-why">{e(p["why"])}</span></div><div class="qp-buy"><span class="price">{band(p["price"])}</span>{buy_btn(p, True)}</div></li>')
         quick_html = (f'<section class="quickpicks" id="quick-picks" aria-labelledby="qp-h"><h2 id="qp-h">Quick picks</h2>'
-                      f'<ul>{quick}</ul><p class="aff">Prices are typical ranges. Buy links are affiliate links; {AMAZON_LINE[0].lower() + AMAZON_LINE[1:]} '
+                      f'<ul>{quick}</ul><p class="aff">{BAND_NOTE} Buy links are affiliate links; {AMAZON_LINE[0].lower() + AMAZON_LINE[1:]} '
                       f'<a href="{root}disclosure.html">Disclosure</a></p></section>') if quick else ""
         picks = ""
         for tier in ("start", "step", "deep"):
@@ -595,7 +597,7 @@ def build_guides():
             for p in ps:
                 picks += f"""<article class="pick" id="pick-{slugify(p['name'])}"><div><h3>{e(p['name'])}</h3>
 <dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
-<div class="buy"><span class="price">{e(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy_btn(p)}</div></article>"""
+<div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy_btn(p)}</div></article>"""
         choose = "".join(f"<li>{e(x)}</li>" for x in g["choose"])
         mistakes = "".join(f"<li>{e(x)}</li>" for x in g["mistakes"])
         faqs = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in g["faqs"])
@@ -672,12 +674,31 @@ def build_guides():
 # ---------------------------------------------------------------------------
 # Simple 3-day kit
 # ---------------------------------------------------------------------------
+
+# Price bands instead of prices: Amazon only allows prices pulled live from its API, so next to
+# retailer links we show a rough band, never a specific or recorded price.
+BAND_RANGES = ["under $25", "$25 to $100", "$100 to $300", "over $300"]
+BAND_NOTE = ("Price bands: $ under $25, $$ $25 to $100, $$$ $100 to $300, $$$$ over $300. "
+             "They're a rough guide, not current prices. Check the retailer for today's price.")
+
+
+def band(text):
+    """'$90 to $120 for 4' -> $$$ band markup. Text with no dollar amount (Free, Varies) passes through."""
+    nums = [float(x.replace(",", "")) for x in re.findall(r"\$\s?([\d,]+(?:\.\d+)?)", text)]
+    if not nums:
+        return e(text)
+    v = (nums[0] + nums[1]) / 2 if len(nums) > 1 else nums[0]
+    n = 4 if v >= 300 else 3 if v >= 100 else 2 if v >= 25 else 1
+    return (f'<span class="band"><span aria-hidden="true"><b>{"$" * n}</b><i>{"$" * (4 - n)}</i></span>'
+            f'<span class="sr">Price band: {BAND_RANGES[n - 1]}</span></span>')
+
+
 def kit_buy(prod, label="Check price"):
     name, asin, price = prod[0], prod[1], prod[2]
     url = f"https://www.amazon.com/dp/{asin}?tag={SITE['amazon_tag']}"
     return (f'<div class="kit-prod"><div><span class="kit-pick">Our pick</span><b>{e(name)}</b>'
             f'{f"<span class=kit-note>{e(prod[3])}</span>" if len(prod) > 3 and prod[3] else ""}</div>'
-            f'<div class="kit-buy"><span class="price">{e(price)}</span>'
+            f'<div class="kit-buy"><span class="price">{band(price)}</span>'
             f'<a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{label}</a></div></div>')
 
 
@@ -690,7 +711,7 @@ def build_kit():
         if k.get("also"):
             a = k["also"]
             url = f"https://www.amazon.com/dp/{a[1]}?tag={SITE['amazon_tag']}"
-            also = f'<p class="kit-also">Plus: <a href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{e(a[0])}</a> ({e(a[2])})</p>'
+            also = f'<p class="kit-also">Plus: <a href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{e(a[0])}</a> ({band(a[2])})</p>'
         items += f"""<li class="kit-item" id="kit-{k['id']}"><div class="kit-head"><h3>{e(k['name'])}</h3><span class="kit-amt">{e(k['amount'])}</span></div>
 <p>{e(k['why'])}</p><p class="kit-tip">{e(k['tip'])}</p>{prod}{also}
 <a class="kit-more" href="guides/{k['guide']}.html">More on {e(GD[k['guide']]['short'].lower())}</a></li>"""
@@ -720,12 +741,12 @@ def build_kit():
 </dl></div></div>
 <section class="section"><div class="wrap two-col">
 <div class="stack-l">
-<p class="disclose">Product links on this page are affiliate links. {AMAZON_LINE} Commissions never decide what we recommend. <a href="{root}disclosure.html">How we pick</a>.</p>
+<p class="disclose">Product links on this page are affiliate links. {AMAZON_LINE} Commissions never decide what we recommend. <a href="{root}disclosure.html">How we pick</a>. {BAND_NOTE}</p>
 <h2>The 11 essentials</h2>
 <ol class="kit-list">{items}</ol>
 <div class="kit-premade"><h3>Short on time? Start with a pre-made kit</h3>
 <p>A ready-made backpack gets you water pouches, a food bar, a light stick and a small first-aid kit in one click. Pre-made kits are a fast start but usually skimp on water, food and medications, so use one as a base and add the items above, starting with a real headlamp, radio and power bank.</p>
-<div class="kit-buy"><b>{e(pm[0])}</b><span class="price">{e(pm[2])}</span><a class="btn sm" href="{e(pm_url)}" target="_blank" rel="sponsored nofollow noopener">Check price</a></div></div>
+<div class="kit-buy"><b>{e(pm[0])}</b><span class="price">{band(pm[2])}</span><a class="btn sm" href="{e(pm_url)}" target="_blank" rel="sponsored nofollow noopener">Check price</a></div></div>
 </div>
 <aside class="stack-l"><div class="aside"><h3>Keep it working</h3><ul class="plain-list small">
 <li>Store it all in one bin or bag by the door or in a hall closet.</li>
@@ -916,7 +937,7 @@ def build_library():
             allbooks.append((name, author))
             rows += f"""<article class="pick"><div><h3>{e(name)}</h3><p class="muted" style="margin-top:.2rem">{e(author)}</p>
 <dl class="facts"><dt>Best for</dt><dd>{e(best)}</dd><dt>Why</dt><dd>{e(why)}</dd></dl></div>
-<div class="buy"><span class="price">{e(price)}</span>{aff_btn(asin, "See it on Amazon")}<span class="aff">Affiliate link</span></div></article>"""
+<div class="buy"><span class="price">{band(price)}</span>{aff_btn(asin, "See it on Amazon")}<span class="aff">Affiliate link</span></div></article>"""
         books_html += f'<div class="lb-sub" id="{sid}"><h3 class="lb-h">{e(title)}</h3>{rows}</div>'
     tips = "".join(f"<li>{e(t)}</li>" for t in L.PRINT_TIPS)
     toc = [("free-guides", "Free printable guides")] + [(s[0], s[1]) for s in L.PDF_SECTIONS] + [("books", "Books")]
@@ -931,7 +952,7 @@ def build_library():
 <aside class="stack-l"><div class="aside"><h3>Also print</h3><ul><li><a href="72-hour-kit.html#checklist">The PrepScore 3-day kit checklist</a></li><li><a href="guides/go-bag.html#checklist">The go-bag checklist</a></li><li><a href="city/index.html">Your city's alert sign-ups</a></li></ul></div></aside></div></section>
 <section class="section" id="free-guides"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Free printable guides</h2><p>Official and nonprofit guides, free from the people who wrote them. We link to the source, not to copies.</p></div></div>
 {pdf_html}</div></section>
-<section class="section" id="books"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The best prepper and survival books</h2><p>Books for the skills and judgment that checklists can't teach. Prices are typical for the paperback.</p></div></div>
+<section class="section" id="books"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The best prepper and survival books</h2><p>Books for the skills and judgment that checklists can't teach. {BAND_NOTE}</p></div></div>
 {DISCLOSE(root)}{books_html}</div></section>
 <section class="section"><div class="wrap two-col"><div class="stack-l read"><h2>More to read online</h2>
 <p>For websites, apps and classes, see <a href="resources.html">the best prep resources beyond PrepScore</a>.</p></div><div></div></div></section>
@@ -965,7 +986,7 @@ def build_blackfriday():
         badge = f'<span class="bf-num">{num}</span>' if num else ""
         return (f'<article class="bf-card">{badge}<h3>{e(name)}</h3><p class="bf-why">{e(why)}</p>'
                 f'<p class="bf-best">Best for: {e(best)}{more}</p>'
-                f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price we saw {e(B.CHECKED.split(",")[0])}</span><b>{e(price)}</b></div>'
+                f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price band</span><b>{band(price)}</b></div>'
                 f'<div class="bf-cta">{aff_btn(asin, "See today\'s price")}<span class="aff">Affiliate link</span></div></div></article>')
 
     ess = "".join(card(p, i + 1) for i, p in enumerate(B.ESSENTIALS))
@@ -975,7 +996,7 @@ def build_blackfriday():
     tips = "".join(f"<li><b>{e(a)}</b> {e(c)}</li>" for a, c in B.TIPS)
     dates = "".join(f'<div><dt>{e(a)}</dt><dd>{e(c)}</dd></div>' for a, c in B.DATES)
     faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in B.FAQS)
-    toc = [("essentials", "Essentials"), ("big-ticket", "Worth waiting for"), ("gifts", "Gifts under $50")] + [(s[0], s[1]) for s in B.CATEGORIES] + [("faq", "Questions")]
+    toc = [("essentials", "Essentials"), ("big-ticket", "Worth waiting for"), ("gifts", "Small gifts")] + [(s[0], s[1]) for s in B.CATEGORIES] + [("faq", "Questions")]
     toc_html = '<nav class="toc" aria-label="On this page"><span>Jump to</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
     cr = [("Home", "/"), ("Black Friday", "/black-friday")]
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
@@ -990,13 +1011,13 @@ def build_blackfriday():
 <div class="bf-grid">{ess}</div></div></section>
 <section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p></div></div>
 <div class="bf-grid">{big}</div></div></section>
-<section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Prep gifts under $50</h2><p>Useful gifts for the person who has everything except a plan.</p></div></div>
+<section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Small prep gifts</h2><p>Inexpensive, useful gifts for the person who has everything except a plan.</p></div></div>
 <div class="bf-grid">{gifts}</div></div></section>
 <section class="section"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>More picks by category</h2><p>The rest of our recommended gear, each from one of our free guides.</p></div></div>
 {cats}</div></section>
 <section class="section"><div class="wrap two-col"><div class="stack-l">
 <h2 id="faq">Questions</h2><div class="faq">{faq_html}</div>
-<p class="muted small read">Prices change constantly and may be different when you click. We recorded each price on {e(B.CHECKED)}. {AMAZON_LINE}</p></div><div></div></div></section>
+<p class="muted small read">{BAND_NOTE} {AMAZON_LINE}</p></div><div></div></div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
     allp = [p for p in B.ESSENTIALS + B.BIG_TICKET + B.GIFTS] + [p for _, _, items in B.CATEGORIES for p in items]
     j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": B.TITLE, "description": B.META, "url": SITE["url"] + "/black-friday",
@@ -1084,7 +1105,7 @@ def build_misc():
 <ul class="plain-list">
 <li>Each guide shows the month it was last reviewed. We re-check guides at least once a year and after major changes in official guidance.</li>
 <li>City alert links are re-checked at least yearly, because cities change their notification systems.</li>
-<li>Prices are typical ranges, not live prices. Check the retailer before you buy.</li>
+<li>Next to retailer links we show a price band ($ to $$$$), not a price. Bands are a rough guide; check the retailer for today's price.</li>
 <li>When we find a mistake, we fix it and update the review date.</li>
 </ul>
 <h2 style="margin-top:2rem">How we make money</h2>
@@ -1176,7 +1197,7 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
-    card("black-friday", "Black Friday 2026", "Prep gear worth buying", "The essentials to get first, big-ticket items worth waiting for, and the price we saw before the sales.", bigfont="display")
+    card("black-friday", "Black Friday 2026", "Prep gear worth buying", "The essentials to get first, big-ticket items worth waiting for, and how to spot a real deal.", bigfont="display")
     card("library", "The prepper's library", "Print it before you need it", "Free survival guides from FEMA, the CDC, the Army and Hesperian, plus the best prepper books.", bigfont="display")
     card("resources", "Beyond PrepScore", "The best prep resources", "Ready.gov, Wirecutter, Watch Duty, Stop the Bleed and more, with what each one is best for.", bigfont="display")
     card("guide-pool-water", "Water deep dive", "Drinking pool water", "Chlorine and saltwater pools: why a filter isn't enough, and what makes it drinkable.", bigfont="display")

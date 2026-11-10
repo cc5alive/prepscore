@@ -1,18 +1,19 @@
 """Content for /black-friday: prep gear worth buying on sale, all linked to specific, verified Amazon products."""
 
-CHECKED = "November 1, 2026"   # the date the "price we saw" figures were recorded
+CHECKED = "November 1, 2026"   # the date products were last checked as available
+# Prices are shown only as bands ($ to $$$$); Amazon only allows prices pulled live from its API.
 TITLE = "Black Friday Emergency Prep Deals 2026: Gear Worth Buying"
 META = ("The emergency gear worth buying on Black Friday and Cyber Monday 2026: the essentials to get first, big-ticket items "
-        "worth waiting for, gifts under $50, and the price we saw so you can spot a real deal.")
+        "worth waiting for, small gifts, and how to tell a real deal from a fake one.")
 H1 = "Black Friday prep gear worth buying"
-DEK = ("Sales are a good time to fill the gaps in your kit. Here's what to buy first, what's worth waiting for, and the price "
-       "we saw on each item before the sales, so you can tell a real deal from a fake one.")
+DEK = ("Sales are a good time to fill the gaps in your kit. Here's what to buy first, what's worth waiting for, and how to "
+       "tell a real deal from a fake one.")
 
-DATES = [("Black Friday", "Fri, Nov 27"), ("Cyber Monday", "Mon, Nov 30"), ("Prices checked", "Nov 1")]
+DATES = [("Black Friday", "Fri, Nov 27"), ("Cyber Monday", "Mon, Nov 30"), ("Picks checked", "Nov 1")]
 
 TIPS = [
     ("Buy the essentials first.", "A power station on sale won't help if you have no water. Work down the list in order."),
-    ("Compare with the price we saw.", "Each item shows its price on " + CHECKED + ". If the sale price is lower, it's a real discount. Price-history tools like Keepa or camelcamelcamel show whether it's a true low."),
+    ("Check the price history.", "A big “was” price doesn't mean much. Free price-history tools like Keepa or camelcamelcamel show whether a sale price is a true low or the usual price dressed up."),
     ("Check who's selling it.", "Look for “ships from and sold by Amazon” or the brand's own store, especially for first-aid and safety gear."),
     ("Skip padded survival bundles.", "Many kits inflate their item counts with filler. Buying the pieces below usually gets you better gear."),
 ]
@@ -22,7 +23,7 @@ ESSENTIALS = [
     ("Saratoga Farms 5-gallon stackable water containers, 4-pack", "B092FYPZ55", "$119.98",
      "20 gallons in one closet corner: about 10 days of drinking water for two people.", "Every home", "water"),
     ("Sawyer Squeeze water filter", "B00B1OSU4W", "$45.95",
-     "Turns a creek, lake or rain barrel into drinking water once your stored water runs out.", "Backup water and go-bags", "water"),
+     "Makes creek, lake or rain-barrel water safe from bacteria and parasites once your stored water runs out.", "Backup water and go-bags", "water"),
     ("Anker SOLIX C1000 power station (1,056 Wh)", "B0C5C89QKZ", "$499.99",
      "Quiet, indoor-safe power for phones, lights, a CPAP or a fridge for hours. Power stations are often among the biggest Black Friday discounts.", "Outages and medical devices", "power"),
     ("Anker 20,000 mAh power bank", "B0CXDXP8VR", "$59.99",
@@ -117,6 +118,6 @@ CATEGORIES = [
 FAQS = [
     ("When is Black Friday 2026?", "Black Friday is Friday, November 27, 2026, and Cyber Monday is Monday, November 30. Many retailers, including Amazon, usually start deals earlier in the week."),
     ("What prep gear is worth buying on Black Friday?", "Electronics like portable power stations, power banks, headlamps and radios have often been heavily discounted in past years. Water containers and food go on sale less often, so don't wait on those if you have nothing stored."),
-    ("How do I know if a Black Friday deal is real?", "Compare the sale price with the price we saw on " + CHECKED + ", shown on every item here. Price-history tools such as Keepa or camelcamelcamel show whether a sale price is actually low."),
+    ("How do I know if a Black Friday deal is real?", "Look up the item's price history before you buy. Free tools such as Keepa or camelcamelcamel show what it has sold for over the past months, so you can see whether a sale price is actually low."),
     ("Do you earn money from these links?", "Yes. These are Amazon affiliate links, so we may earn a commission at no extra cost to you. Commissions never decide what we recommend, and every item here is one we recommend in our free guides."),
 ]

@@ -4,16 +4,16 @@
   "date": "2026-11-01"
  },
  "72-hour-kit.html": {
-  "hash": "7907650afd847820",
+  "hash": "25c493a5e7c0e56a",
   "date": "2026-11-09"
  },
  "about.html": {
-  "hash": "c21479ed1a4bfebe",
+  "hash": "897599d724f26936",
   "date": "2026-11-09"
  },
  "black-friday.html": {
-  "hash": "5dce9f4a49e8fccf",
-  "date": "2026-11-01"
+  "hash": "aac849af1b385716",
+  "date": "2026-11-09"
  },
  "city/albuquerque.html": {
   "hash": "6dbaed97c1e72dde",
@@ -200,19 +200,19 @@
   "date": "2026-10-30"
  },
  "guides/car.html": {
-  "hash": "3ce30343a1907cdd",
+  "hash": "5e1dfca819b696e6",
   "date": "2026-11-09"
  },
  "guides/first-aid.html": {
-  "hash": "c0d37adc1aee0277",
+  "hash": "f01451c963f5efb2",
   "date": "2026-11-09"
  },
  "guides/food.html": {
-  "hash": "08bb8f2c56c8d7e8",
+  "hash": "90c09977426819b7",
   "date": "2026-11-09"
  },
  "guides/go-bag.html": {
-  "hash": "135dca7fb5dabf54",
+  "hash": "127c8d6706128ffd",
   "date": "2026-11-09"
  },
  "guides/index.html": {
@@ -220,11 +220,11 @@
   "date": "2026-11-09"
  },
  "guides/light-heat.html": {
-  "hash": "165a931672e4574f",
+  "hash": "d690141ba336de6c",
   "date": "2026-11-09"
  },
  "guides/pets.html": {
-  "hash": "9d72e5efe0c989a2",
+  "hash": "c87d19e384ea2950",
   "date": "2026-11-09"
  },
  "guides/pool-water.html": {
@@ -232,31 +232,31 @@
   "date": "2026-11-09"
  },
  "guides/power.html": {
-  "hash": "9c079b1cca4e6892",
+  "hash": "66661a453a22bd94",
   "date": "2026-11-09"
  },
  "guides/radios.html": {
-  "hash": "dbca66c96f00402b",
+  "hash": "e2a76a76f1ff3f09",
   "date": "2026-11-09"
  },
  "guides/sanitation.html": {
-  "hash": "0c145f622754850e",
+  "hash": "e1a0e57a04635d3a",
   "date": "2026-11-09"
  },
  "guides/water.html": {
-  "hash": "e8fe82b8b76d803f",
+  "hash": "97486e5896a794da",
   "date": "2026-11-09"
  },
  "index.html": {
-  "hash": "01ba160bcf729f13",
-  "date": "2026-11-01"
+  "hash": "ce8cb4f338eb4572",
+  "date": "2026-11-09"
  },
  "library.html": {
-  "hash": "1877b848387cee41",
-  "date": "2026-10-30"
+  "hash": "1953ab5e06f218dc",
+  "date": "2026-11-09"
  },
  "quiz.html": {
-  "hash": "2e9e71a8c6055180",
+  "hash": "5775b6264a0ea536",
   "date": "2026-11-09"
  },
  "resources.html": {
@@ -264,32 +264,32 @@
   "date": "2026-10-30"
  },
  "scenarios.html": {
-  "hash": "9e23502787e8afb0",
-  "date": "2026-11-01"
+  "hash": "ddcc277ad2fddda1",
+  "date": "2026-11-09"
  },
  "score/neighborhood-anchor.html": {
-  "hash": "80969ed9671f30de",
-  "date": "2026-10-30"
+  "hash": "2114ce11e72b694e",
+  "date": "2026-11-09"
  },
  "score/self-reliant.html": {
-  "hash": "f1a13ea39622dc20",
-  "date": "2026-10-30"
+  "hash": "444cd4cb1afa7a1d",
+  "date": "2026-11-09"
  },
  "score/sitting-duck.html": {
-  "hash": "f0f7ae9c53abed86",
-  "date": "2026-10-30"
+  "hash": "6af68797bb735669",
+  "date": "2026-11-09"
  },
  "score/snack-drawer.html": {
-  "hash": "fee63bf3f5dbeb21",
-  "date": "2026-10-30"
+  "hash": "2dfa83efe544e821",
+  "date": "2026-11-09"
  },
  "score/squared-away.html": {
-  "hash": "62edd53ba9dced95",
-  "date": "2026-10-30"
+  "hash": "7f7b39563258e1fb",
+  "date": "2026-11-09"
  },
  "score/weekend-ready.html": {
-  "hash": "6d7574bc9114744c",
-  "date": "2026-10-30"
+  "hash": "ee1cd9e0839ff1c3",
+  "date": "2026-11-09"
  },
  "where/city-apartment.html": {
   "hash": "2b45ac9213ab08a7",
