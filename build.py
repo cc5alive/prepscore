@@ -141,7 +141,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
 <div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
-{''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}{BEACON}"""
+{''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}<script defer src="{root}{asset("track.js")}"></script>{BEACON}"""
     return head, page, body_attr
 
 
@@ -180,6 +180,7 @@ def write(rel, parts, artifact=False):
     else:
         doc = f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n{head}\n</head>\n<body{body_attr}>\n{page}\n</body>\n</html>\n'
         doc = clean_links(doc, rel)
+        doc = section_tag(doc, rel)
     with open(out, "w", encoding="utf-8") as f:
         f.write(doc)
     if not artifact:
@@ -187,10 +188,28 @@ def write(rel, parts, artifact=False):
         HASHES[rel] = content_hash(m.group(1) if m else doc)
 
 
+# Separate Amazon tracking IDs per section, so Associates reports show which part of the site earns.
+SECTION_TAGS = [("quiz.html", "prepscorequiz-20"), ("guides/", "prepscoreguides-20"),
+                ("black-friday.html", "prepscorebf-20"), ("72-hour-kit.html", "prepscorekit-20")]
+
+
+def tag_for(rel):
+    for prefix, tag in SECTION_TAGS:
+        if rel == prefix or (prefix.endswith("/") and rel.startswith(prefix)):
+            return tag
+    return SITE["amazon_tag"]
+
+
+def section_tag(doc, rel):
+    t = tag_for(rel)
+    return doc if t == SITE["amazon_tag"] else doc.replace("tag=" + SITE["amazon_tag"], "tag=" + t)
+
+
 def content_hash(main_html):
     """Hash a page's main content, ignoring "Month YYYY" review stamps and asset version strings."""
     t = re.sub(r"(January|February|March|April|May|June|July|August|September|October|November|December) \d{4}", "", main_html)
     t = re.sub(r"\?v=[0-9a-f]+", "", t)
+    t = re.sub(r"tag=[a-z0-9-]+-20", "tag=", t)
     return hashlib.sha1(t.encode()).hexdigest()[:16]
 
 
@@ -389,7 +408,7 @@ def build_quiz():
             "locations": [{"slug": l["slug"], "name": l["name"], "mult": l["mult"], "item": l["item"]} for l in LOCATIONS],
             "site": {"url": SITE["url"], "host": HOST}}
     with open(os.path.join(HERE, "src", "data.js"), "w") as f:
-        f.write("window.PREP=" + json.dumps(data, separators=(",", ":")) + ";")
+        f.write(("window.PREP=" + json.dumps(data, separators=(",", ":")) + ";").replace("tag=" + SITE["amazon_tag"], "tag=" + tag_for("quiz.html")))
     j = [{"@context": "https://schema.org", "@type": "WebApplication", "name": "PrepScore preparedness quiz",
           "url": SITE["url"] + "/quiz", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any",
           "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
@@ -1273,6 +1292,8 @@ def build_misc():
 <p>The PrepScore quiz runs entirely in your browser. Your answers, household size and location type are saved in your browser's local storage so they're there when you come back. They're never sent to us or anyone else. Use <b>Clear my answers</b> on the quiz, or clear your browser's site data, to delete them.</p>
 <p>The share card is drawn in your browser too. Nothing is shared unless you choose a share button, and then only your score, tier and days of supplies go to the service you picked (X, Facebook, Reddit or WhatsApp), under that service's privacy policy.</p>
 {analytics_html}
+<h2 style="margin-top:2rem">Counting clicks on retailer links</h2>
+<p>When you click a link to a retailer such as Amazon, the site records which page you were on, which product and which button, with the date. It doesn't record your IP address, browser or anything that identifies you, and it uses no cookies. We use the totals to learn which guides are useful.</p>
 <h2 style="margin-top:2rem">Hosting and fonts</h2>
 <p>The site is hosted by Cloudflare. Like any web host, Cloudflare processes basic request data, such as your IP address and browser, to deliver pages and protect the site from attacks, under <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare's privacy policy</a>.</p>
 <p>Our fonts load from Google Fonts, so Google receives your IP address and browser details when a page loads, under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.</p>
@@ -1468,7 +1489,7 @@ if __name__ == "__main__":
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
     build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_la_renters(); build_scenarios(); build_misc()
-    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js"):
+    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
         write(rel, parts)

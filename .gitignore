@@ -4,3 +4,5 @@ src/data.js
 __pycache__/
 *.zip
 .DS_Store
+.wrangler/
+node_modules/
