@@ -118,7 +118,8 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <meta name="twitter:card" content="summary_large_image">{f'<meta name="twitter:site" content="{SITE["twitter"]}">' if SITE['twitter'] else ''}
 {'<meta name="robots" content="noindex, follow">' if noindex else ''}
 <meta name="theme-color" content="#ECEFE8">
-<link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="{root}{asset('site.css')}">
@@ -138,9 +139,9 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
-{''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}"""
+{''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}{BEACON}"""
     return head, page, body_attr
 
 
@@ -237,6 +238,11 @@ def cta_quiz(root, loc=None):
 <p>Check off what you have. Get a score, your top gaps and a card to share. About 3 minutes, no sign-up.</p></div>
 <a class="btn" href="{root}quiz.html">Get your PrepScore</a></div>"""
 
+
+# Cloudflare Web Analytics: cookieless, no consent banner needed. Set SITE["cf_beacon"] to the site token to turn it on.
+BEACON = (f'\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{SITE["cf_beacon"]}"}}\'></script>'
+          if SITE.get("cf_beacon") else "")
+PRIVACY_UPDATED = "November 9, 2026"
 
 DISCLOSE = lambda root: f'<p class="disclose">Some links on this page are affiliate links, marked <b>Affiliate</b>. If you buy through them we may earn a commission at no extra cost to you. {AMAZON_LINE} Commissions never decide what we recommend, and we include free options where they exist. <a href="{root}disclosure.html">How we pick and make money</a>.</p>'
 
@@ -1075,12 +1081,46 @@ def build_misc():
 <p>We start from what you need in a real emergency, then look for gear that does that job reliably at three budgets. We favor items with long track records, independent certifications where they exist (NIOSH for respirators, NSF/ANSI or EPA registration for water treatment), and makers who publish real specs.</p>
 <p>Whenever a free or cheap option works, like a Stop the Bleed class or a bathtub full of water, we say so first.</p>
 <h2 style="margin-top:2rem">Your quiz answers</h2>
-<p>The PrepScore quiz runs entirely in your browser. Your answers are saved on your device so you can come back to them. We don't send them anywhere.</p>
+<p>The PrepScore quiz runs entirely in your browser. Your answers are saved on your device so you can come back to them. We don't send them anywhere. See our <a href="{root}privacy.html">privacy policy</a>.</p>
 <h2 style="margin-top:2rem">Not professional advice</h2>
 <p>This site is general information. It isn't medical, legal or safety-engineering advice. Follow the instructions of local officials during an emergency, and follow every product's safety labels, especially for generators, heaters and stoves.</p>
 </div></section>"""
     add("disclosure.html", shell(path="/disclosure", title="Affiliate Disclosure and How We Pick Gear", desc=f"How {SITE['name']} makes money, how we choose gear, and how we handle your quiz answers.",
                                  body=body, root=root, og="default", canon="/disclosure"), "/disclosure", "0.3")
+
+    # Privacy policy
+    analytics_on = bool(SITE.get("cf_beacon"))
+    analytics_html = ("""<h2 style="margin-top:2rem">Analytics</h2>
+<p>We use <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a> to count visits. It doesn't use cookies, doesn't fingerprint your device and doesn't track you across sites. We see totals: which pages were viewed, where visitors came from (the referring site), country, browser and device type, and how fast pages loaded. We can't see who you are.</p>"""
+        if analytics_on else
+        """<h2 style="margin-top:2rem">Analytics</h2>
+<p>We don't run analytics or tracking scripts. If we add analytics, we'll use a cookieless, privacy-focused tool and update this page first.</p>""")
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html([("Home", "/"), ("Privacy", "/privacy")], root)}
+<h1>Privacy policy</h1><p class="dek">Short version: no accounts, no forms, no ads, no cookies of our own. Your quiz answers never leave your device.</p>
+<p class="muted small" style="margin-top:1rem">Last updated {PRIVACY_UPDATED}</p></div></div>
+<section class="section"><div class="wrap stack read">
+<h2>What we collect</h2>
+<p>Very little. {SITE['name']} has no sign-up, no email list, no comment forms and no ads. We don't ask for your name, email or address, and we don't set cookies of our own.</p>
+<h2 style="margin-top:2rem">Your quiz answers stay on your device</h2>
+<p>The PrepScore quiz runs entirely in your browser. Your answers, household size and location type are saved in your browser's local storage so they're there when you come back. They're never sent to us or anyone else. Use <b>Clear my answers</b> on the quiz, or clear your browser's site data, to delete them.</p>
+<p>The share card is drawn in your browser too. Nothing is shared unless you choose a share button, and then only your score, tier and days of supplies go to the service you picked (X, Facebook, Reddit or WhatsApp), under that service's privacy policy.</p>
+{analytics_html}
+<h2 style="margin-top:2rem">Hosting and fonts</h2>
+<p>The site is hosted by Cloudflare. Like any web host, Cloudflare processes basic request data, such as your IP address and browser, to deliver pages and protect the site from attacks, under <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare's privacy policy</a>.</p>
+<p>Our fonts load from Google Fonts, so Google receives your IP address and browser details when a page loads, under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.</p>
+<h2 style="margin-top:2rem">Affiliate links</h2>
+<p>Links marked <b>Affiliate</b> go to retailers such as Amazon. When you click one, the retailer may set cookies on its own site to credit us for the referral. Their privacy policies apply once you're there. We never learn who you are or what you bought; retailers only report total sales and commissions to us. More on how we make money is on our <a href="{root}disclosure.html">disclosure page</a>.</p>
+<h2 style="margin-top:2rem">Links to other sites</h2>
+<p>We link to government agencies, nonprofits and other sites we trust. We're not responsible for their privacy practices, so check their policies too.</p>
+<h2 style="margin-top:2rem">Children</h2>
+<p>{SITE['name']} is for a general audience and isn't directed at children under 13. We don't knowingly collect information from children.</p>
+<h2 style="margin-top:2rem">Your choices and rights</h2>
+<p>Because we don't keep personal information tied to you, there's nothing for us to look up, correct or delete. We don't sell or share personal information. You can block cookies in your browser, clear your quiz answers at any time, and use a content blocker if you prefer.</p>
+<h2 style="margin-top:2rem">Changes and contact</h2>
+<p>If we change how the site handles data, we'll update this page and the date at the top before the change takes effect. Questions? Reach {SITE['name']}'s creator, CC Pearce, on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a> or through <a href="https://ccpearce.com" target="_blank" rel="noopener">ccpearce.com</a>.</p>
+</div></section>"""
+    add("privacy.html", shell(path="/privacy", title="Privacy Policy", desc=f"How {SITE['name']} handles your data: no accounts, no cookies of our own, and quiz answers that never leave your device.",
+                              body=body, root=root, og="default", canon="/privacy"), "/privacy", "0.3")
     # About and editorial standards
     allsrc = {}
     for lst in SOURCES.values():
@@ -1233,7 +1273,20 @@ def build_files():
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE['url']}/sitemap.xml\n")
     open(os.path.join(OUT, "_headers"), "w").write("/assets/*\n  Cache-Control: public, max-age=604800\n/og/*\n  Cache-Control: public, max-age=604800\n/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n")
     open(os.path.join(OUT, "_redirects"), "w").write("/score /quiz 302\n/how-prepared-am-i /quiz 301\n")
-    open(os.path.join(OUT, "assets", "favicon.svg"), "w").write(BRAND_SVG.replace('aria-hidden="true"', 'xmlns="http://www.w3.org/2000/svg"').replace("currentColor", "#142019"))
+    open(os.path.join(OUT, "assets", "favicon.svg"), "w").write(BRAND_SVG.replace('aria-hidden="true"', 'xmlns="http://www.w3.org/2000/svg"')
+                                                              .replace('fill="none" stroke="currentColor"', 'fill="#F7F8F3" stroke="currentColor"').replace("currentColor", "#142019"))
+    # Favicon set (rendered by tools/make_icons.py): /favicon.ico and /apple-touch-icon.png at the root, where browsers look for them
+    ICONS = os.path.join(HERE, "src", "icons")
+    os.makedirs(os.path.join(OUT, "assets", "icons"), exist_ok=True)
+    for f in os.listdir(ICONS):
+        shutil.copy(os.path.join(ICONS, f), os.path.join(OUT, f if f in ("favicon.ico", "apple-touch-icon.png") else os.path.join("assets", "icons", f)))
+    manifest = {"name": SITE["name"], "short_name": SITE["name"], "description": SITE["tagline"], "start_url": "/", "display": "standalone",
+                "background_color": "#ECEFE8", "theme_color": "#ECEFE8",
+                "icons": [{"src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+                          {"src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+                          {"src": "/assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
+    with open(os.path.join(OUT, "site.webmanifest"), "w") as f:
+        json.dump(manifest, f, indent=1)
 
 
 if __name__ == "__main__":

@@ -196,8 +196,8 @@
   "date": "2026-10-31"
  },
  "disclosure.html": {
-  "hash": "6c8b428aa9124d7f",
-  "date": "2026-10-30"
+  "hash": "9b8e4449d421ff69",
+  "date": "2026-11-09"
  },
  "guides/car.html": {
   "hash": "5e1dfca819b696e6",
@@ -253,6 +253,10 @@
  },
  "library.html": {
   "hash": "1953ab5e06f218dc",
+  "date": "2026-11-09"
+ },
+ "privacy.html": {
+  "hash": "bd4febf64efdcb61",
   "date": "2026-11-09"
  },
  "quiz.html": {
