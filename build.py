@@ -242,7 +242,7 @@ def cta_quiz(root, loc=None):
 # Cloudflare Web Analytics: cookieless, no consent banner needed. Set SITE["cf_beacon"] to the site token to turn it on.
 BEACON = (f'\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{SITE["cf_beacon"]}"}}\'></script>'
           if SITE.get("cf_beacon") else "")
-PRIVACY_UPDATED = "November 9, 2026"
+PRIVACY_UPDATED = "November 10, 2026"
 
 DISCLOSE = lambda root: f'<p class="disclose">Some links on this page are affiliate links, marked <b>Affiliate</b>. If you buy through them we may earn a commission at no extra cost to you. {AMAZON_LINE} Commissions never decide what we recommend, and we include free options where they exist. <a href="{root}disclosure.html">How we pick and make money</a>.</p>'
 
@@ -1097,7 +1097,7 @@ def build_misc():
                                  body=body, root=root, og="default", canon="/disclosure"), "/disclosure", "0.3")
 
     # Privacy policy
-    analytics_on = bool(SITE.get("cf_beacon"))
+    analytics_on = bool(SITE.get("cf_beacon") or SITE.get("cf_analytics_auto"))
     analytics_html = ("""<h2 style="margin-top:2rem">Analytics</h2>
 <p>We use <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a> to count visits. It doesn't use cookies, doesn't fingerprint your device and doesn't track you across sites. We see totals: which pages were viewed, where visitors came from (the referring site), country, browser and device type, and how fast pages loaded. We can't see who you are.</p>"""
         if analytics_on else
