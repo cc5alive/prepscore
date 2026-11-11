@@ -671,7 +671,8 @@ def build_guides():
 {quick_html}
 {toc_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
-{f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>.</p>' if g["slug"] == "water" else ""}
+{f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>. Short on space? See <a href="apartment-water-storage.html">how to store water in an apartment</a>.</p>' if g["slug"] == "water" else ""}
+{f'<p class="read">Driving in snow country? See <a href="stranded-in-car-winter.html">what to do if you\'re stuck in your car in a snowstorm</a>, with a printable winter checklist.</p>' if g["slug"] == "car" else ""}
 {f'<p class="read">For your household\'s calories and an example pantry list, use the <a href="{root}food-calculator.html">food storage calculator</a>.</p>' if g["slug"] == "food" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
 {f'<p class="read">To size a station for your own devices, use the <a href="{root}power-calculator.html">power station calculator</a>. Using a CPAP? See <a href="cpap-power-outage.html">nights per charge by setting and station size</a>.</p>' if g["slug"] == "power" else ""}
@@ -712,6 +713,8 @@ def build_guides():
 <p class="dek">What to buy, how much of it, and what to skip. Every guide has picks at three budgets and shows which emergencies each item matters for.</p></div></div>
 <section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: eleven essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul>
 <h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li>
+<li><a href="apartment-water-storage.html"><b>Water storage for apartments</b><span>How much you need, which containers fit small spaces, and where to put 200+ pounds of water.</span></a></li>
+<li><a href="stranded-in-car-winter.html"><b>Stuck in your car in a snowstorm</b><span>What to do from the first minute, how much gas idling uses, and the winter extras for your car kit.</span></a></li>
 <li><a href="cpap-power-outage.html"><b>CPAP in a power outage</b><span>How many nights a power station runs your CPAP by setting and size, what to buy, and how to set it up before an outage.</span></a></li></ul>
 <p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
@@ -1127,6 +1130,7 @@ def build_water_calc():
 <section class="section"><div class="wrap two-col"><div class="stack-l">
 <h2>Next steps</h2>
 <ul class="plain-list read"><li><a href="{root}guides/water.html">Water storage and filters guide</a>: containers that fit your space, filters and purification for when storage runs out.</li>
+<li><a href="{root}guides/apartment-water-storage.html">Storing water in an apartment</a>: which containers fit and where to put them.</li>
 <li><a href="{root}quiz.html">Get your PrepScore</a>: see where water ranks among your gaps and print a one-page plan.</li>
 <li><a href="{root}72-hour-kit.html">The simple 3-day kit</a>: the other ten essentials.</li></ul>
 <h2 id="faq" style="margin-top:2rem">Questions</h2><div class="faq">{faq_html}</div>
@@ -1389,6 +1393,94 @@ def build_food_calc():
                                       desc="How much emergency food should you store? Enter your household to get calories for 3 days, 2 weeks and a month, plus an example pantry list sized for you.",
                                       body=body, root=root, og="food-calc", canon="/food-calculator", jsonld=j, scripts=("food.js",)),
         "/food-calculator", "0.9")
+
+
+# ---------------------------------------------------------------------------
+# Buyer pages under guides/ built from a content module (apartment water, stranded in winter)
+# ---------------------------------------------------------------------------
+def build_buyer(M):
+    root = "../"
+    verdict = "".join(f"<li><b>{e(a)}</b> {e(b)}</li>" for a, b in M.VERDICT)
+
+    def pick(p):
+        url = buy_url(dict(p, q=p.get("q", "")))
+        target = p.get("asin_name") or (p["name"] if p.get("asin") else "Amazon search results")
+        note = f'<span class="link-to"><b>Our pick:</b> {e(target)}</span>' if target != p["name"] else ""
+        return f"""<article class="pick" id="pick-{slugify(p['name'])}"><div><h3>{e(p['name'])}</h3><dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
+<div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{note}
+<a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">Check price on Amazon</a><span class="aff">Affiliate link</span></div></article>"""
+    picks = "".join(pick(p) for p in M.PICKS)
+    toc = [("short-answer", "Short answer")]
+    table = ""
+    if getattr(M, "TABLE_TITLE", None):  # space and weight by household size (apartment water)
+        trs = ""
+        for n in (1, 2, 3, 4):
+            gal = 14 * n
+            trs += (f'<tr><th scope="row">{n} {"person" if n == 1 else "people"}</th><td data-l="3 days">{3 * n} gal</td><td data-l="2 weeks">{gal} gal</td>'
+                    f'<td data-l="Weight">{round(gal * 8.34):,} lb</td><td data-l="5-gal containers">{-(-gal // 5)}</td><td data-l="Floor space">~{max(1, round(gal * 0.1))} sq ft</td></tr>')
+        table = (f'<section class="section" id="space"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>{e(M.TABLE_TITLE)}</h2><p>{e(M.TABLE_NOTE)}</p></div>'
+                 f'<a href="{M.CALC_LINK[1]}">Your household in the calculator</a></div>'
+                 f'<div class="table-wrap"><table class="matrix pw-table cp-table"><thead><tr><th scope="col">Household</th><th scope="col">3 days</th><th scope="col">2 weeks</th><th scope="col">Weight (2 weeks)</th><th scope="col">5-gal containers</th><th scope="col">Floor space</th></tr></thead><tbody>{trs}</tbody></table></div></div></section>')
+        toc.append(("space", "Space and weight"))
+    steps = ""
+    if getattr(M, "STEPS", None):
+        steps = (f'<section class="section" id="steps"><div class="wrap two-col"><div class="stack-l"><h2>{e(M.STEPS_TITLE)}</h2>'
+                 f'<ol class="pw-steps">{"".join(f"<li><b>{e(a)}</b><span>{e(b)}</span></li>" for a, b in M.STEPS)}</ol></div><div></div></div></section>')
+        toc.append(("steps", "What to do"))
+    toc.append(("picks", "What to buy"))
+    sections = ""
+    for title, items in getattr(M, "SECTIONS", []):
+        sid = slugify(title)
+        sections += (f'<h2 id="{sid}" style="margin-top:2.5rem">{e(title)}</h2><ul class="plain-list read">'
+                     + "".join(f"<li><b>{e(a)}.</b> {e(b)}</li>" for a, b in items) + "</ul>")
+    checklist = ""
+    if getattr(M, "CHECKLIST", None):
+        pfx = "ck-" + M.SLUG[:12]
+        lis = "".join(f'<li><label class="qitem" for="{pfx}-{i}"><input type="checkbox" id="{pfx}-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(M.CHECKLIST))
+        checklist = (f'<section class="section printable" id="checklist"><div class="wrap"><div class="section-head"><div><h2>{e(M.CHECKLIST_TITLE)}</h2>'
+                     f'<p>{e(M.CHECKLIST_NOTE)} <a href="{M.PARENT}.html">Car emergency kit guide</a>.</p></div>'
+                     f'<div class="ck-tools"><span class="muted" id="ck-count"></span><button type="button" class="btn ghost sm" data-print>Print checklist</button></div></div>'
+                     f'<ul class="check-grid">{lis}</ul></div></section>')
+        toc.append(("checklist", "Checklist"))
+    toc += [("faq", "Questions"), ("sources", "Sources")]
+    toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in M.FAQS)
+    srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in M.SOURCES)
+    related = "".join(f'<li><a href="{h}">{e(t)}</a></li>' for t, h in M.RELATED)
+    parent = GD[M.PARENT]
+    cr = [("Home", "/"), ("Gear guides", "/guides/"), (parent["name"], f"/guides/{M.PARENT}"), (M.CRUMB, f"/guides/{M.SLUG}")]
+    calc = f'<p class="read">{e(M.CALC_LINK[0])} <a href="{M.CALC_LINK[1]}">{e(M.CALC_LINK[2])}</a>.</p>' if getattr(M, "CALC_LINK", None) else ""
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(M.H1)}</h1><p class="dek">{e(M.DEK)}</p>
+<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against {e(M.REVIEWED)}. Picks are researched from published specs and safety guidance, not hands-on tested by PrepScore. <a href="{root}disclosure.html">How we pick</a>. {BAND_NOTE}</p>
+{toc_html}</div></div>
+<section class="section"><div class="wrap stack-l">
+<div class="pw-verdict" id="short-answer"><h2>The short answer</h2><ol>{verdict}</ol></div>
+{calc}
+</div></section>
+{table}{steps}
+<section class="section" id="picks" style="padding-top:2rem"><div class="wrap">{DISCLOSE(root)}
+<h2 style="margin-top:2rem">What to buy</h2>{picks}</div></section>
+{checklist}
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+{sections}
+<h2 id="faq" style="margin-top:2.5rem">Questions</h2><div class="faq">{faq_html}</div>
+<h2 id="sources" style="margin-top:2.5rem">Sources</h2><ul class="plain-list read sources">{srcs}</ul>
+<p class="muted small read">General information, not medical or safety advice for your situation. In an emergency, call 911 and follow instructions from local officials.</p></div>
+<aside class="stack-l"><div class="aside"><h3>Related</h3><ul>{related}</ul></div></aside>
+</div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    howto = [{"@context": "https://schema.org", "@type": "HowTo", "name": M.H1, "step": [{"@type": "HowToStep", "name": a, "text": b} for a, b in M.STEPS]}] if getattr(M, "STEPS", None) else []
+    j = [{"@context": "https://schema.org", "@type": "Article", "headline": M.TITLE, "description": M.META, "dateModified": TODAY,
+          "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/about"},
+          "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + f"/og/{M.OG}.png",
+          "mainEntityOfPage": SITE["url"] + f"/guides/{M.SLUG}",
+          "citation": [{"@type": "CreativeWork", "name": t, "url": u} for t, u in M.SOURCES]},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in M.FAQS]}] + howto + [crumbs_ld(cr)]
+    add(f"guides/{M.SLUG}.html", shell(path=f"/guides/{M.SLUG}", title=M.TITLE, desc=M.META, body=body, root=root, og=M.OG,
+                                       canon=f"/guides/{M.SLUG}", jsonld=j, active="guides", scripts=("site.js",) if getattr(M, "CHECKLIST", None) else ()),
+        f"/guides/{M.SLUG}", "0.8")
 
 
 def build_cpap():
@@ -1724,6 +1816,9 @@ def build_og():
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
     card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
+    import aptwater, wintercar
+    for M in (aptwater, wintercar):
+        card(M.OG, M.OG_CARD[0], M.OG_CARD[1], M.OG_CARD[2], bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
     card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
     card("water-calc", "Free calculator", "How much water to store", "Enter your household: 3-day, 1-week and 2-week amounts, what you still need, and the space it takes.", bigfont="display")
@@ -1796,7 +1891,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar; build_buyer(aptwater); build_buyer(wintercar); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:

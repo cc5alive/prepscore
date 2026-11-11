@@ -203,8 +203,12 @@
   "hash": "3aeb795951cff0b4",
   "date": "2026-11-10"
  },
+ "guides/apartment-water-storage.html": {
+  "hash": "2f03882421f32945",
+  "date": "2026-11-10"
+ },
  "guides/car.html": {
-  "hash": "5ded23815d19b49e",
+  "hash": "11b711e6e55ac637",
   "date": "2026-11-10"
  },
  "guides/cpap-power-outage.html": {
@@ -212,27 +216,27 @@
   "date": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "be633a4a68d294e4",
+  "hash": "18a555c478468a69",
   "date": "2026-11-10"
  },
  "guides/food.html": {
-  "hash": "caf9364ec3aae122",
+  "hash": "321aef3f3ea77b2c",
   "date": "2026-11-10"
  },
  "guides/go-bag.html": {
-  "hash": "0e4ba4b0a633f211",
+  "hash": "213b2739e95863fb",
   "date": "2026-11-10"
  },
  "guides/index.html": {
-  "hash": "1297a5047663fea9",
+  "hash": "2960c090c5e8b73f",
   "date": "2026-11-10"
  },
  "guides/light-heat.html": {
-  "hash": "dd11af74206f6438",
+  "hash": "6b01b0685959499a",
   "date": "2026-11-10"
  },
  "guides/pets.html": {
-  "hash": "47ec48265a180d35",
+  "hash": "2a931d457dee631e",
   "date": "2026-11-10"
  },
  "guides/pool-water.html": {
@@ -240,19 +244,23 @@
   "date": "2026-11-10"
  },
  "guides/power.html": {
-  "hash": "1edbd736c48287e9",
+  "hash": "cfd3d99dbe1983ca",
   "date": "2026-11-10"
  },
  "guides/radios.html": {
-  "hash": "4469f52d92a62878",
+  "hash": "652007a7908c5312",
   "date": "2026-11-10"
  },
  "guides/sanitation.html": {
-  "hash": "7d927e014895d8bb",
+  "hash": "88670501ef974212",
+  "date": "2026-11-10"
+ },
+ "guides/stranded-in-car-winter.html": {
+  "hash": "71f70346c15638ac",
   "date": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "734ce1728644a28a",
+  "hash": "97498064bbe9f674",
   "date": "2026-11-10"
  },
  "index.html": {
@@ -316,7 +324,7 @@
   "date": "2026-11-09"
  },
  "water-calculator.html": {
-  "hash": "3ef3ce95c889ea6d",
+  "hash": "cfd3ac042dea2223",
   "date": "2026-11-10"
  },
  "where/city-apartment.html": {
