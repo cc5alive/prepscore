@@ -1030,7 +1030,8 @@ def build_blackfriday():
     ess = "".join(card(p, i + 1) for i, p in enumerate(B.ESSENTIALS))
     big = "".join(card(p) for p in B.BIG_TICKET)
     gifts = "".join(card(p) for p in B.GIFTS)
-    cats = "".join(f'<div class="bf-cat" id="{sid}"><h3 class="lb-h">{e(t)}</h3><div class="bf-grid">{"".join(card(p) for p in items)}</div></div>' for sid, t, items in B.CATEGORIES)
+    sale = lambda sid: f'<p class="bf-sale"><b>Sale pattern:</b> {e(B.SALE_NOTES[sid])}</p>' if sid in getattr(B, "SALE_NOTES", {}) else ""
+    cats = "".join(f'<div class="bf-cat" id="{sid}"><h3 class="lb-h">{e(t)}</h3>{sale(sid)}<div class="bf-grid">{"".join(card(p) for p in items)}</div></div>' for sid, t, items in B.CATEGORIES)
     tips = "".join(f"<li><b>{e(a)}</b> {e(c)}</li>" for a, c in B.TIPS)
     dates = "".join(f'<div><dt>{e(a)}</dt><dd>{e(c)}</dd></div>' for a, c in B.DATES)
     faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in B.FAQS)
@@ -1047,7 +1048,7 @@ def build_blackfriday():
 <aside class="stack-l"><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li></ul></div></aside></div></section>
 <section class="section" id="essentials"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The essentials, in order</h2><p>If you buy nothing else this season, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
 <div class="bf-grid">{ess}</div></div></section>
-<section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p></div></div>
+<section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p>{sale("big-ticket")}</div></div>
 <div class="bf-grid">{big}</div></div></section>
 <section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Small prep gifts</h2><p>Inexpensive, useful gifts for the person who has everything except a plan.</p></div></div>
 <div class="bf-grid">{gifts}</div></div></section>

@@ -643,3 +643,4 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
   .nav a { white-space: nowrap; font-size: .9rem; }
   .nav .btn { display: none; }
 }
+.bf-sale { margin: .25rem 0 .9rem; padding: .55rem .8rem; border-left: 4px solid var(--sig, #F2B705); background: var(--surface, #F7F8F3); font-size: .92rem; line-height: 1.45; max-width: 60rem; }

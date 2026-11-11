@@ -121,3 +121,20 @@ FAQS = [
     ("How do I know if a Black Friday deal is real?", "Look up the item's price history before you buy. Free tools such as Keepa or camelcamelcamel show what it has sold for over the past months, so you can see whether a sale price is actually low."),
     ("Do you earn money from these links?", "Yes. These are Amazon affiliate links, so we may earn a commission at no extra cost to you. Commissions never decide what we recommend, and every item here is one we recommend in our free guides."),
 ]
+
+
+# What tends to happen to prices in each category around Black Friday, from past years' patterns.
+# General guidance only, not a promise about this year's prices. Check price history before buying.
+SALE_NOTES = {
+    "big-ticket": "Power stations and generators have had some of the deepest discounts of the year around Black Friday in past years. If one is on your list, this is usually the week to buy it.",
+    "water": "Water containers and filters go on sale less often and by less. If you have no stored water, buy it now instead of waiting for a deal.",
+    "food": "Freeze-dried food and buckets sometimes see modest discounts. Your own pantry of normal food is still the cheapest food prep.",
+    "light-heat": "Headlamps, lanterns and sleeping bags are often discounted around the holidays, which makes them good gifts too.",
+    "comms": "Radios and satellite messengers have often been discounted in past years. For a satellite messenger, also count the monthly plan.",
+    "first-aid": "First aid kits usually see small discounts. Don't wait on a tourniquet or bleeding-control supplies.",
+    "go-bag": "Backpacks and multi-tools are often on sale. Pre-made kits are discounted too, but building your own bag usually gets better gear.",
+    "car": "Jump starters and tire inflators are common holiday deals and practical gifts.",
+    "sanitation": "Toilet buckets and bags rarely change much in price. Buy them whenever you're ready.",
+    "pets": "Pet carriers and kits see occasional discounts. Pet food and water should be stocked anytime.",
+    "books": "Prep books are often discounted, and many guides are also free to download on our library page.",
+}
