@@ -137,7 +137,8 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <div class="stack"><a class="brand" href="{root}index.html">{BRAND_SVG}{SITE['name']}</a>
 <p class="muted">Practical emergency preparedness for normal people. Find your gaps, fix the important ones first.</p>
 <p class="muted small">{AMAZON_LINE} We also earn commissions from other links marked Affiliate. <a href="{root}disclosure.html">How we make money</a>.</p>
-<p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
+<p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p>
+<p class="muted small">Questions or corrections: <a href="mailto:{SITE['email']}">{SITE['email']}</a></p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
 <div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}food-calculator.html">Food storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
@@ -271,7 +272,7 @@ LA_ASIDE = lambda root: (f'<div class="aside"><h3>Renting in LA?</h3><p class="m
 # Cloudflare Web Analytics: cookieless, no consent banner needed. Set SITE["cf_beacon"] to the site token to turn it on.
 BEACON = (f'\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{SITE["cf_beacon"]}"}}\'></script>'
           if SITE.get("cf_beacon") else "")
-PRIVACY_UPDATED = "November 10, 2026"
+PRIVACY_UPDATED = "November 11, 2026"
 
 DISCLOSE = lambda root: f'<p class="disclose">Some links on this page are affiliate links, marked <b>Affiliate</b>. If you buy through them we may earn a commission at no extra cost to you. {AMAZON_LINE} Commissions never decide what we recommend, and we include free options where they exist. <a href="{root}disclosure.html">How we pick and make money</a>.</p>'
 
@@ -961,7 +962,7 @@ def build_resources():
 <ul class="plain-list"><li>Official and nonprofit sources first, because they're accountable and free.</li>
 <li>Independent sites only when they add something the official ones don't, like tested gear or a deeper explanation.</li>
 <li>Each one is here for a specific job. If a site is weak on something, we say so.</li>
-<li>Know a resource that belongs here? Tell us on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a>.</li></ul></div>
+<li>Know a resource that belongs here? Email <a href="mailto:{SITE['email']}">{SITE['email']}</a> or tell us on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a>.</li></ul></div>
 <aside class="stack-l"><div class="aside"><h3>On PrepScore</h3><ul><li><a href="library.html">Printable guides and books</a></li><li><a href="quiz.html">How prepared am I?</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="guides/index.html">Gear guides</a></li><li><a href="city/index.html">City guides</a></li></ul></div></aside></div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
     j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": R.TITLE, "description": R.META, "url": SITE["url"] + "/resources",
@@ -1204,7 +1205,7 @@ def build_la_renters():
 <h1>Los Angeles renter emergency checklist</h1>
 <p class="dek">A free one-page checklist for LA apartment renters: the official alert sign-ups, what to keep at home, a 10-minute building drill, and what to ask your landlord.</p>
 <div class="lr-actions"><button type="button" class="btn" onclick="window.print()">Print the checklist</button><a class="btn ghost" href="{root}la-renters-checklist.pdf">Download the PDF</a><a class="btn ghost" href="{root}la-renters-es.html" hreflang="es" lang="es">En español</a></div>
-<p class="muted small" style="margin-top:1rem">This page has no product or affiliate links. Neighborhood councils, tenant groups, libraries and building managers are welcome to print and share it. Checked {e(ALERTS_CHECKED)}.</p></div></div>
+<p class="muted small" style="margin-top:1rem">This page has no product or affiliate links. Neighborhood councils, tenant groups, libraries and building managers are welcome to print and share it. Corrections or requests: <a href="mailto:{SITE['email']}">{SITE['email']}</a>. Checked {e(ALERTS_CHECKED)}.</p></div></div>
 <section class="section"><div class="wrap">
 <article class="lr" id="handout">
 <header class="lr-head"><div><p class="lr-kicker">Free · No sign-up · No product links</p><h2>LA renter emergency checklist</h2>
@@ -1220,7 +1221,7 @@ def build_la_renters():
 <div class="lr-line"><span>Our evacuation zone</span><i></i></div><div class="lr-line"><span>Meeting spot near home</span><i></i></div>
 <div class="lr-line"><span>Out-of-area contact</span><i></i></div><div class="lr-line"><span>Neighbor's phone</span><i></i></div></section>
 </div>
-<footer class="lr-foot">From PrepScore, a free emergency preparedness site · prepscore.org/la-renters · General information, not professional advice. In an emergency, follow local officials and call 911 for life-threatening situations.</footer>
+<footer class="lr-foot">From PrepScore, a free emergency preparedness site · prepscore.org/la-renters · {SITE['email']} · General information, not professional advice. In an emergency, follow local officials and call 911 for life-threatening situations.</footer>
 </article>
 </div></section>
 <section class="section no-print"><div class="wrap two-col"><div class="stack-l">
@@ -1263,7 +1264,7 @@ def build_la_renters_es():
 <h1>{e(S.H1)}</h1>
 <p class="dek">{e(S.DEK)}</p>
 <div class="lr-actions"><button type="button" class="btn" onclick="window.print()">Imprimir la lista</button><a class="btn ghost" href="{root}la-renters-checklist-es.pdf">Descargar el PDF</a><a class="btn ghost" href="{root}la-renters.html" hreflang="en" lang="en">In English</a></div>
-<p class="muted small" style="margin-top:1rem">{e(S.NOTE)} {e(S.CHECKED)}</p></div></div>
+<p class="muted small" style="margin-top:1rem">{e(S.NOTE)} Escríbanos a <a href="mailto:{SITE['email']}">{SITE['email']}</a>. {e(S.CHECKED)}</p></div></div>
 <section class="section"><div class="wrap">
 <article class="lr" id="handout">
 <header class="lr-head"><div><p class="lr-kicker">Gratis · Sin registro · Sin enlaces a productos</p><h2>Lista de emergencia para inquilinos de LA</h2>
@@ -1720,7 +1721,7 @@ def build_misc():
 <h2>How we make money</h2>
 <p>Some links on {SITE['name']} are affiliate links. They're labeled <b>Affiliate</b> next to the button. If you buy through one, the retailer pays us a commission. Your price is the same.</p>
 <p>{AMAZON_LINE}</p>
-<p>We don't accept paid placements, sponsored rankings or free products in exchange for coverage.</p>
+<p>We don't accept paid placements, sponsored rankings or free products in exchange for coverage. Questions about how we make money? Email <a href="mailto:{SITE['email']}">{SITE['email']}</a>.</p>
 <h2 style="margin-top:2rem">How we pick</h2>
 <p>We start from what you need in a real emergency, then look for gear that does that job reliably at three budgets. We favor items with long track records, independent certifications where they exist (NIOSH for respirators, NSF/ANSI or EPA registration for water treatment), and makers who publish real specs.</p>
 <p>We don't run a test lab. Picks are researched from published specifications, certifications, safety guidance and long-term owner feedback, not hands-on tested by PrepScore, and we say so on every guide. Each pick also says who can skip it, because the best purchase is often none.</p>
@@ -1764,7 +1765,7 @@ def build_misc():
 <h2 style="margin-top:2rem">Your choices and rights</h2>
 <p>Because we don't keep personal information tied to you, there's nothing for us to look up, correct or delete. We don't sell or share personal information. You can block cookies in your browser, clear your quiz answers at any time, and use a content blocker if you prefer.</p>
 <h2 style="margin-top:2rem">Changes and contact</h2>
-<p>If we change how the site handles data, we'll update this page and the date at the top before the change takes effect. Questions? Reach {SITE['name']}'s creator, CC Pearce, on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a> or through <a href="https://ccpearce.com" target="_blank" rel="noopener">ccpearce.com</a>.</p>
+<p>If we change how the site handles data, we'll update this page and the date at the top before the change takes effect. Questions? Email <a href="mailto:{SITE['email']}">{SITE['email']}</a>, or reach {SITE['name']}'s creator, CC Pearce, on X at <a href="https://x.com/cc5alive" target="_blank" rel="noopener">@cc5alive</a>.</p>
 </div></section>"""
     add("privacy.html", shell(path="/privacy", title="Privacy Policy", desc=f"How {SITE['name']} handles your data: no accounts, no cookies of our own, and quiz answers that never leave your device.",
                               body=body, root=root, og="default", canon="/privacy"), "/privacy", "0.3")
@@ -1781,7 +1782,7 @@ def build_misc():
 <h2>Who's behind it</h2>
 <p>PrepScore was started by CC Pearce, a writer and entrepreneur based in Los Angeles.</p>
 <p>I'm new to prepping myself. But the time has never felt more uncertain, and I want good, practical resources to be available to everyone, for free. So I built the site I wished existed when I started: begin with what actually matters, check it against official sources, and be upfront about how the site makes money.</p>
-<p>You can find me on X at <a href="https://x.com/cc5alive" rel="me noopener" target="_blank">@cc5alive</a> and at <a href="https://ccpearce.com" rel="me noopener" target="_blank">ccpearce.com</a>.</p>
+<p>Email me at <a href="mailto:{SITE['email']}">{SITE['email']}</a> with questions, corrections or ideas. You can also find me on X at <a href="https://x.com/cc5alive" rel="me noopener" target="_blank">@cc5alive</a> and at <a href="https://ccpearce.com" rel="me noopener" target="_blank">ccpearce.com</a>.</p>
 <h2 style="margin-top:2rem">What the site does</h2>
 <p>{SITE['name']} is an independent site. We built it because most prep advice is either a 300-item shopping list or a doomsday fantasy. We'd rather help you get the first two weeks right: water, power, light, first aid, a way to get alerts, and a plan to leave.</p>
 <p>The free quiz shows where you stand. The location and city guides show what tends to fail where you live. The gear guides show what to buy, how much you need and what to skip.</p>
@@ -1793,7 +1794,7 @@ def build_misc():
 <li>Each guide shows the month it was last reviewed. We re-check guides at least once a year and after major changes in official guidance.</li>
 <li>City alert links are re-checked at least yearly, because cities change their notification systems.</li>
 <li>Next to retailer links we show a price band ($ to $$$$), not a price. Bands are a rough guide; check the retailer for today's price.</li>
-<li>When we find a mistake, we fix it and update the review date.</li>
+<li>When we find a mistake, we fix it and update the review date. Spotted one? Email <a href="mailto:{SITE['email']}">{SITE['email']}</a>.</li>
 </ul>
 <h2 style="margin-top:2rem">How we make money</h2>
 <p>We earn commissions from affiliate links, which are always labeled. They never decide what we recommend, and we point to free options first when they exist. {AMAZON_LINE} <a href="{root}disclosure.html">Full disclosure</a>.</p>
@@ -1801,7 +1802,7 @@ def build_misc():
 <p>This site is general information, not medical, legal or engineering advice. In an emergency, follow instructions from local officials and call 911 when lives are at risk.</p>
 </div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
-    founder = {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com",
+    founder = {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com", "email": "mailto:" + SITE["email"],
                "sameAs": ["https://x.com/cc5alive", "https://ccpearce.com"]}
     j = [{"@context": "https://schema.org", "@type": "AboutPage", "name": "About PrepScore", "url": SITE["url"] + "/about",
           "dateModified": TODAY, "mainEntity": founder,

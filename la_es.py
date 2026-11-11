@@ -53,5 +53,5 @@ INSURANCE = ("El seguro estándar para inquilinos por lo general no cubre daños
 
 LINES = ["Nuestra zona de evacuación", "Punto de encuentro cerca de casa", "Contacto fuera del área", "Teléfono de un vecino"]
 
-FOOT = ("De PrepScore, un sitio gratuito de preparación para emergencias · prepscore.org/la-renters-es · Información general, no asesoría "
+FOOT = ("De PrepScore, un sitio gratuito de preparación para emergencias · prepscore.org/la-renters-es · hello@prepscore.org · Información general, no asesoría "
         "profesional. En una emergencia, siga las indicaciones de las autoridades locales y llame al 911 si hay peligro de muerte.")

@@ -6,6 +6,7 @@ SITE = {
     "url": "https://prepscore.org",
     "tagline": "How many days could you last on your own?",
     "amazon_tag": "ccpearce-20",
+    "email": "hello@prepscore.org",
     # Cloudflare Web Analytics is on with automatic setup (Cloudflare injects the beacon), so no snippet is needed here.
     "cf_analytics_auto": True,
     "twitter": "@cc5alive",                 # used for twitter:site on every page
