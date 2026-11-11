@@ -686,3 +686,18 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
 @media (min-width: 861px) { .pc-out { position: sticky; top: 1rem; } }
 .pc-top .btn { white-space: nowrap; flex: none; }
 .pc-table { margin-top: 0; }
+/* Food storage calculator */
+.seg button { padding: .55rem .8rem; border: 1.5px solid var(--ink); border-radius: var(--r); font: 600 .92rem/1.2 var(--f-body); background: transparent; color: var(--ink); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.seg button:hover { background: var(--surface); }
+.seg button[aria-pressed="true"]:hover { background: var(--ink); }
+.fc-table tr.sel th, .fc-table tr.sel td { font-weight: 800; }
+.fc-table tr.sel th::after { content: " ←"; color: var(--muted); font-weight: 400; }
+@media (max-width: 560px) { .fc-table td:nth-of-type(1)::before { content: "Calories: "; } .fc-table td:nth-of-type(2)::before { content: "Ration packs: "; color: var(--muted); } .fc-table tr { grid-template-columns: minmax(0, 1fr); } }
+.fc-h { font-size: 1.6rem; margin-top: 1.75rem; }
+.fc-list { list-style: none; margin: .9rem 0 0; padding: 0; border-top: 2px solid var(--ink); }
+.fc-list li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: .75rem; align-items: start; padding: .7rem 0; border-bottom: 1px solid var(--line); }
+.fc-n { font-family: var(--f-display); font-weight: 900; font-size: 1.8rem; line-height: 1; text-align: right; font-variant-numeric: tabular-nums; }
+.fc-what b { display: block; }
+.fc-what span { display: block; font-size: .88rem; color: var(--muted); }
+.wc-stats span span { display: inline; font-size: inherit; }

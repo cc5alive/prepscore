@@ -140,7 +140,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}food-calculator.html">Food storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}<script defer src="{root}{asset("track.js")}"></script>{BEACON}"""
     return head, page, body_attr
@@ -321,6 +321,7 @@ def build_home():
 <section class="section"><div class="wrap">
 <div class="section-head"><div><h2>Free calculators</h2><p>Your household's numbers in a minute. No sign-up, no product links.</p></div></div>
 <ul class="guide-list"><li><a href="water-calculator.html"><b>Water storage calculator</b><span>How much water to store for 3 days, a week and two weeks, and the space and weight it takes.</span></a></li>
+<li><a href="food-calculator.html"><b>Food storage calculator</b><span>Calories for 3 days, 2 weeks and a month, and an example pantry list sized for your household.</span></a></li>
 <li><a href="power-calculator.html"><b>Power station calculator</b><span>Pick your fridge, CPAP, router and phones; get the battery size and output to buy.</span></a></li></ul>
 </div></section>
 
@@ -671,6 +672,7 @@ def build_guides():
 {toc_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
 {f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>.</p>' if g["slug"] == "water" else ""}
+{f'<p class="read">For your household\'s calories and an example pantry list, use the <a href="{root}food-calculator.html">food storage calculator</a>.</p>' if g["slug"] == "food" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
 {f'<p class="read">To size a station for your own devices, use the <a href="{root}power-calculator.html">power station calculator</a>. Using a CPAP? See <a href="cpap-power-outage.html">nights per charge by setting and station size</a>.</p>' if g["slug"] == "power" else ""}
 </div></section>
@@ -1316,6 +1318,79 @@ def build_power_calc():
 # ---------------------------------------------------------------------------
 # CPAP in a power outage (buyer page under guides/)
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Food storage calculator (no product links on the tool itself)
+# ---------------------------------------------------------------------------
+def build_food_calc():
+    import foodcalc as FC
+    root = ""
+    payload = json.dumps({"kcal": FC.KCAL, "pantry": FC.PANTRY}, separators=(",", ":")).replace("</", "<\\/")
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in FC.FAQ)
+    srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in FC.SOURCES)
+    ptable = "".join(f'<tr><th scope="row">{e(n)}</th><td>{e(u)}</td><td>{k:,}</td></tr>' for _, n, u, k, _, _, _ in FC.PANTRY)
+    stepper = lambda i, label, val: (f'<div><span class="wc-l" id="fc-{i}-l">{label}</span><div class="stepper" role="group" aria-labelledby="fc-{i}-l">'
+                                     f'<button type="button" id="fc-{i}-minus" aria-label="Fewer">&minus;</button><output id="fc-{i}" aria-live="polite">{val}</output>'
+                                     f'<button type="button" id="fc-{i}-plus" aria-label="More">+</button></div></div>')
+    cr = [("Home", "/"), ("Food storage calculator", "/food-calculator")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>How much emergency food should you store?</h1>
+<p class="dek">Enter your household. You'll get the calories you need for 3 days, 2 weeks and a month, and an example pantry list sized for you, with or without a stove.</p></div></div>
+<section class="section"><div class="wrap wc">
+<form class="wc-in" onsubmit="return false" aria-label="Your household">
+{stepper("adults", "Adults and teens", 2)}
+{stepper("kids", "Children under 12", 0)}
+<label class="wc-check"><input type="checkbox" id="fc-active"><span>We do hard physical work, or plan for it <span class="wc-h">Clearing debris, walking out, staying warm in a cold house. Plans 2,500 calories per adult.</span></span></label>
+<label class="wc-check"><input type="checkbox" id="fc-stove"><span>We can cook (camp stove, grill or gas range) <span class="wc-h">Adds rice, oats and pasta to the list. Never cook with a grill or camp stove indoors.</span></span></label>
+<div><span class="wc-l" id="fc-goal-h">Show a pantry list for</span><div class="seg" role="group" aria-labelledby="fc-goal-h">
+<button type="button" data-goal="3" aria-pressed="false">3 days</button><button type="button" data-goal="14" aria-pressed="true">2 weeks</button><button type="button" data-goal="30" aria-pressed="false">1 month</button></div></div>
+</form>
+<div class="wc-out fc-out" aria-live="polite">
+<div class="wc-stats"><div><span>Calories a day</span><b id="fc-daily">4,000</b></div><div><span>Total for <span id="fc-goal-l">2 weeks</span></span><b id="fc-total">56,000</b></div></div>
+<div class="table-wrap"><table class="wc-table fc-table"><thead><tr><th scope="col">Goal</th><th scope="col">Calories</th><th scope="col">As 3,600-calorie ration packs</th></tr></thead><tbody id="fc-rows"></tbody></table></div>
+<h2 class="fc-h">An example pantry for your household</h2>
+<p class="wc-note">One way to reach your total with food that keeps for months and needs no fridge. Swap in what your family actually eats; aim for the same calories.</p>
+<ol class="fc-list" id="fc-list"></ol>
+<p class="wc-note" id="fc-stove-note" hidden>Cooking takes water too: about 2 cups per cup of rice, more for pasta. The <a href="{root}water-calculator.html">water calculator</a> covers drinking water only, so store a little extra.</p>
+<p class="pc-next">Want longer shelf life or a go-bag option? <a href="{root}guides/food.html#step">See our emergency food picks</a> in the food guide (affiliate links are on that page, not this one).</p>
+<p class="wc-assume"><b>How this is calculated:</b> about 2,000 calories per adult or teen a day (2,500 if you plan for hard physical work) and 1,400 per child under 12, within the ranges in the Dietary Guidelines for Americans. The pantry list splits your total across food groups using typical label calories; brands vary, so check labels. Your entries stay in your browser.</p>
+</div>
+</div>
+<script type="application/json" id="fc-data">{payload}</script>
+</section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2>Tips for storing it</h2>
+<ul class="plain-list read">
+<li><b>Store what you eat.</b> Buy a few extra of your usual groceries each trip and eat from the front, putting new cans at the back.</li>
+<li><b>Keep a manual can opener with it.</b> It's the most-forgotten item in emergency pantries.</li>
+<li><b>Cool, dry and dark.</b> Heat shortens shelf life; a closet beats a hot garage.</li>
+<li><b>Eat the fridge first.</b> In an outage, use refrigerated food first, then the freezer, and only then the pantry. A closed fridge stays safe for about 4 hours; a full freezer about 48.</li>
+<li><b>Write the month on the can.</b> Check everything twice a year, when the clocks change.</li></ul>
+<h2 style="margin-top:2rem">Calories in common pantry foods</h2>
+<p class="read">Typical label figures, used for the list above.</p>
+<div class="table-wrap"><table class="wc-table"><thead><tr><th scope="col">Food</th><th scope="col">Size</th><th scope="col">Calories</th></tr></thead><tbody>{ptable}</tbody></table></div>
+<h2 id="faq" style="margin-top:2rem">Questions</h2><div class="faq">{faq_html}</div>
+<h2 style="margin-top:2rem">Sources</h2><ul class="sources plain-list small">{srcs}</ul>
+</div>
+<aside class="stack-l"><div class="aside"><h3>Next steps</h3><ul>
+<li><a href="{root}guides/food.html">Emergency food and cooking guide</a></li>
+<li><a href="{root}water-calculator.html">Water storage calculator</a></li>
+<li><a href="{root}power-calculator.html">Power station calculator</a></li>
+<li><a href="{root}72-hour-kit.html">The simple 3-day kit</a></li>
+<li><a href="{root}quiz.html">Get your PrepScore</a></li></ul></div></aside>
+</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "WebApplication", "name": "Emergency food storage calculator",
+          "url": SITE["url"] + "/food-calculator", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any",
+          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+          "description": "Calculate how many calories of emergency food your household needs for 3 days, 2 weeks or a month, with an example pantry list."},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FC.FAQ]},
+         crumbs_ld(cr)]
+    add("food-calculator.html", shell(path="/food-calculator", title="Emergency Food Storage Calculator: How Much Food to Store",
+                                      desc="How much emergency food should you store? Enter your household to get calories for 3 days, 2 weeks and a month, plus an example pantry list sized for you.",
+                                      body=body, root=root, og="food-calc", canon="/food-calculator", jsonld=j, scripts=("food.js",)),
+        "/food-calculator", "0.9")
+
+
 def build_cpap():
     import cpap as C
     root = "../"
@@ -1648,6 +1723,7 @@ def build_og():
     card("default", "Emergency preparedness", "How many days could you last?", "Free 3-minute preparedness score, location guides and honest gear guides.")
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
+    card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
     card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
     card("water-calc", "Free calculator", "How much water to store", "Enter your household: 3-day, 1-week and 2-week amounts, what you still need, and the space it takes.", bigfont="display")
@@ -1720,8 +1796,8 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_cpap(); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
-    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "track.js"):
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
+    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
         write(rel, parts)
