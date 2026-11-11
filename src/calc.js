@@ -7,6 +7,7 @@
   var $ = function (s) { return document.querySelector(s); };
   var st = { people: 2, petlb: 0, hot: false, have: 0, heater: false };
   try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) st = Object.assign(st, s); } catch (e) {}
+  try { var qp = parseInt(new URLSearchParams(location.search).get("people"), 10); if (qp >= 1 && qp <= 20) st.people = qp; } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   function fmt(n, d) { return Number(n).toLocaleString("en-US", { maximumFractionDigits: d || 0 }); }
 

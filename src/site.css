@@ -701,3 +701,4 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
 .fc-what b { display: block; }
 .fc-what span { display: block; font-size: .88rem; color: var(--muted); }
 .wc-stats span span { display: inline; font-size: inherit; }
+.gaps .tool-link { font-weight: 700; margin-right: .9rem; }

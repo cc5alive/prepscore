@@ -8,6 +8,7 @@
   var K = data.kcal, P = data.pantry; // [id, name, unit, kcal, shareNoCook, shareStove, note]
   var st = { adults: 2, kids: 0, active: false, stove: false, goal: 14 };
   try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) st = Object.assign(st, s); } catch (e) {}
+  try { var qp = parseInt(new URLSearchParams(location.search).get("people"), 10); if (qp >= 1 && qp <= 20) { st.adults = qp; st.kids = 0; } } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
   var GOALS = [[3, "3 days"], [14, "2 weeks"], [30, "1 month"]];

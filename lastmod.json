@@ -208,60 +208,64 @@
   "date": "2026-11-10"
  },
  "guides/car.html": {
-  "hash": "11b711e6e55ac637",
-  "date": "2026-11-10"
+  "hash": "5b515299ca757401",
+  "date": "2026-11-11"
  },
  "guides/cpap-power-outage.html": {
   "hash": "325b00e9d772ca24",
   "date": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "18a555c478468a69",
-  "date": "2026-11-10"
+  "hash": "73100f3a69cc4a2f",
+  "date": "2026-11-11"
  },
  "guides/food.html": {
-  "hash": "321aef3f3ea77b2c",
-  "date": "2026-11-10"
+  "hash": "e1fc880db19970b2",
+  "date": "2026-11-11"
  },
  "guides/go-bag.html": {
-  "hash": "213b2739e95863fb",
-  "date": "2026-11-10"
+  "hash": "643d5afc93ad27a0",
+  "date": "2026-11-11"
  },
  "guides/index.html": {
-  "hash": "2960c090c5e8b73f",
-  "date": "2026-11-10"
+  "hash": "5fec2b8e80abe685",
+  "date": "2026-11-11"
  },
  "guides/light-heat.html": {
-  "hash": "6b01b0685959499a",
-  "date": "2026-11-10"
+  "hash": "b96611357384da00",
+  "date": "2026-11-11"
  },
  "guides/pets.html": {
-  "hash": "2a931d457dee631e",
-  "date": "2026-11-10"
+  "hash": "19a46f6de8a0c5e3",
+  "date": "2026-11-11"
  },
  "guides/pool-water.html": {
   "hash": "28e22fa37f25f6f1",
   "date": "2026-11-10"
  },
  "guides/power.html": {
-  "hash": "cfd3d99dbe1983ca",
-  "date": "2026-11-10"
+  "hash": "4b31f6b44f9e6400",
+  "date": "2026-11-11"
  },
  "guides/radios.html": {
-  "hash": "652007a7908c5312",
-  "date": "2026-11-10"
+  "hash": "1cbb81764be95dad",
+  "date": "2026-11-11"
  },
  "guides/sanitation.html": {
-  "hash": "88670501ef974212",
-  "date": "2026-11-10"
+  "hash": "f1e404347c54a48c",
+  "date": "2026-11-11"
  },
  "guides/stranded-in-car-winter.html": {
-  "hash": "71f70346c15638ac",
-  "date": "2026-11-10"
+  "hash": "9d9ecb8d1bb3528b",
+  "date": "2026-11-11"
  },
  "guides/water.html": {
-  "hash": "97498064bbe9f674",
-  "date": "2026-11-10"
+  "hash": "4097737eabca3c55",
+  "date": "2026-11-11"
+ },
+ "guides/winter-storm-power-outage.html": {
+  "hash": "8dd2a9508588ea5d",
+  "date": "2026-11-11"
  },
  "index.html": {
   "hash": "2798a4f5e2942b8b",

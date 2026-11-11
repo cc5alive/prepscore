@@ -137,6 +137,12 @@
     return C ? C.alerts : null;
   }
 
+  // Gaps a free calculator can size for this household (calculators carry no product links)
+  var TOOLS = {
+    w_store: ["/water-calculator", "Work out your water"], "w_store+": ["/water-calculator", "Work out your water"],
+    f_store: ["/food-calculator", "Work out your food"], "f_store+": ["/food-calculator", "Work out your food"],
+    p_station: ["/power-calculator", "Size a power station"], p_solar: ["/power-calculator", "Size a power station"]
+  };
   function renderPlan(r) {
     var ul = $("#gaps"); ul.innerHTML = "";
     var top = r.gaps.slice(0, 3), rest = r.gaps.slice(3);
@@ -150,6 +156,8 @@
       if (g.q.id === "c_alerts" && alertLinks()) {
         html += "<span class=\"alert-links\">" + alertLinks().map(function (x) { return "<a href=\"" + esc(x[1]) + "\" target=\"_blank\" rel=\"noopener\">" + esc(x[0]) + "</a>"; }).join("") + "</span>";
       }
+      var tool = TOOLS[g.q.id];
+      if (tool) html += " <a class=\"guide-link tool-link\" href=\"" + tool[0] + "?people=" + state.people + "\">" + tool[1] + "</a>";
       if (c.guide) html += " <a class=\"guide-link\" href=\"/guides/" + c.guide + "\">" + esc(c.name) + " guide</a>";
       li.innerHTML = html;
       var buy = D.buy && D.buy[g.q.id];

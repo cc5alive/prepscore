@@ -102,4 +102,4 @@ SOURCES = [
 ]
 
 RELATED = [("Car emergency kit guide", "car.html"), ("Staying warm without power", "light-heat.html"),
-           ("Radios and communication", "radios.html"), ("Preparedness gift guide", "../preparedness-gifts.html")]
+           ("Losing power in a winter storm", "winter-storm-power-outage.html"), ("Radios and communication", "radios.html"), ("Preparedness gift guide", "../preparedness-gifts.html")]

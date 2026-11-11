@@ -672,6 +672,7 @@ def build_guides():
 {toc_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
 {f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>. Short on space? See <a href="apartment-water-storage.html">how to store water in an apartment</a>.</p>' if g["slug"] == "water" else ""}
+{f'<p class="read">Power out in a winter storm? See the <a href="winter-storm-power-outage.html">winter outage checklist</a>: heating one room safely, protecting pipes and knowing when to leave.</p>' if g["slug"] in ("light-heat", "power") else ""}
 {f'<p class="read">Driving in snow country? See <a href="stranded-in-car-winter.html">what to do if you\'re stuck in your car in a snowstorm</a>, with a printable winter checklist.</p>' if g["slug"] == "car" else ""}
 {f'<p class="read">For your household\'s calories and an example pantry list, use the <a href="{root}food-calculator.html">food storage calculator</a>.</p>' if g["slug"] == "food" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
@@ -714,6 +715,7 @@ def build_guides():
 <section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: eleven essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul>
 <h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li>
 <li><a href="apartment-water-storage.html"><b>Water storage for apartments</b><span>How much you need, which containers fit small spaces, and where to put 200+ pounds of water.</span></a></li>
+<li><a href="winter-storm-power-outage.html"><b>Losing power in a winter storm</b><span>Heat one room safely, avoid carbon monoxide, keep pipes from freezing and know when to leave. Printable checklist.</span></a></li>
 <li><a href="stranded-in-car-winter.html"><b>Stuck in your car in a snowstorm</b><span>What to do from the first minute, how much gas idling uses, and the winter extras for your car kit.</span></a></li>
 <li><a href="cpap-power-outage.html"><b>CPAP in a power outage</b><span>How many nights a power station runs your CPAP by setting and size, what to buy, and how to set it up before an outage.</span></a></li></ul>
 <p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
@@ -1438,7 +1440,7 @@ def build_buyer(M):
         pfx = "ck-" + M.SLUG[:12]
         lis = "".join(f'<li><label class="qitem" for="{pfx}-{i}"><input type="checkbox" id="{pfx}-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(M.CHECKLIST))
         checklist = (f'<section class="section printable" id="checklist"><div class="wrap"><div class="section-head"><div><h2>{e(M.CHECKLIST_TITLE)}</h2>'
-                     f'<p>{e(M.CHECKLIST_NOTE)} <a href="{M.PARENT}.html">Car emergency kit guide</a>.</p></div>'
+                     f'<p>{e(M.CHECKLIST_NOTE)} <a href="{getattr(M, "CHECKLIST_LINK", ("", ""))[1] or M.PARENT + ".html"}">{e(getattr(M, "CHECKLIST_LINK", ("", ""))[0] or GD[M.PARENT]["short"] + " guide")}</a>.</p></div>'
                      f'<div class="ck-tools"><span class="muted" id="ck-count"></span><button type="button" class="btn ghost sm" data-print>Print checklist</button></div></div>'
                      f'<ul class="check-grid">{lis}</ul></div></section>')
         toc.append(("checklist", "Checklist"))
@@ -1816,8 +1818,8 @@ def build_og():
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
     card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
-    import aptwater, wintercar
-    for M in (aptwater, wintercar):
+    import aptwater, wintercar, winterstorm
+    for M in (aptwater, wintercar, winterstorm):
         card(M.OG, M.OG_CARD[0], M.OG_CARD[1], M.OG_CARD[2], bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
     card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
@@ -1891,7 +1893,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar; build_buyer(aptwater); build_buyer(wintercar); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
