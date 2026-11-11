@@ -702,3 +702,13 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
 .fc-what span { display: block; font-size: .88rem; color: var(--muted); }
 .wc-stats span span { display: inline; font-size: inherit; }
 .gaps .tool-link { font-weight: 700; margin-right: .9rem; }
+/* Spanish handout runs longer than the English one: keep it on one printed page */
+@media print {
+  html[lang="es"] body.print-handout .lr-head h2 { font-size: 17pt; }
+  html[lang="es"] body.print-handout .lr-head p { font-size: 8.5pt; }
+  html[lang="es"] body.print-handout .lr h3 { margin: 6pt 0 3pt; }
+  html[lang="es"] body.print-handout .lr-list { gap: 2.5pt; font-size: 8.5pt; }
+  html[lang="es"] body.print-handout .lr-list p { font-size: 8pt; }
+  html[lang="es"] body.print-handout .lr-p, html[lang="es"] body.print-handout .lr-line { font-size: 8.5pt; }
+  html[lang="es"] body.print-handout .lr-line { margin-top: .7rem; }
+}

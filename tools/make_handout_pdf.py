@@ -9,9 +9,10 @@ srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page()
-    pg.goto(f"http://127.0.0.1:{srv.server_port}/la-renters.html"); pg.wait_for_timeout(800)
-    pg.pdf(path=os.path.join(HERE, "src", "la-renters-checklist.pdf"), format="Letter",
-           margin={"top": "0.45in", "bottom": "0.45in", "left": "0.5in", "right": "0.5in"})
+    for page, pdf in (("la-renters.html", "la-renters-checklist.pdf"), ("la-renters-es.html", "la-renters-checklist-es.pdf")):
+        pg.goto(f"http://127.0.0.1:{srv.server_port}/{page}"); pg.wait_for_timeout(800)
+        pg.pdf(path=os.path.join(HERE, "src", pdf), format="Letter",
+               margin={"top": "0.45in", "bottom": "0.45in", "left": "0.5in", "right": "0.5in"})
     b.close()
 srv.shutdown()
-print("wrote src/la-renters-checklist.pdf")
+print("wrote the English and Spanish checklist PDFs in src/")

@@ -172,6 +172,11 @@ def clean_links(doc, rel):
     return LINK_RE.sub(fix, doc)
 
 
+PAGE_LANG = {"la-renters-es.html": "es"}
+_LA_ALT = [("en", "/la-renters"), ("es", "/la-renters-es"), ("x-default", "/la-renters")]
+HREFLANG = {"la-renters.html": _LA_ALT, "la-renters-es.html": _LA_ALT}
+
+
 def write(rel, parts, artifact=False):
     head, page, body_attr = parts
     out = os.path.join(OUT if not artifact else ART, rel)
@@ -179,7 +184,8 @@ def write(rel, parts, artifact=False):
     if artifact and rel == "index.html":
         doc = head + "\n" + page
     else:
-        doc = f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n{head}\n</head>\n<body{body_attr}>\n{page}\n</body>\n</html>\n'
+        alt = "".join(f'<link rel="alternate" hreflang="{l}" href="{SITE["url"]}{u}">\n' for l, u in HREFLANG.get(rel, []))
+        doc = f'<!doctype html>\n<html lang="{PAGE_LANG.get(rel, "en")}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n{alt}{head}\n</head>\n<body{body_attr}>\n{page}\n</body>\n</html>\n'
         doc = clean_links(doc, rel)
         doc = section_tag(doc, rel)
     with open(out, "w", encoding="utf-8") as f:
@@ -191,7 +197,7 @@ def write(rel, parts, artifact=False):
 
 # Separate Amazon tracking IDs per section, so Associates reports show which part of the site earns.
 SECTION_TAGS = [("quiz.html", "prepscorequiz-20"), ("guides/", "prepscoreguides-20"),
-                ("black-friday.html", "prepscorebf-20"), ("72-hour-kit.html", "prepscorekit-20")]
+                ("black-friday.html", "prepscorebf-20"), ("72-hour-kit.html", "prepscorekit-20"), ("preparedness-gifts.html", "prepscoregifts-20")]
 
 
 def tag_for(rel):
@@ -1197,7 +1203,7 @@ def build_la_renters():
     body = f"""<div class="page-head no-print"><div class="wrap">{crumbs_html(cr, root)}
 <h1>Los Angeles renter emergency checklist</h1>
 <p class="dek">A free one-page checklist for LA apartment renters: the official alert sign-ups, what to keep at home, a 10-minute building drill, and what to ask your landlord.</p>
-<div class="lr-actions"><button type="button" class="btn" onclick="window.print()">Print the checklist</button><a class="btn ghost" href="{root}la-renters-checklist.pdf">Download the PDF</a></div>
+<div class="lr-actions"><button type="button" class="btn" onclick="window.print()">Print the checklist</button><a class="btn ghost" href="{root}la-renters-checklist.pdf">Download the PDF</a><a class="btn ghost" href="{root}la-renters-es.html" hreflang="es" lang="es">En español</a></div>
 <p class="muted small" style="margin-top:1rem">This page has no product or affiliate links. Neighborhood councils, tenant groups, libraries and building managers are welcome to print and share it. Checked {e(ALERTS_CHECKED)}.</p></div></div>
 <section class="section"><div class="wrap">
 <article class="lr" id="handout">
@@ -1239,6 +1245,60 @@ def build_la_renters():
                                  desc="A free one-page emergency checklist for LA apartment renters: NotifyLA and Alert LA County sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.",
                                  body=body, root=root, og="la-renters", canon="/la-renters", jsonld=j, body_attr=' class="print-handout"'),
         "/la-renters", "0.8")
+
+
+def build_la_renters_es():
+    import la_es as S
+    root = ""
+    qr = open(os.path.join(HERE, "src", "qr-la-renters-es.svg")).read()
+    qr = re.sub(r"<\?xml[^>]*>", "", qr).replace('width="33mm" height="33mm"', 'width="100%" height="100%" role="img" aria-label="Código QR de prepscore.org/la-renters-es"')
+    box = '<span class="lr-box" aria-hidden="true"></span>'
+    sign_html = "".join(f'<li>{box}<div><b><a href="{e(u)}" target="_blank" rel="noopener">{e(l)}</a></b> <span class="lr-url">{e(u.replace("https://", "").rstrip("/"))}</span><p>{e(h)}</p></div></li>' for l, u, h in S.SIGNUPS)
+    home_html = "".join(f"<li>{box}<div><b>{e(t)}.</b> {e(d)}</div></li>" for t, d in S.HOME)
+    drill_html = "".join(f"<li>{box}<div>{e(d)}</div></li>" for d in S.DRILL)
+    ask_html = "".join(f"<li>{box}<div>{e(d)}</div></li>" for d in S.ASK)
+    lines = "".join(f'<div class="lr-line"><span>{e(x)}</span><i></i></div>' for x in S.LINES)
+    cr = [("Inicio", "/"), ("Ciudades", "/city/"), ("Los Ángeles", "/city/los-angeles"), ("Lista para inquilinos", "/la-renters-es")]
+    body = f"""<div class="page-head no-print"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(S.H1)}</h1>
+<p class="dek">{e(S.DEK)}</p>
+<div class="lr-actions"><button type="button" class="btn" onclick="window.print()">Imprimir la lista</button><a class="btn ghost" href="{root}la-renters-checklist-es.pdf">Descargar el PDF</a><a class="btn ghost" href="{root}la-renters.html" hreflang="en" lang="en">In English</a></div>
+<p class="muted small" style="margin-top:1rem">{e(S.NOTE)} {e(S.CHECKED)}</p></div></div>
+<section class="section"><div class="wrap">
+<article class="lr" id="handout">
+<header class="lr-head"><div><p class="lr-kicker">Gratis · Sin registro · Sin enlaces a productos</p><h2>Lista de emergencia para inquilinos de LA</h2>
+<p>Los terremotos llegan sin aviso, los incendios avanzan en minutos y las olas de calor sobrecargan la red eléctrica. Diez minutos hoy facilitan mucho los primeros días.</p></div>
+<div class="lr-qr">{qr}<span>Escanee para ver esta lista en línea</span></div></header>
+<div class="lr-cols">
+<section><h3>1. Regístrese hoy para recibir alertas</h3><ul class="lr-list">{sign_html}</ul>
+<h3>2. Tenga en casa, por persona</h3><ul class="lr-list">{home_html}</ul></section>
+<section><h3>3. Haga un simulacro de 10 minutos en su edificio</h3><ul class="lr-list">{drill_html}</ul>
+<h3>4. Pregúntele al dueño o administrador</h3><ul class="lr-list">{ask_html}</ul>
+<h3>5. Revise su seguro</h3><p class="lr-p">{e(S.INSURANCE)}</p>
+<h3>6. Anótelo</h3>{lines}</section>
+</div>
+<footer class="lr-foot">{e(S.FOOT)}</footer>
+</article>
+</div></section>
+<section class="section no-print"><div class="wrap two-col"><div class="stack-l">
+<h2>Más recursos (en inglés)</h2>
+<ul class="plain-list read"><li><a href="{root}quiz.html#earthquake-country,los-angeles" hreflang="en">PrepScore</a>: una evaluación gratuita de 3 minutos que le da a su hogar un plan de una página.</li>
+<li><a href="{root}water-calculator.html" hreflang="en">Calculadora de agua</a>: cuánta agua necesita su hogar y cuánto espacio ocupa.</li>
+<li><a href="{root}city/los-angeles.html" hreflang="en">Guía completa de Los Ángeles</a>: terremotos, incendios, calor y cortes de luz.</li></ul>
+<h2 style="margin-top:2rem">Fuentes</h2><ul class="sources plain-list small">
+<li><a href="https://emergency.lacity.gov/notifyla" target="_blank" rel="noopener">Ciudad de Los Ángeles: NotifyLA</a></li>
+<li><a href="https://lacounty.gov/emergency/" target="_blank" rel="noopener">Condado de Los Ángeles: Alert LA County</a></li>
+<li><a href="https://www.earthquakecountry.org/" target="_blank" rel="noopener">Earthquake Country Alliance: Siete pasos para la seguridad en terremotos</a></li>
+<li><a href="https://www.earthquakeauthority.com/California-Earthquake-Insurance-Policies/Renters" target="_blank" rel="noopener">California Earthquake Authority: Pólizas para inquilinos</a></li>
+<li><a href="https://www.ready.gov/es/kit" target="_blank" rel="noopener">Ready.gov en español: Prepare un kit</a></li></ul>
+</div><div></div></div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "Article", "headline": S.H1, "inLanguage": "es",
+          "description": S.META, "dateModified": TODAY,
+          "author": {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com"},
+          "publisher": {"@type": "Organization", "name": SITE["name"]}, "mainEntityOfPage": SITE["url"] + "/la-renters-es"},
+         crumbs_ld(cr)]
+    add("la-renters-es.html", shell(path="/la-renters-es", title=S.TITLE, desc=S.META, body=body, root=root, og="la-renters-es",
+                                    canon="/la-renters-es", jsonld=j, body_attr=' class="print-handout"'), "/la-renters-es", "0.7")
 
 
 # ---------------------------------------------------------------------------
@@ -1815,6 +1875,7 @@ def build_og():
         im.save(os.path.join(od, name + ".png"), optimize=True)
 
     card("default", "Emergency preparedness", "How many days could you last?", "Free 3-minute preparedness score, location guides and honest gear guides.")
+    card("la-renters-es", "Gratis para imprimir", "Lista para inquilinos de LA", "Alertas oficiales, qué tener en casa, un simulacro de 10 minutos y qué preguntarle al dueño.", bigfont="display")
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
     card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
@@ -1874,6 +1935,8 @@ def build_files():
     # LA renter checklist PDF (rendered by tools/make_handout_pdf.py from the built page)
     if os.path.exists(os.path.join(HERE, "src", "la-renters-checklist.pdf")):
         shutil.copy(os.path.join(HERE, "src", "la-renters-checklist.pdf"), os.path.join(OUT, "la-renters-checklist.pdf"))
+    if os.path.exists(os.path.join(HERE, "src", "la-renters-checklist-es.pdf")):
+        shutil.copy(os.path.join(HERE, "src", "la-renters-checklist-es.pdf"), os.path.join(OUT, "la-renters-checklist-es.pdf"))
     # Favicon set (rendered by tools/make_icons.py): /favicon.ico and /apple-touch-icon.png at the root, where browsers look for them
     ICONS = os.path.join(HERE, "src", "icons")
     os.makedirs(os.path.join(OUT, "assets", "icons"), exist_ok=True)
@@ -1893,7 +1956,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
