@@ -140,7 +140,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p></div>
 <div><h4>Where you live</h4><ul>{loc_links}</ul></div>
 <div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
+<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}<script defer src="{root}{asset("track.js")}"></script>{BEACON}"""
     return head, page, body_attr
@@ -316,6 +316,12 @@ def build_home():
 <section class="section"><div class="wrap">
 <div class="section-head"><div><h2>Gear guides</h2><p>What to buy, how much you need and what to skip. Picks at three budgets, with the trade-offs spelled out.</p></div></div>
 <ul class="guide-list">{guides}</ul>
+</div></section>
+
+<section class="section"><div class="wrap">
+<div class="section-head"><div><h2>Free calculators</h2><p>Your household's numbers in a minute. No sign-up, no product links.</p></div></div>
+<ul class="guide-list"><li><a href="water-calculator.html"><b>Water storage calculator</b><span>How much water to store for 3 days, a week and two weeks, and the space and weight it takes.</span></a></li>
+<li><a href="power-calculator.html"><b>Power station calculator</b><span>Pick your fridge, CPAP, router and phones; get the battery size and output to buy.</span></a></li></ul>
 </div></section>
 
 <section class="section"><div class="wrap stack-l">
@@ -666,6 +672,7 @@ def build_guides():
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
 {f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>.</p>' if g["slug"] == "water" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
+{f'<p class="read">To size a station for your own devices, use the <a href="{root}power-calculator.html">power station calculator</a>. Using a CPAP? See <a href="cpap-power-outage.html">nights per charge by setting and station size</a>.</p>' if g["slug"] == "power" else ""}
 </div></section>
 <section class="section" id="when"><div class="wrap stack-l">
 <div class="section-head" style="margin:0"><div><h2>When it matters</h2><p>How important each item is in each kind of emergency.</p></div><a href="{root}scenarios.html">All items, all emergencies</a></div>
@@ -702,7 +709,8 @@ def build_guides():
     body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}<h1>Emergency gear guides</h1>
 <p class="dek">What to buy, how much of it, and what to skip. Every guide has picks at three budgets and shows which emergencies each item matters for.</p></div></div>
 <section class="section"><div class="wrap stack-l"><div class="cta-box"><div><h2>New to this? Start here.</h2><p>The simple 3-day kit: eleven essentials, how much you need, and one product for each.</p></div><a class="btn" href="{root}72-hour-kit.html">See the 3-day kit</a></div>{DISCLOSE(root)}<ul class="guide-list">{lst}</ul>
-<h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li></ul>
+<h2 style="margin-top:1rem">Deep dives</h2><ul class="guide-list"><li><a href="pool-water.html"><b>Drinking pool water</b><span>Chlorine and saltwater pools: why a filter isn't enough, and the gear that makes pool water drinkable as a last resort.</span></a></li>
+<li><a href="cpap-power-outage.html"><b>CPAP in a power outage</b><span>How many nights a power station runs your CPAP by setting and size, what to buy, and how to set it up before an outage.</span></a></li></ul>
 <p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
@@ -1011,7 +1019,7 @@ def build_library():
 # ---------------------------------------------------------------------------
 BF_UNTIL = datetime.date(2026, 12, 15)   # hide the homepage promo after this date (page itself stays up)
 bf_active = lambda: datetime.date.today() <= BF_UNTIL
-BF_PROMO = lambda root: f'<p class="hero-alt bf-promo">Shopping the sales? <a href="{root}black-friday.html">See the Black Friday prep gear worth buying</a></p>'
+BF_PROMO = lambda root: f'<p class="hero-alt bf-promo">Shopping the sales? <a href="{root}black-friday.html">See the Black Friday prep gear worth buying</a>, or <a href="{root}preparedness-gifts.html">gifts people will actually use</a></p>'
 
 
 def build_blackfriday():
@@ -1045,12 +1053,12 @@ def build_blackfriday():
 <section class="section"><div class="wrap two-col"><div class="stack-l">
 {DISCLOSE(root)}
 <div class="pw-verdict"><h2>How to shop the sales</h2><ol>{tips}</ol></div></div>
-<aside class="stack-l"><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li></ul></div></aside></div></section>
+<aside class="stack-l"><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="power-calculator.html">What size power station?</a></li></ul></div></aside></div></section>
 <section class="section" id="essentials"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The essentials, in order</h2><p>If you buy nothing else this season, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
 <div class="bf-grid">{ess}</div></div></section>
 <section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p>{sale("big-ticket")}</div></div>
 <div class="bf-grid">{big}</div></div></section>
-<section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Small prep gifts</h2><p>Inexpensive, useful gifts for the person who has everything except a plan.</p></div></div>
+<section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Small prep gifts</h2><p>Inexpensive, useful gifts for the person who has everything except a plan. More ideas at every budget in the <a href="preparedness-gifts.html">preparedness gift guide</a>.</p></div></div>
 <div class="bf-grid">{gifts}</div></div></section>
 <section class="section"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>More picks by category</h2><p>The rest of our recommended gear, each from one of our free guides.</p></div></div>
 {cats}</div></section>
@@ -1228,6 +1236,224 @@ def build_la_renters():
 # ---------------------------------------------------------------------------
 # Scenarios
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Power station size calculator (no product links on the tool itself)
+# ---------------------------------------------------------------------------
+def build_power_calc():
+    import powercalc as PC
+    root = ""
+
+    def dev_row(d):
+        did, name, hint, run, per, unit, use, qty, surge = d
+        if unit in ("h", "chg"):
+            use_html = (f'<label class="pc-use"><input type="number" class="pc-use-in" inputmode="decimal" min="0" max="24" step="{1 if unit == "chg" else 0.5}" value="{use:g}" '
+                        f'aria-label="{e(name)}: {PC.UNIT_LABEL[unit]}"><span>{PC.UNIT_LABEL[unit]}</span></label>')
+        else:
+            use_html = f'<span class="pc-use pc-fixed">{PC.UNIT_LABEL[unit]}</span>'
+        return (f'<li class="pc-dev{" on" if qty else ""}" data-id="{did}"><div class="pc-name"><b>{e(name)}</b><span class="wc-h">{e(hint)}</span></div>'
+                f'<div class="stepper sm" role="group" aria-label="How many: {e(name)}"><button type="button" data-dir="-1" aria-label="One fewer {e(name.lower())}">&minus;</button>'
+                f'<output aria-live="polite">{qty}</output><button type="button" data-dir="1" aria-label="One more {e(name.lower())}">+</button></div>{use_html}</li>')
+
+    rows = "".join(dev_row(d) for d in PC.DEVICES)
+    rows += ('<li class="pc-dev" data-id="custom"><div class="pc-name"><b>Something else</b><span class="wc-h">Watts from the label or adapter</span>'
+             '<label class="pc-w"><input type="number" class="pc-w-in" inputmode="decimal" min="0" step="1" placeholder="0" aria-label="Watts for something else"><span>watts</span></label></div>'
+             '<div class="stepper sm" role="group" aria-label="How many: something else"><button type="button" data-dir="-1" aria-label="One fewer">&minus;</button><output aria-live="polite">0</output>'
+             '<button type="button" data-dir="1" aria-label="One more">+</button></div>'
+             '<label class="pc-use"><input type="number" class="pc-use-in" inputmode="decimal" min="0" max="24" step="0.5" value="1" aria-label="Something else: hours a day"><span>hours a day</span></label></li>')
+    payload = json.dumps({"devices": PC.DEVICES}, separators=(",", ":")).replace("</", "<\\/")
+    table = "".join(f'<tr><th scope="row">{e(n)}</th><td>{e(h)}</td><td>{(per * use):,.0f} Wh{f" ({use:g} {PC.UNIT_LABEL[u]})" if u in ("h", "chg") else ""}</td></tr>'
+                    for _, n, h, _, per, u, use, _, _ in PC.DEVICES)
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in PC.FAQ)
+    srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in PC.SOURCES)
+    cr = [("Home", "/"), ("Power station calculator", "/power-calculator")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>What size power station do you need?</h1>
+<p class="dek">Pick what you want to keep running in an outage. You'll get how much energy that takes a day, the battery size to buy for one day, three days or a week, and the output it needs.</p></div></div>
+<section class="section"><div class="wrap wc pc">
+<form class="wc-in pc-in" onsubmit="return false" aria-label="Your devices">
+<div class="pc-top"><span class="wc-l">What do you need to power?</span><button type="button" class="btn ghost sm" id="pc-reset">Clear all</button></div>
+<ul class="pc-list">{rows}</ul>
+</form>
+<div class="wc-out pc-out" id="pc-results" aria-live="polite">
+<div class="wc-stats"><div><span>Energy you use a day</span><b id="pc-daily">0 Wh</b></div><div><span>Power if all run at once</span><b id="pc-run">0 W</b></div></div>
+<p class="pc-class" id="pc-class"></p>
+<div class="table-wrap"><table class="wc-table pc-table"><thead><tr><th scope="col">Cover without recharging</th><th scope="col">Buy at least</th><th scope="col">Size class</th></tr></thead><tbody id="pc-rows"></tbody></table></div>
+<p class="wc-note" id="pc-out"></p>
+<ul class="pc-notes" id="pc-notes"></ul>
+<p class="pc-next">Ready to compare models? <a href="{root}guides/power.html#step">See our power station picks</a> in the backup power guide{" "}(affiliate links are on that page, not this one).</p>
+<p class="wc-assume"><b>How this is calculated:</b> each device's watts × hours a day, using typical figures you can change. Power stations deliver about 85% of their rated capacity through the AC outlets, and we add 20% so you aren't running the battery to empty. Real use varies with your devices and settings; check their labels. Your entries stay in your browser.</p>
+</div>
+</div>
+<script type="application/json" id="pc-data">{payload}</script>
+<div class="pc-sticky" id="pc-sticky"><span id="pc-sticky-txt">Add a device to start</span><a href="#pc-results">See results</a></div>
+</section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2>How much power common devices use</h2>
+<p class="read">Typical figures, used as the starting values above. Your own devices may use more or less.</p>
+<div class="table-wrap"><table class="wc-table"><thead><tr><th scope="col">Device</th><th scope="col">Typical</th><th scope="col">A day, as set above</th></tr></thead><tbody>{table}</tbody></table></div>
+<h2 id="faq" style="margin-top:2rem">Questions</h2><div class="faq">{faq_html}</div>
+<h2 style="margin-top:2rem">Sources</h2><ul class="sources plain-list small">{srcs}</ul>
+</div>
+<aside class="stack-l"><div class="aside"><h3>Next steps</h3><ul>
+<li><a href="{root}guides/power.html">Backup power guide</a>: power stations, solar and generators</li>
+<li><a href="{root}guides/cpap-power-outage.html">Keeping a CPAP running in an outage</a></li>
+<li><a href="{root}water-calculator.html">Water storage calculator</a></li>
+<li><a href="{root}quiz.html">Get your PrepScore</a></li></ul></div></aside>
+</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "WebApplication", "name": "Power station size calculator",
+          "url": SITE["url"] + "/power-calculator", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any",
+          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+          "description": "Calculate the power station capacity and output you need to run a fridge, CPAP, router, phones and lights through a power outage."},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in PC.FAQ]},
+         crumbs_ld(cr)]
+    add("power-calculator.html", shell(path="/power-calculator", title="Power Station Size Calculator: What Size Do You Need?",
+                                       desc="What size power station do you need for an outage? Pick your fridge, CPAP, router, phones and lights to get the watt-hours, size class and output to buy.",
+                                       body=body, root=root, og="power-calc", canon="/power-calculator", jsonld=j, scripts=("power.js",)),
+        "/power-calculator", "0.9")
+
+
+# ---------------------------------------------------------------------------
+# CPAP in a power outage (buyer page under guides/)
+# ---------------------------------------------------------------------------
+def build_cpap():
+    import cpap as C
+    root = "../"
+    verdict = "".join(f"<li><b>{e(a)}</b> {e(b)}</li>" for a, b in C.VERDICT)
+
+    def nights(lo_wh, hi_wh, station):
+        usable = station * 0.85
+        lo, hi = usable / hi_wh, usable / lo_wh
+        if hi < 1:
+            return "Less than 1"
+        a, b = int(lo), int(hi)
+        if lo < 1:
+            return "About 1"
+        return f"About {a}" if a == b else f"{a} to {b}"
+
+    head = "".join(f'<th scope="col">{s:,} Wh station</th>' for s in C.STATIONS)
+    trs = "".join(f'<tr><th scope="row">{e(n)}<span class="pw-kind">{lo} to {hi} Wh a night</span></th>'
+                  + "".join(f'<td data-l="{s:,} Wh">{nights(lo, hi, s)}</td>' for s in C.STATIONS) + "</tr>" for n, lo, hi in C.SETTINGS)
+
+    def pick(p):
+        url = buy_url(dict(p, q=p.get("q", "")))
+        target = p.get("asin_name") or "Amazon search results"
+        return f"""<article class="pick"><div><h3>{e(p['name'])}</h3><dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
+<div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span><span class="link-to"><b>Our pick:</b> {e(target)}</span>
+<a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">Check price on Amazon</a><span class="aff">Affiliate link</span></div></article>"""
+    picks = "".join(pick(p) for p in C.PICKS)
+    steps = "".join(f"<li><b>{e(a)}</b><span>{e(b)}</span></li>" for a, b in C.SETUP)
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in C.FAQS)
+    srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in C.SOURCES)
+    toc = [("short-answer", "Short answer"), ("runtime", "Runtime table"), ("picks", "What to buy"), ("setup", "Set it up"), ("faq", "Questions"), ("sources", "Sources")]
+    toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
+    cr = [("Home", "/"), ("Gear guides", "/guides/"), ("Power", "/guides/power"), ("CPAP in an outage", "/guides/cpap-power-outage")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(C.H1)}</h1><p class="dek">{e(C.DEK)}</p>
+<p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against ResMed's published battery figures and FDA and ASPR guidance. Picks are researched from published specs, not hands-on tested by PrepScore. <a href="{root}disclosure.html">How we pick</a>. {BAND_NOTE}</p>
+{toc_html}</div></div>
+<section class="section"><div class="wrap stack-l">
+<div class="pw-verdict" id="short-answer"><h2>The short answer</h2><ol>{verdict}</ol></div>
+</div></section>
+<section class="section" id="runtime"><div class="wrap stack-l">
+<div class="section-head" style="margin:0"><div><h2>How many nights you'll get</h2><p>Nights per full charge, by machine setting and station size. Based on about 85% of a station's rated capacity being usable.</p></div><a href="{root}power-calculator.html">Add other devices in the calculator</a></div>
+<div class="table-wrap"><table class="matrix pw-table cp-table"><thead><tr><th scope="col">Your CPAP setting</th>{head}</tr></thead><tbody>{trs}</tbody></table></div>
+<p class="muted small read">Nightly use is from ResMed's battery guide for the AirSense 10 at 8 to 10 cmH2O over 8 hours, measured at 12 V DC (current × 12 V × 8 hours, without the guide's 50% safety margin). Higher pressures, longer nights, the AirSense 11 and other brands will differ. The best number is your own: run the CPAP from the station for one night and check the battery level in the morning.</p>
+</div></section>
+<section class="section" id="picks" style="padding-top:2rem"><div class="wrap">{DISCLOSE(root)}
+<h2 style="margin-top:2rem">What to buy</h2>{picks}
+<article class="pick"><div><h3>DC power cord or converter for your CPAP</h3><p class="read" style="margin-top:.6rem">{e(C.DC_NOTE)}</p></div>
+<div class="buy"><span class="price">Varies</span><span class="bestfor">Best for: Anyone running a CPAP from a battery</span><span class="aff">No link: buy from your CPAP maker or supplier</span></div></article>
+</div></section>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+<h2 id="setup">Set it up before the outage</h2>
+<ol class="pw-steps">{steps}</ol>
+<h2 id="faq" style="margin-top:2.5rem">Questions</h2><div class="faq">{faq_html}</div>
+<h2 id="sources" style="margin-top:2.5rem">Sources</h2><ul class="plain-list read sources">{srcs}</ul>
+<p class="muted small read">This page is general information, not medical advice. If you rely on a powered medical device, ask your doctor and equipment supplier what to do in an outage.</p></div>
+<aside class="stack-l"><div class="aside"><h3>Related</h3><ul><li><a href="{root}power-calculator.html">Power station size calculator</a></li><li><a href="power.html">Backup power guide</a></li><li><a href="first-aid.html">First aid, medications and insulin in an outage</a></li><li><a href="light-heat.html">Staying warm without power</a></li></ul></div></aside>
+</div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "Article", "headline": C.TITLE, "description": C.META, "dateModified": TODAY,
+          "author": {"@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/about"},
+          "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + "/og/guide-cpap.png",
+          "mainEntityOfPage": SITE["url"] + "/guides/cpap-power-outage",
+          "citation": [{"@type": "CreativeWork", "name": t, "url": u} for t, u in C.SOURCES]},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in C.FAQS]},
+         crumbs_ld(cr)]
+    add("guides/cpap-power-outage.html", shell(path="/guides/cpap-power-outage", title=C.TITLE, desc=C.META, body=body, root=root, og="guide-cpap",
+                                               canon="/guides/cpap-power-outage", jsonld=j, active="guides"), "/guides/cpap-power-outage", "0.8")
+
+
+# ---------------------------------------------------------------------------
+# Preparedness gift guide
+# ---------------------------------------------------------------------------
+def build_gifts():
+    import gifts as G
+    root = ""
+    by_id = {g[0]: g for g in G.GIFTS}
+
+    def level(price):
+        nums = [float(x.replace(",", "")) for x in re.findall(r"\$\s?([\d,]+(?:\.\d+)?)", price)]
+        v = (nums[0] + nums[1]) / 2 if len(nums) > 1 else nums[0]
+        return 4 if v >= 300 else 3 if v >= 100 else 2 if v >= 25 else 1
+
+    def card(g):
+        gid, name, asin, price, why, who, guide = g
+        more = f' · <a href="guides/{guide}.html">{e(GD[guide]["short"])} guide</a>' if guide else ""
+        return (f'<article class="bf-card" id="gift-{gid}"><h3>{e(name)}</h3><p class="bf-why">{e(why)}</p>'
+                f'<p class="bf-best">Good for: {e(who)}{more}</p>'
+                f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price band</span><b>{band(price)}</b></div>'
+                f'<div class="bf-cta">{aff_btn(asin, "See today's price")}<span class="aff">Affiliate link</span></div></div></article>')
+
+    tiers = [(1, "under-25", "Under $25", "Stocking stuffers and small thank-yous."),
+             (2, "25-100", "$25 to $100", "The sweet spot: everyday gear that's ready for an emergency."),
+             (3, "100-300", "$100 to $300", "Bigger gifts that people rarely buy for themselves."),
+             (4, "over-300", "Over $300", "For someone who gets long outages, uses a CPAP or heads into the backcountry.")]
+    sections = ""
+    for n, sid, title, sub in tiers:
+        items = [g for g in G.GIFTS if level(g[3]) == n]
+        if items:
+            sections += (f'<section class="section" id="{sid}"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>{e(title)}</h2><p>{e(sub)}</p></div></div>'
+                         f'<div class="bf-grid">{"".join(card(g) for g in items)}</div></div></section>')
+    people = "".join(f'<div><dt>{e(t)}</dt><dd>' + ", ".join(f'<a href="#gift-{i}">{e(by_id[i][1].split(" (")[0])}</a>' for i in ids) + "</dd></div>" for t, ids in G.PEOPLE)
+    free = "".join(f"<li>{e(x)}</li>" for x in G.FREE_GIFT)
+    skip = "".join(f"<li><b>{e(a)}.</b> {e(b)}</li>" for a, b in G.SKIP)
+    faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in G.FAQS)
+    toc = [(t[1], t[2]) for t in tiers] + [("free", "The free gift"), ("skip", "What to skip"), ("faq", "Questions")]
+    toc_html = '<nav class="toc" aria-label="On this page"><span>Jump to</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
+    cr = [("Home", "/"), ("Preparedness gifts", "/preparedness-gifts")]
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+<h1>{e(G.H1)}</h1><p class="dek">{e(G.DEK)}</p>
+<p class="muted small" style="margin-top:1rem">Updated {REVIEWED}. Every gift here is also a pick in one of our guides, researched from published specs and safety guidance, not hands-on tested by PrepScore. {BAND_NOTE}</p>
+{toc_html}</div></div>
+<section class="section"><div class="wrap two-col"><div class="stack-l">
+{DISCLOSE(root)}
+<div class="pw-verdict"><h2>Gifts by person</h2><dl class="gift-people">{people}</dl></div></div>
+<aside class="stack-l"><div class="aside"><h3>Shopping the sales?</h3><p class="muted small" style="margin-bottom:.5rem">See which prep gear usually goes on sale, and the essentials to buy first.</p><ul><li><a href="black-friday.html">Black Friday prep picks</a></li><li><a href="power-calculator.html">Power station size calculator</a></li></ul></div></aside></div></section>
+{sections}
+<section class="section" id="free"><div class="wrap two-col"><div class="stack-l">
+<h2>The best gift is free: 20 minutes together</h2>
+<p class="read">Gear helps, but a plan matters more. Spend part of a visit doing these with someone you love:</p>
+<ul class="plain-list read">{free}</ul>
+<p class="read"><a href="quiz.html">Take the PrepScore quiz</a> · <a href="city/index.html">Find their city's alert sign-ups</a></p>
+<h2 id="skip" style="margin-top:2.5rem">What to skip</h2>
+<ul class="plain-list read">{skip}</ul>
+<h2 id="faq" style="margin-top:2.5rem">Questions</h2><div class="faq">{faq_html}</div>
+<p class="muted small read">{AMAZON_LINE} Prices change often, especially around the holidays, so check the retailer for today's price.</p>
+</div><div></div></div></section>
+<section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
+    j = [{"@context": "https://schema.org", "@type": "CollectionPage", "name": G.TITLE, "description": G.META, "url": SITE["url"] + "/preparedness-gifts",
+          "dateModified": TODAY, "publisher": {"@type": "Organization", "name": SITE["name"]},
+          "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": g[1]} for i, g in enumerate(G.GIFTS)]}},
+         {"@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in G.FAQS]},
+         crumbs_ld(cr)]
+    add("preparedness-gifts.html", shell(path="/preparedness-gifts", title=G.TITLE, desc=G.META, body=body, root=root, og="gifts",
+                                         canon="/preparedness-gifts", jsonld=j), "/preparedness-gifts", "0.8")
+
+
 def build_scenarios():
     root = ""
     chips = "".join(f'<button type="button" class="chip" data-scn="{s["id"]}" aria-pressed="{"true" if i == 0 else "false"}">{e(s["name"])}</button>' for i, s in enumerate(SCENARIOS))
@@ -1421,6 +1647,9 @@ def build_og():
 
     card("default", "Emergency preparedness", "How many days could you last?", "Free 3-minute preparedness score, location guides and honest gear guides.")
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
+    card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
+    card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
+    card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
     card("water-calc", "Free calculator", "How much water to store", "Enter your household: 3-day, 1-week and 2-week amounts, what you still need, and the space it takes.", bigfont="display")
     card("kit", "The simple 3-day kit", "Your 72-hour kit", "Eleven essentials, one afternoon. How much you need and what to buy for each.")
     card("quiz", "How prepared am I?", "Get your PrepScore", "Check off what you have. See how long you'd last, your top gaps, and a card to share.")
@@ -1491,8 +1720,8 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_la_renters(); build_scenarios(); build_misc()
-    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "track.js"):
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_cpap(); build_gifts(); build_la_renters(); build_scenarios(); build_misc()
+    for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
         write(rel, parts)

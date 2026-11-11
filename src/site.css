@@ -644,3 +644,45 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
   .nav .btn { display: none; }
 }
 .bf-sale { margin: .25rem 0 .9rem; padding: .55rem .8rem; border-left: 4px solid var(--sig, #F2B705); background: var(--surface, #F7F8F3); font-size: .92rem; line-height: 1.45; max-width: 60rem; }
+/* Power station calculator */
+.pc-top { display: flex; justify-content: space-between; align-items: center; gap: .75rem; }
+.pc-top .wc-l { margin: 0; }
+.pc-list { list-style: none; margin: 0; padding: 0; }
+.pc-dev { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .45rem 1rem; align-items: center; padding: .75rem 0; border-top: 1px solid var(--line); }
+.pc-dev.on .pc-name b { text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 3px; text-underline-offset: 3px; }
+.pc-name b { display: block; line-height: 1.25; }
+.pc-name .wc-h { margin-top: .1rem; }
+.pc-use { grid-column: 1 / -1; display: flex; align-items: center; gap: .5rem; font-size: .88rem; color: var(--muted); }
+.pc-dev:not(.on) .pc-use { display: none; }
+.pc-use input, .pc-w input { width: 4.6rem; font: inherit; font-size: .95rem; padding: .3rem .45rem; border: 1.5px solid var(--ink); border-radius: var(--r); background: #fff; color: #142019; }
+.pc-w { display: flex; align-items: center; gap: .5rem; margin-top: .4rem; font-size: .88rem; color: var(--muted); }
+.stepper.sm button { width: 2.2rem; height: 2.1rem; font-size: 1.15rem; }
+.stepper.sm output { min-width: 2rem; }
+.pc-class { margin: 1.1rem 0 0; padding: 1rem 1.1rem; border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); box-shadow: 4px 4px 0 var(--ink); }
+.pc-class .pc-k { display: block; font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.pc-class b { display: block; font-family: var(--f-display); font-size: 1.7rem; font-weight: 800; line-height: 1.05; margin: .25rem 0 .35rem; }
+.pc-class > span:last-child { display: block; font-size: .95rem; }
+.pc-band { font-weight: 800; letter-spacing: .04em; }
+.pc-notes { margin: .9rem 0 0; padding-left: 1.1rem; font-size: .93rem; display: grid; gap: .35rem; }
+.pc-notes:empty { display: none; }
+.pc-next { margin-top: 1rem; font-weight: 600; }
+.pc-table td:last-child { font-weight: 600; }
+@media (max-width: 560px) { .pc-table td:nth-of-type(1)::before { content: "Buy: "; } .pc-table td:nth-of-type(2)::before { content: ""; } .pc-table tr { grid-template-columns: minmax(0, 1fr); } }
+.pc-sticky { display: none; }
+@media (max-width: 860px) {
+  .pc-sticky { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; justify-content: space-between; align-items: center; gap: .75rem;
+    padding: .65rem max(16px, env(safe-area-inset-left, 0px)) calc(.65rem + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--paper); font-weight: 700; font-size: .92rem; transition: transform .2s ease; }
+  .pc-sticky a { color: var(--on-signal); background: var(--signal); padding: .35rem .7rem; border-radius: var(--r); text-decoration: none; white-space: nowrap; }
+  .pc-sticky.hide { transform: translateY(110%); }
+}
+@media print { .pc-sticky { display: none !important; } }
+/* CPAP runtime table: two columns of station sizes on phones */
+@media (max-width: 720px) { .cp-table tr { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .2rem 1rem; } .cp-table tbody th { grid-column: 1 / -1; } }
+/* Gift guide */
+.gift-people { display: grid; gap: .8rem; margin: 1rem 0 0; }
+.gift-people dt { font-weight: 800; }
+.gift-people dd { margin: .15rem 0 0; font-size: .95rem; line-height: 1.5; }
+.pc-fixed { display: none !important; }
+@media (min-width: 861px) { .pc-out { position: sticky; top: 1rem; } }
+.pc-top .btn { white-space: nowrap; flex: none; }
+.pc-table { margin-top: 0; }

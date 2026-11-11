@@ -12,7 +12,7 @@
   "date": "2026-11-09"
  },
  "black-friday.html": {
-  "hash": "432a397dbac32e53",
+  "hash": "cf643b35c24833d2",
   "date": "2026-11-10"
  },
  "city/albuquerque.html": {
@@ -200,31 +200,35 @@
   "date": "2026-11-10"
  },
  "guides/car.html": {
-  "hash": "64ccca4cd9750517",
+  "hash": "f344054bcabc0a8a",
+  "date": "2026-11-10"
+ },
+ "guides/cpap-power-outage.html": {
+  "hash": "325b00e9d772ca24",
   "date": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "809af10a3c1a8099",
+  "hash": "3033a11a58fb4ee9",
   "date": "2026-11-10"
  },
  "guides/food.html": {
-  "hash": "04e30205051a4d2f",
+  "hash": "95b09924f627d099",
   "date": "2026-11-10"
  },
  "guides/go-bag.html": {
-  "hash": "b1eba894f0bdcb53",
+  "hash": "8fe34e04e3e8d9e0",
   "date": "2026-11-10"
  },
  "guides/index.html": {
-  "hash": "7a559a07298e80f8",
-  "date": "2026-11-09"
+  "hash": "1297a5047663fea9",
+  "date": "2026-11-10"
  },
  "guides/light-heat.html": {
-  "hash": "51a5fc2c0b10ef05",
+  "hash": "c11fd5586183b52e",
   "date": "2026-11-10"
  },
  "guides/pets.html": {
-  "hash": "b36044cee618417b",
+  "hash": "2a7f456030334a17",
   "date": "2026-11-10"
  },
  "guides/pool-water.html": {
@@ -232,24 +236,24 @@
   "date": "2026-11-10"
  },
  "guides/power.html": {
-  "hash": "bd407e75f85d3ab0",
+  "hash": "b7600d914efe8bee",
   "date": "2026-11-10"
  },
  "guides/radios.html": {
-  "hash": "4aaf9d21ae9c4951",
+  "hash": "bef8fdfd5af7da2e",
   "date": "2026-11-10"
  },
  "guides/sanitation.html": {
-  "hash": "0dfd14e13877100e",
+  "hash": "97291e324c0fbb5f",
   "date": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "77a229f57cf3a8e3",
+  "hash": "1ec45a805f4f905d",
   "date": "2026-11-10"
  },
  "index.html": {
-  "hash": "ce8cb4f338eb4572",
-  "date": "2026-11-09"
+  "hash": "1943dfc7bf8ac595",
+  "date": "2026-11-10"
  },
  "la-renters.html": {
   "hash": "3573055e031a588c",
@@ -257,6 +261,14 @@
  },
  "library.html": {
   "hash": "5a922f838482e277",
+  "date": "2026-11-10"
+ },
+ "power-calculator.html": {
+  "hash": "44f3e50e34ea5332",
+  "date": "2026-11-10"
+ },
+ "preparedness-gifts.html": {
+  "hash": "522af7d01513802d",
   "date": "2026-11-10"
  },
  "privacy.html": {

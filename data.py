@@ -597,7 +597,7 @@ GUIDES = [
         "howmuch": [
             ["Phone recharge", "~15 Wh", "A 20,000 mAh bank holds about four recharges."],
             ["Fridge per day", "1 to 2 kWh", "Newer fridges are on the lower end. Run it in cycles to stretch battery."],
-            ["CPAP per night", "~30 to 60 Wh", "About 8 hours with the heated humidifier and tube off. Heat can multiply that several times, so check your machine's power spec."],
+            ["CPAP per night", "~80 to 90 Wh", "8 hours with the humidifier and heated tube off (ResMed's battery figures for the AirSense 10). With full heat it's 340 to 470 Wh, so turn heat off in an outage."],
             ["Generator distance", "20+ ft", "From doors, windows and vents, pointing away from the house."],
         ],
         "picks": [
@@ -613,7 +613,7 @@ GUIDES = [
              "best": "Every floor of every home", "q": "battery operated carbon monoxide detector"},
             {"tier": "step", "name": "1 kWh power station (Anker SOLIX C1000 or similar)", "asin": "B0C5C89QKZ", "asin_name": "Anker SOLIX C1000",  "price": "$400 to $900",
              "what": "A silent lithium battery with AC outlets, USB ports and solar input.",
-             "why": "About 850 Wh usable through the AC outlets: roughly 14 nights of a 60 Wh CPAP with the humidifier off (far fewer with heat on), 10 to 20 hours of a typical fridge, or phones and lights for a week. Safe indoors.",
+             "why": "About 850 Wh usable through the AC outlets: about 9 to 11 nights of a CPAP with the humidifier off (1 to 2 with full heat), 10 to 20 hours of a typical fridge, or phones and lights for a week. Safe indoors.",
              "watch": "Compare usable capacity (Wh), surge rating and battery chemistry. LiFePO4 lasts far more cycles.",
              "best": "Apartments, CPAP users, short to medium outages", "q": "1000wh portable power station lifepo4"},
             {"tier": "step", "name": "100 to 200 W folding solar panel", "asin": "B0CNPHD4VY", "asin_name": "Renogy 200W portable panel", "price": "$150 to $400",
@@ -634,7 +634,7 @@ GUIDES = [
         ],
         "choose": [
             "List what you need running and add up watt-hours per day. Buy capacity for that, plus 20%.",
-            "Runtime math: rated Wh × 0.85 (inverter losses when you use the AC outlets) ÷ your device's Wh per hour or per night. Example: 1,000 Wh × 0.85 ÷ 60 Wh per night ≈ 14 nights of CPAP. A DC cable for the CPAP, if your maker sells one, stretches that further.",
+            "Runtime math: rated Wh × 0.85 (inverter losses when you use the AC outlets) ÷ your device's Wh per hour or per night. Example: 1,000 Wh × 0.85 ÷ 85 Wh per night ≈ 10 nights of CPAP with the humidifier off. The power station calculator does this math for your devices. A DC cable for the CPAP, if your maker sells one, stretches that further.",
             "Check surge watts for motors: fridges, pumps and furnace blowers spike at start.",
             "Prefer LiFePO4 batteries for longevity and safety.",
             "For generators, dual-fuel adds flexibility. Propane doesn't go stale like gasoline.",
@@ -649,7 +649,7 @@ GUIDES = [
         "faqs": [
             ["Can a power station run a refrigerator?", "Yes. Most modern fridges use about 1 to 2 kWh per day, so a 1 kWh station can run one for many hours. Check that the station's surge rating covers the compressor's startup."],
             ["Power station or generator?", "Power stations are silent, safe indoors and maintenance-free, but limited by capacity. Generators provide much more energy for long outages but must run outdoors. Many households use both."],
-            ["What size power station do I need for a CPAP?", "Most CPAPs use 30 to 60 Wh per night without humidification. A 500 Wh station covers several nights. Use a DC adapter if available; it's more efficient."],
+            ["What size power station do I need for a CPAP?", "With the humidifier and heated tube off, a CPAP like the ResMed AirSense 10 uses about 80 to 90 Wh a night, so a 500 Wh station covers about 5 nights and a 1,000 Wh station about 10. Full heat uses four to five times as much. Use your maker's DC cable if it sells one. Our CPAP power guide has the full runtime table."],
         ],
     },
     {
