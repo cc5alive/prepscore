@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Static site generator for PrepScore. Run: python3 build.py"""
 import hashlib, html, json, os, posixpath, re, shutil, sys, urllib.parse, datetime
-from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES, QUIZ_ACTIONS
+from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES, QUIZ_ACTIONS, PICK_SKIP
 from cities import CITIES, REGIONS, ALERTS_CHECKED
 from pool import POOL_CITIES
 POOL_ASIDE = lambda root: (f'<div class="aside"><h3>Have a backyard pool?</h3><p class="muted small">It can back up your water supply, but not through a filter alone. '
@@ -127,6 +127,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
     page = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-head"><div class="wrap">
 <a class="brand" href="{root}index.html" aria-label="{SITE['name']} home">{BRAND_SVG}{SITE['name']}</a>
+<a class="btn head-cta" href="{root}quiz.html">Get your PrepScore</a>
 <nav class="nav" aria-label="Main">{navhtml}</nav>
 </div></header>
 <main id="main">
@@ -632,7 +633,7 @@ def build_guides():
             picks += f'<div class="tier-head" id="{tier}" style="margin-top:2.5rem"><h2>{lbl}</h2><p>{sub}</p></div>'
             for p in ps:
                 picks += f"""<article class="pick" id="pick-{slugify(p['name'])}"><div><h3>{e(p['name'])}</h3>
-<dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
+<dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd><dt>Skip it if</dt><dd>{e(PICK_SKIP[p['name']])}</dd></dl></div>
 <div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy_btn(p)}</div></article>"""
         choose = "".join(f"<li>{e(x)}</li>" for x in g["choose"])
         mistakes = "".join(f"<li>{e(x)}</li>" for x in g["mistakes"])
@@ -657,11 +658,11 @@ def build_guides():
         toc_html = '<nav class="toc" aria-label="On this page"><span>On this page</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
         cr = [("Home", "/"), ("Gear guides", "/guides/"), (g["name"], f"/guides/{g['slug']}")]
         body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
-<h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from {e(", ".join(sorted({t.split(":")[0] for t, _ in srcs})))}. {BAND_NOTE}</p>
-<p class="hero-alt">New to prepping? Start with <a href="{root}72-hour-kit.html">the simple 3-day kit</a>.</p>
-{toc_html}</div></div>
+<h1>{e(g['h1'])}</h1><p class="dek">{e(g['dek'])}</p><p class="muted small" style="margin-top:1rem">Reviewed {REVIEWED} against guidance from {e(", ".join(sorted({t.split(":")[0] for t, _ in srcs})))}. Picks are researched from published specs, certifications and safety guidance, not hands-on tested by PrepScore. <a href="{root}disclosure.html">How we pick</a>.</p>
+<p class="hero-alt">New to prepping? Start with <a href="{root}72-hour-kit.html">the simple 3-day kit</a>.</p></div></div>
 <section class="section"><div class="wrap stack-l">
 {quick_html}
+{toc_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
 {f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>.</p>' if g["slug"] == "water" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
@@ -1266,6 +1267,7 @@ def build_misc():
 <p>We don't accept paid placements, sponsored rankings or free products in exchange for coverage.</p>
 <h2 style="margin-top:2rem">How we pick</h2>
 <p>We start from what you need in a real emergency, then look for gear that does that job reliably at three budgets. We favor items with long track records, independent certifications where they exist (NIOSH for respirators, NSF/ANSI or EPA registration for water treatment), and makers who publish real specs.</p>
+<p>We don't run a test lab. Picks are researched from published specifications, certifications, safety guidance and long-term owner feedback, not hands-on tested by PrepScore, and we say so on every guide. Each pick also says who can skip it, because the best purchase is often none.</p>
 <p>Whenever a free or cheap option works, like a Stop the Bleed class or a bathtub full of water, we say so first.</p>
 <h2 style="margin-top:2rem">Your quiz answers</h2>
 <p>The PrepScore quiz runs entirely in your browser. Your answers are saved on your device so you can come back to them. We don't send them anywhere. See our <a href="{root}privacy.html">privacy policy</a>.</p>

@@ -630,3 +630,16 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
   body.print-handout .lr-foot { font-size: 7.5pt; }
   body.print-handout .lr a { color: #000; text-decoration: none; }
 }
+
+/* Compact header on phones: brand and quiz button on one row, links in one scrollable row */
+.head-cta { display: none; }
+@media (max-width: 640px) {
+  .site-head .wrap { gap: .5rem 1rem; padding-block: .55rem .4rem; }
+  .brand { font-size: 1.45rem; }
+  .brand svg { width: 22px; height: 22px; }
+  .head-cta { display: inline-flex; margin-left: auto; padding: .45rem .75rem; font-size: .85rem; box-shadow: 2px 2px 0 var(--ink); }
+  .nav { order: 3; width: 100%; margin-left: 0; flex-wrap: nowrap; overflow-x: auto; gap: 1.1rem; scrollbar-width: none; padding-bottom: .15rem; }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { white-space: nowrap; font-size: .9rem; }
+  .nav .btn { display: none; }
+}
