@@ -762,6 +762,13 @@ def kit_buy(prod, label="Check price"):
             f'<a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{label}</a></div></div>')
 
 
+KIT_TOOLS = {
+    "water": '<a class="kit-more kit-tool" href="water-calculator.html">Work out your household\'s water</a>',
+    "food": '<a class="kit-more kit-tool" href="food-calculator.html">Work out your household\'s food</a>',
+    "power": '<a class="kit-more kit-tool" href="power-calculator.html">Need more than phones? Size a power station</a>',
+}
+
+
 def build_kit():
     root = ""
     items = ""
@@ -774,7 +781,7 @@ def build_kit():
             also = f'<p class="kit-also">Plus: <a href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{e(a[0])}</a> ({band(a[2])})</p>'
         items += f"""<li class="kit-item" id="kit-{k['id']}"><div class="kit-head"><h3>{e(k['name'])}</h3><span class="kit-amt">{e(k['amount'])}</span></div>
 <p>{e(k['why'])}</p><p class="kit-tip">{e(k['tip'])}</p>{prod}{also}
-<a class="kit-more" href="guides/{k['guide']}.html">More on {e(GD[k['guide']]['short'].lower())}</a></li>"""
+{KIT_TOOLS.get(k['id'], '')}<a class="kit-more" href="guides/{k['guide']}.html">More on {e(GD[k['guide']]['short'].lower())}</a></li>"""
     checklist = "".join(f'<li><label class="qitem" for="k3-{i}"><input type="checkbox" id="k3-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(k["name"])}: {e(k["amount"].lower())}</span></label></li>' for i, k in enumerate(KIT))
     checklist += "".join(f'<li><label class="qitem" for="k3-x{i}"><input type="checkbox" id="k3-x{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(x)}</span></label></li>' for i, x in enumerate(KIT_EXTRAS))
     pm = KIT_PREMADE

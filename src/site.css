@@ -712,3 +712,4 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
   html[lang="es"] body.print-handout .lr-p, html[lang="es"] body.print-handout .lr-line { font-size: 8.5pt; }
   html[lang="es"] body.print-handout .lr-line { margin-top: .7rem; }
 }
+.kit-tool { color: var(--ink); margin-right: 1rem; }
