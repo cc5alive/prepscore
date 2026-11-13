@@ -207,65 +207,73 @@
   "hash": "2f03882421f32945",
   "date": "2026-11-10"
  },
+ "guides/baby-emergency-kit.html": {
+  "hash": "fd97928c2371a6bf",
+  "date": "2026-11-13"
+ },
  "guides/car.html": {
-  "hash": "5b515299ca757401",
-  "date": "2026-11-11"
+  "hash": "301142920fb6884d",
+  "date": "2026-11-13"
  },
  "guides/cpap-power-outage.html": {
-  "hash": "325b00e9d772ca24",
-  "date": "2026-11-10"
+  "hash": "5f77e2187650519a",
+  "date": "2026-11-13"
  },
  "guides/first-aid.html": {
-  "hash": "73100f3a69cc4a2f",
-  "date": "2026-11-11"
+  "hash": "0c730875abecb017",
+  "date": "2026-11-13"
  },
  "guides/food.html": {
-  "hash": "e1fc880db19970b2",
-  "date": "2026-11-11"
+  "hash": "3ababd4f79fb545a",
+  "date": "2026-11-13"
  },
  "guides/go-bag.html": {
-  "hash": "643d5afc93ad27a0",
-  "date": "2026-11-11"
+  "hash": "d6b71397ba589046",
+  "date": "2026-11-13"
  },
  "guides/index.html": {
-  "hash": "5fec2b8e80abe685",
-  "date": "2026-11-11"
+  "hash": "fbb28ee062dd7b65",
+  "date": "2026-11-13"
  },
  "guides/light-heat.html": {
-  "hash": "b96611357384da00",
-  "date": "2026-11-11"
+  "hash": "136e32e6ecdc8380",
+  "date": "2026-11-13"
+ },
+ "guides/older-adults-disabilities.html": {
+  "hash": "f97f7b81e5a14f2f",
+  "date": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "19a46f6de8a0c5e3",
-  "date": "2026-11-11"
+  "hash": "689a51fc5d964926",
+  "date": "2026-11-13"
  },
  "guides/pool-water.html": {
   "hash": "28e22fa37f25f6f1",
   "date": "2026-11-10"
  },
  "guides/power.html": {
-  "hash": "4b31f6b44f9e6400",
-  "date": "2026-11-11"
+  "hash": "4461825ff98433fd",
+  "date": "2026-11-13"
  },
  "guides/radios.html": {
-  "hash": "1cbb81764be95dad",
-  "date": "2026-11-11"
+  "hash": "c4aa6c100ecd120e",
+  "date": "2026-11-13"
  },
  "guides/sanitation.html": {
-  "hash": "f1e404347c54a48c",
-  "date": "2026-11-11"
+  "hash": "45ee7fb415fb4b0b",
+  "date": "2026-11-13"
  },
  "guides/stranded-in-car-winter.html": {
   "hash": "9d9ecb8d1bb3528b",
   "date": "2026-11-11"
  },
  "guides/water.html": {
-  "hash": "4097737eabca3c55",
-  "date": "2026-11-11"
+  "hash": "4006fd799a6b50fd",
+  "date": "2026-11-13"
  },
  "guides/winter-storm-power-outage.html": {
-  "hash": "8dd2a9508588ea5d",
-  "date": "2026-11-11"
+  "hash": "931556134adeb530",
+  "date": "2026-11-13"
  },
  "index.html": {
   "hash": "e8ead47eb536248f",

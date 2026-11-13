@@ -157,6 +157,10 @@
     f_store: ["/food-calculator", "Work out your food"], "f_store+": ["/food-calculator", "Work out your food"],
     p_station: ["/power-calculator", "Size a power station"], p_solar: ["/power-calculator", "Size a power station"]
   };
+  var DEEP = {
+    f_special: ["baby-emergency-kit", "Baby and toddler kit"],
+    m_rx: ["older-adults-disabilities", "Older adults and disabilities"]
+  };
   function renderPlan(r) {
     var ul = $("#gaps"); ul.innerHTML = "";
     var top = r.gaps.slice(0, 3), rest = r.gaps.slice(3);
@@ -173,6 +177,8 @@
       var tool = TOOLS[g.q.id];
       if (tool) html += "<a class=\"btn ghost sm tool-link\" href=\"" + tool[0] + "?people=" + state.people + "\">" + tool[1] + " &rarr;</a>";
       if (c.guide) html += " <a class=\"guide-link\" href=\"/guides/" + c.guide + "\">" + esc(c.name) + " guide</a>";
+      var deep = DEEP[g.q.id];
+      if (deep) html += " <a class=\"guide-link\" href=\"/guides/" + deep[0] + "\">" + deep[1] + "</a>";
       li.innerHTML = html;
       var buy = D.buy && D.buy[g.q.id];
       if (buy && buy.url && a[1]) {

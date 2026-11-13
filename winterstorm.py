@@ -117,5 +117,6 @@ SOURCES = [
 
 RELATED = [("Power station calculator", "../power-calculator.html"), ("Keeping a CPAP running in an outage", "cpap-power-outage.html"),
            ("Stuck in your car in a snowstorm", "stranded-in-car-winter.html"), ("Staying warm without power", "light-heat.html"),
-           ("Food storage calculator", "../food-calculator.html"), ("Water storage calculator", "../water-calculator.html")]
+           ("Food storage calculator", "../food-calculator.html"), ("Water storage calculator", "../water-calculator.html"),
+           ("Older adults and people with disabilities", "older-adults-disabilities.html")]
 CALC_LINK = ("To size backup power for an electric blanket, CPAP, phones and lights, use the", "../power-calculator.html", "power station calculator")

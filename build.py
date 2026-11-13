@@ -688,6 +688,8 @@ def build_guides():
 {f'<p class="read">Driving in snow country? See <a href="stranded-in-car-winter.html">what to do if you\'re stuck in your car in a snowstorm</a>, with a printable winter checklist.</p>' if g["slug"] == "car" else ""}
 {f'<p class="read">For your household\'s calories and an example pantry list, use the <a href="{root}food-calculator.html">food storage calculator</a>.</p>' if g["slug"] == "food" else ""}
 {POOL_CALLOUT if g["slug"] == "water" else ""}
+{f'<p class="read">Planning for someone who relies on medications, oxygen or a wheelchair? See <a href="older-adults-disabilities.html">emergency planning for older adults and people with disabilities</a>.</p>' if g["slug"] == "first-aid" else ""}
+{f'<p class="read">Packing for a baby or toddler? See <a href="baby-emergency-kit.html">what goes in a baby emergency kit</a>, including feeding without power or clean water.</p>' if g["slug"] == "go-bag" else ""}
 {f'<p class="read">To size a station for your own devices, use the <a href="{root}power-calculator.html">power station calculator</a>. Using a CPAP? See <a href="cpap-power-outage.html">nights per charge by setting and station size</a>.</p>' if g["slug"] == "power" else ""}
 </div></section>
 <section class="section" id="when"><div class="wrap stack-l">
@@ -729,7 +731,9 @@ def build_guides():
 <li><a href="apartment-water-storage.html"><b>Water storage for apartments</b><span>How much you need, which containers fit small spaces, and where to put 200+ pounds of water.</span></a></li>
 <li><a href="winter-storm-power-outage.html"><b>Losing power in a winter storm</b><span>Heat one room safely, avoid carbon monoxide, keep pipes from freezing and know when to leave. Printable checklist.</span></a></li>
 <li><a href="stranded-in-car-winter.html"><b>Stuck in your car in a snowstorm</b><span>What to do from the first minute, how much gas idling uses, and the winter extras for your car kit.</span></a></li>
-<li><a href="cpap-power-outage.html"><b>CPAP in a power outage</b><span>How many nights a power station runs your CPAP by setting and size, what to buy, and how to set it up before an outage.</span></a></li></ul>
+<li><a href="cpap-power-outage.html"><b>CPAP in a power outage</b><span>How many nights a power station runs your CPAP by setting and size, what to buy, and how to set it up before an outage.</span></a></li>
+<li><a href="older-adults-disabilities.html"><b>Older adults and people with disabilities</b><span>Medications, oxygen and other powered equipment, getting out, and the people and programs that help. Printable checklist.</span></a></li>
+<li><a href="baby-emergency-kit.html"><b>An emergency kit for babies and toddlers</b><span>Feeding without power or clean water, diapers, safe sleep away from home, and what goes in the bag. Printable checklist.</span></a></li></ul>
 <p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
@@ -1613,7 +1617,7 @@ def build_cpap():
 <h2 id="faq" style="margin-top:2.5rem">Questions</h2><div class="faq">{faq_html}</div>
 <h2 id="sources" style="margin-top:2.5rem">Sources</h2><ul class="plain-list read sources">{srcs}</ul>
 <p class="muted small read">This page is general information, not medical advice. If you rely on a powered medical device, ask your doctor and equipment supplier what to do in an outage.</p></div>
-<aside class="stack-l"><div class="aside"><h3>Related</h3><ul><li><a href="{root}power-calculator.html">Power station size calculator</a></li><li><a href="power.html">Backup power guide</a></li><li><a href="first-aid.html">First aid, medications and insulin in an outage</a></li><li><a href="light-heat.html">Staying warm without power</a></li></ul></div></aside>
+<aside class="stack-l"><div class="aside"><h3>Related</h3><ul><li><a href="{root}power-calculator.html">Power station size calculator</a></li><li><a href="power.html">Backup power guide</a></li><li><a href="first-aid.html">First aid, medications and insulin in an outage</a></li><li><a href="light-heat.html">Staying warm without power</a></li><li><a href="older-adults-disabilities.html">Older adults and people with disabilities</a></li></ul></div></aside>
 </div></section>
 <section class="section"><div class="wrap">{cta_quiz(root)}</div></section>"""
     j = [{"@context": "https://schema.org", "@type": "Article", "headline": C.TITLE, "description": C.META, "dateModified": TODAY,
@@ -1892,8 +1896,8 @@ def build_og():
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
     card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
-    import aptwater, wintercar, winterstorm
-    for M in (aptwater, wintercar, winterstorm):
+    import aptwater, wintercar, winterstorm, olderadults, babykit
+    for M in (aptwater, wintercar, winterstorm, olderadults, babykit):
         card(M.OG, M.OG_CARD[0], M.OG_CARD[1], M.OG_CARD[2], bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
     card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
@@ -1969,7 +1973,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm, olderadults, babykit; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_buyer(olderadults); build_buyer(babykit); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     for rel, parts, _, _ in PAGES:
