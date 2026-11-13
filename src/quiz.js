@@ -44,7 +44,8 @@
     // An unanswered question means "unknown", never a guess.
     var wd = state.a.w_store == null ? null : qw.choices[state.a.w_store][2];
     var heater = 0;
-    if (wd != null && state.a.w_heater) { heater = Math.max(1, Math.round(12 / state.people)); wd += heater; }
+    // A typical tank holds 40 to 50 gallons; count 40 (as the water calculator does), shared by the household
+    if (wd != null && state.a.w_heater) { heater = Math.max(1, Math.round(40 / state.people)); wd += heater; }
     var fd = state.a.f_store == null ? null : qf.choices[state.a.f_store][2];
     var days = (wd == null || fd == null) ? null : Math.min(wd, fd);
     var gaps = D.quiz.map(function (q) { return { q: q, miss: weight(q) * (1 - value(q)) }; })
@@ -78,6 +79,7 @@
   function syncInputs() {
     $$(".chip[data-loc]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.loc === state.loc)); });
     $("#people-out").textContent = state.people;
+    var cs = $("#city-select"); if (cs) cs.value = state.city || "";
     D.quiz.forEach(function (q) {
       if (q.type === "choice") {
         $$('input[name="' + q.id + '"]').forEach(function (inp) { inp.checked = String(state.a[q.id]) === inp.value; });
@@ -87,9 +89,11 @@
     });
   }
 
+  function answered() { return Object.keys(state.a).some(function (k) { return state.a[k] !== false && state.a[k] != null; }); }
   function render() {
     var r = compute();
     var t = r.tier;
+    var started = answered();
     $$("[data-out=score]").forEach(function (e) { e.textContent = r.score; });
     $$("[data-out=days]").forEach(function (e) { e.textContent = daysLabel(r.days); });
     $$("[data-out=tier]").forEach(function (e) { e.textContent = t.name; });
@@ -97,6 +101,14 @@
     $$("[data-out=dayword]").forEach(function (e) { e.textContent = r.days == null ? "days of supplies" : r.days === 1 ? "day of supplies" : "days of supplies"; });
     $$("[data-out=limits]").forEach(function (e) { e.textContent = limitsText(r); });
     $$(".tier-chip").forEach(function (e) { e.style.setProperty("--tier", t.color); e.style.color = t.text; e.textContent = t.name; });
+    if (!started) {
+      // Before the first answer: a neutral card, not a failing grade
+      $$("[data-out=score]").forEach(function (e) { e.textContent = "–"; });
+      $$("[data-out=tier]").forEach(function (e) { e.textContent = "Not started yet"; });
+      $$("[data-out=line]").forEach(function (e) { e.textContent = "Check off what you have and your score fills in."; });
+      $$(".tier-chip").forEach(function (e) { e.style.setProperty("--tier", "var(--line)"); e.style.color = "var(--ink)"; e.textContent = "Not started"; });
+    }
+    var share = $("#share"); if (share) share.hidden = !started;
     $$("[data-cat-bar]").forEach(function (e) { e.style.width = r.cats[e.dataset.catBar] + "%"; });
     $$("[data-cat-pct]").forEach(function (e) { e.textContent = r.cats[e.dataset.catPct] + "%"; });
     var L = loc();
@@ -104,11 +116,11 @@
 
     var n = state.people;
     $("#t-water").textContent = (14 * n) + " gal";
-    $("#t-food").textContent = (28 * n) + "k kcal";
+    $("#t-food").textContent = (28000 * n).toLocaleString("en-US");
     $("#t-bags").textContent = (14 * n * 2);
 
     var bar = $(".mobile-bar");
-    if (bar) bar.classList.toggle("empty", !Object.keys(state.a).some(function (k) { return state.a[k]; }));
+    if (bar) bar.classList.toggle("empty", !started);
     renderPlan(r);
     renderCityNote();
     window.__result = r;
@@ -345,6 +357,12 @@
       if (t.type === "radio") state.a[t.name] = Number(t.value);
       else state.a[t.id] = t.checked;
       save(); render();
+    });
+    var cs = $("#city-select");
+    if (cs) cs.addEventListener("change", function () {
+      state.city = cs.value && D.cities[cs.value] ? cs.value : null;
+      if (state.city && D.cities[state.city].loc) state.loc = D.cities[state.city].loc;
+      save(); syncInputs(); render();
     });
     $("#btn-reset").addEventListener("click", function () { state.a = {}; save(); syncInputs(); render(); status(""); });
     // Printing the quiz page always prints the plan, whether from the button or the browser's Print command.

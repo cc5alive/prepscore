@@ -202,6 +202,8 @@ QUIZ = [
      "tip": "A five-minute drill exposes most gaps."},
     {"id": "d_people", "cat": "plan", "w": 1, "label": "I know at least two neighbors I could count on",
      "tip": "Neighbors are the first responders in most disasters."},
+    {"id": "d_insure", "cat": "plan", "w": 1.5, "label": "Insurance that covers my main local risk (flood, earthquake or wildfire)",
+     "tip": "Standard home and renters policies don't cover flood or earthquake damage; those need separate policies. Fire is usually covered, but check the limits would rebuild your home."},
 
     {"id": "h_alarms", "cat": "home", "w": 2, "label": "Working smoke and carbon monoxide alarms",
      "tip": "Test monthly. Add a battery CO alarm if you have any fuel-burning appliance or generator."},
@@ -216,13 +218,13 @@ QUIZ = [
 # Tiers for share cards
 TIERS = [
     {"slug": "sitting-duck", "name": "Sitting Duck", "min": 0, "max": 19, "color": "#C8371F",
-     "line": "One bad storm away from a very bad week.",
+     "line": "Most of the basics are still missing.",
      "brag": "I just found out I'm a Sitting Duck."},
     {"slug": "snack-drawer", "name": "Snack Drawer", "min": 20, "max": 39, "color": "#D9661F",
-     "line": "You'd make it through a night. Maybe two.",
+     "line": "A start, with big gaps in the basics.",
      "brag": "My emergency plan is apparently a snack drawer."},
     {"slug": "weekend-ready", "name": "Weekend Ready", "min": 40, "max": 59, "color": "#E0A100",
-     "line": "Solid for a short outage. Thin after day three.",
+     "line": "The basics are mostly there. Now close the gaps.",
      "brag": "I'm Weekend Ready. Are you?"},
     {"slug": "squared-away", "name": "Squared Away", "min": 60, "max": 74, "color": "#8FA51C",
      "line": "Better prepared than most of your street.",
@@ -371,7 +373,7 @@ LOCATIONS = [
             "Waiting until a storm is named to buy supplies. Shelves empty fast.",
         ],
         "mult": {"gobag": 1.4, "water": 1.2, "power": 1.2, "plan": 1.3, "sanitation": 1.1},
-        "item": {"d_docs": 1.5, "p_fuel": 1.5},
+        "item": {"d_docs": 1.5, "p_fuel": 1.5, "d_insure": 1.6},
     },
     {
         "slug": "wildfire-country", "name": "Wildfire country", "nav": "Wildfire",
@@ -404,7 +406,7 @@ LOCATIONS = [
             "Staying to defend the house. Leave when told.",
         ],
         "mult": {"gobag": 1.6, "plan": 1.4, "comms": 1.25, "power": 1.1, "home": 1.15},
-        "item": {"g_mask": 2.5, "c_alerts": 2.0, "d_docs": 1.4, "p_fuel": 1.4},
+        "item": {"g_mask": 2.5, "c_alerts": 2.0, "d_docs": 1.4, "p_fuel": 1.4, "d_insure": 1.3},
     },
     {
         "slug": "earthquake-country", "name": "Earthquake country", "nav": "Earthquake",
@@ -437,7 +439,7 @@ LOCATIONS = [
             "Only a 72-hour kit. That number is outdated for a major regional quake.",
         ],
         "mult": {"water": 1.4, "home": 1.5, "sanitation": 1.35, "medical": 1.2},
-        "item": {"g_shoes": 2.5, "h_secure": 2.5, "h_shutoff": 1.4, "m_tq": 1.3},
+        "item": {"g_shoes": 2.5, "h_secure": 2.5, "h_shutoff": 1.4, "m_tq": 1.3, "d_insure": 1.6},
     },
 ]
 
@@ -1265,6 +1267,8 @@ QUIZ_ACTIONS = {
     "d_plan": ("Write a household plan: a meeting spot nearby, one outside the neighborhood, two ways out.", None),
     "d_drill": ("Run a 5-minute drill: grab the go-bag and meet at your spot.", None),
     "d_people": ("Introduce yourself to two neighbors and swap phone numbers.", None),
+    "d_insure": ("Check that your insurance covers your main local risk. Flood and earthquake need separate policies.",
+                 "Read your policy's exclusions page tonight and write down what isn't covered."),
     "h_alarms": ("Test your smoke and CO alarms, and add a battery CO alarm.",
                  "Test every alarm today and replace dead batteries."),
     "h_ext": ("Get an ABC fire extinguisher and learn to use it: pull, aim, squeeze, sweep.",

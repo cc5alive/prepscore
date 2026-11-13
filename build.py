@@ -374,6 +374,9 @@ def build_quiz():
 <p class="city-note" id="city-note" hidden></p>
 <div class="setup" style="margin-top:2rem">
 <div><span class="lbl" style="font-weight:700;display:block;margin-bottom:.55rem">Where do you live?</span><div class="chips" role="group" aria-label="Where do you live">{chips}</div></div>
+<div><label for="city-select" style="font-weight:700;display:block;margin-bottom:.55rem">Your city <span class="muted" style="font-weight:400">(optional)</span></label>
+<select id="city-select" class="city-select"><option value="">Not listed, or skip</option>{"".join(f'<option value="{c["slug"]}">{e(c["name"])}, {e(c["state"])}</option>' for c in sorted(CITIES, key=lambda c: c["name"]))}</select>
+<p class="tip" style="margin-top:.4rem">Adds your city's official alert sign-ups to your plan.</p></div>
 <div><span style="font-weight:700;display:block;margin-bottom:.55rem" id="people-label">People in your household</span>
 <div class="stepper" role="group" aria-labelledby="people-label"><button type="button" id="people-minus" aria-label="Fewer people">&minus;</button><output id="people-out" aria-live="polite">2</output><button type="button" id="people-plus" aria-label="More people">+</button></div></div>
 </div>
@@ -386,12 +389,13 @@ def build_quiz():
 <div class="tag-body" aria-live="polite"><div class="tag-days"><span data-out="days">?</span><small data-out="dayword">days of supplies</small></div>
 <div class="tag-score"><b data-out="score">0</b><span>PrepScore / 100</span></div>
 <div class="tag-tier" data-out="tier">Sitting Duck</div><p class="tag-line" data-out="line"></p>
-<p class="tag-limits" data-out="limits">Answer the water and food questions to see how long your supplies last.</p></div>
+<p class="tag-limits" data-out="limits">Answer the water and food questions to see how long your supplies last.</p>
+<p class="tag-explain">Your score is how much of the full checklist you have, weighted for where you live.</p></div>
 <ul class="manifest">{man}</ul><div class="hazard"></div>
 </div>
 <details class="how-scored"><summary>How this is calculated</summary><p><b>Days of supplies</b> is the shorter of your stored drinking water and your no-cook food. Water you can drain from a water heater counts; a filter doesn't, because it needs a water source. <b>The PrepScore</b> is the share of the checklist you have, with each item weighted for where you live (water and earthquake prep count more in earthquake country, for example). Your answers stay in your browser.</p></details>
 <div style="margin-top:1.75rem"><h3>Your 2-week targets</h3>
-<div class="targets" style="margin-top:.6rem"><div><b id="t-water">28 gal</b><span>water</span></div><div><b id="t-food">56k kcal</b><span>food</span></div><div><b id="t-bags">56</b><span>toilet bags</span></div></div></div>
+<div class="targets" style="margin-top:.6rem"><div><b id="t-water">28 gal</b><span>water</span></div><div><b id="t-food">56,000</b><span>calories of food</span></div><div><b id="t-bags">56</b><span>toilet bags</span></div></div></div>
 <div style="margin-top:1.75rem" id="plan"><h3>Your plan for this week</h3><p style="margin:.2rem 0 .6rem;color:var(--muted);font-size:.92rem">Your three biggest gaps, weighted for where you live, each with a free or use-what-you-have option where there is one. Tick each one off above once it's handled.</p><ol class="gaps" id="gaps"></ol>
 <div id="next-wrap" hidden><h4 class="next-h">After that</h4><ul class="next-list" id="next"></ul></div>
 <div class="print-box"><button type="button" class="btn" id="btn-print">Print my plan</button><p>One page with your three actions, supply targets, local alert links and space to write down your household plan. No product links, so it's easy to share.</p></div>
