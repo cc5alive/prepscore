@@ -127,7 +127,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
     page = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-head"><div class="wrap">
 <a class="brand" href="{root}index.html" aria-label="{SITE['name']} home">{BRAND_SVG}{SITE['name']}</a>
-<a class="btn head-cta" href="{root}quiz.html">Get your PrepScore</a>
+{'' if active == 'quiz' else f'<a class="btn head-cta" href="{root}quiz.html">Get your PrepScore</a>'}
 <nav class="nav" aria-label="Main">{navhtml}</nav>
 </div></header>
 <main id="main">
@@ -139,9 +139,9 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">{AMAZON_LINE} We also earn commissions from other links marked Affiliate. <a href="{root}disclosure.html">How we make money</a>.</p>
 <p class="muted small">Guidance here is general information, not medical or legal advice. In an emergency, follow instructions from local officials.</p>
 <p class="muted small">Questions or corrections: <a href="mailto:{SITE['email']}">{SITE['email']}</a></p></div>
-<div><h4>Where you live</h4><ul>{loc_links}</ul></div>
-<div><h4>Gear guides</h4><ul>{guide_links}</ul></div>
-<div><h4>Tools</h4><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}food-calculator.html">Food storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
+<div><h2 class="foot-h">Where you live</h2><ul>{loc_links}</ul></div>
+<div><h2 class="foot-h">Gear guides</h2><ul>{guide_links}</ul></div>
+<div><h2 class="foot-h">Tools</h2><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}food-calculator.html">Food storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}<script defer src="{root}{asset("track.js")}"></script>{BEACON}"""
     return head, page, body_attr
@@ -363,10 +363,11 @@ def build_quiz():
         guide = f' <a class="small" href="guides/{c["guide"]}.html">Guide</a>' if c["guide"] else ""
         cats_html += f'<section class="qcat" aria-labelledby="h-{c["id"]}"><div class="qcat-head"><h2 id="h-{c["id"]}">{e(c["name"])}{guide}</h2><span class="pct" data-cat-pct="{c["id"]}">0%</span></div>{items}</section>'
     man = "".join(f'<li><span>{e(c["short"])}</span><span class="bar"><i data-cat-bar="{c["id"]}"></i></span></li>' for c in QUIZ_CATS)
-    body = f"""<div class="page-head"><div class="wrap">
+    body = f"""<div class="page-head quiz-head"><div class="wrap">
 {crumbs_html([("Home", "/"), ("How prepared am I?", "/quiz")], root)}
 <h1>How prepared am I?</h1>
 <p class="dek">Check off what you have right now, not what you plan to buy. Your score updates as you go and is weighted for where you live.</p>
+<p class="quiz-promise">About 3 minutes · No sign-up · Answers stay on your device</p>
 </div></div>
 <div class="wrap"><div class="quiz-layout">
 <div>
@@ -405,7 +406,7 @@ def build_quiz():
 </div>
 </aside>
 </div></div>
-<div class="mobile-bar"><span><b data-out="score">0</b> <span data-out="tier">Sitting Duck</span></span><a href="#result">See result</a></div>
+<div class="mobile-bar empty"><span class="mb-score"><b data-out="score">0</b> <span data-out="tier">Sitting Duck</span></span><span class="mb-empty">Check items to see your score</span><a href="#result">See result</a></div>
 <section class="plan-print" id="plan-print" aria-hidden="true"></section>"""
     buy = {}
     for qid, spec in QUIZ_BUY.items():
@@ -432,7 +433,7 @@ def build_quiz():
     add("quiz.html", shell(path="/quiz", title="How Prepared Am I? Free Emergency Preparedness Quiz",
                            desc="Check off what you have and get your PrepScore: how many days you could last on your own, your biggest gaps, and a card to share. Weighted for where you live.",
                            body=body, root=root, og="quiz", canon="/quiz", jsonld=j,
-                           scripts=("data.js", "quiz.js"), body_attr=' class="has-bar" data-root=""'), "/quiz", "0.9")
+                           scripts=("data.js", "quiz.js"), body_attr=' class="has-bar" data-root=""', active="quiz"), "/quiz", "0.9")
 
 
 # ---------------------------------------------------------------------------

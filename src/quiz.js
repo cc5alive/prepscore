@@ -107,6 +107,8 @@
     $("#t-food").textContent = (28 * n) + "k kcal";
     $("#t-bags").textContent = (14 * n * 2);
 
+    var bar = $(".mobile-bar");
+    if (bar) bar.classList.toggle("empty", !Object.keys(state.a).some(function (k) { return state.a[k]; }));
     renderPlan(r);
     renderCityNote();
     window.__result = r;
@@ -157,7 +159,7 @@
         html += "<span class=\"alert-links\">" + alertLinks().map(function (x) { return "<a href=\"" + esc(x[1]) + "\" target=\"_blank\" rel=\"noopener\">" + esc(x[0]) + "</a>"; }).join("") + "</span>";
       }
       var tool = TOOLS[g.q.id];
-      if (tool) html += " <a class=\"guide-link tool-link\" href=\"" + tool[0] + "?people=" + state.people + "\">" + tool[1] + "</a>";
+      if (tool) html += "<a class=\"btn ghost sm tool-link\" href=\"" + tool[0] + "?people=" + state.people + "\">" + tool[1] + " &rarr;</a>";
       if (c.guide) html += " <a class=\"guide-link\" href=\"/guides/" + c.guide + "\">" + esc(c.name) + " guide</a>";
       li.innerHTML = html;
       var buy = D.buy && D.buy[g.q.id];
