@@ -272,7 +272,7 @@ LA_ASIDE = lambda root: (f'<div class="aside"><h3>Renting in LA?</h3><p class="m
 # Cloudflare Web Analytics: cookieless, no consent banner needed. Set SITE["cf_beacon"] to the site token to turn it on.
 BEACON = (f'\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{SITE["cf_beacon"]}"}}\'></script>'
           if SITE.get("cf_beacon") else "")
-PRIVACY_UPDATED = "November 11, 2026"
+PRIVACY_UPDATED = "November 12, 2026"
 
 DISCLOSE = lambda root: f'<p class="disclose">Some links on this page are affiliate links, marked <b>Affiliate</b>. If you buy through them we may earn a commission at no extra cost to you. {AMAZON_LINE} Commissions never decide what we recommend, and we include free options where they exist. <a href="{root}disclosure.html">How we pick and make money</a>.</p>'
 
@@ -1758,8 +1758,8 @@ def build_misc():
 <p>The PrepScore quiz runs entirely in your browser. Your answers, household size and location type are saved in your browser's local storage so they're there when you come back. They're never sent to us or anyone else. Use <b>Clear my answers</b> on the quiz, or clear your browser's site data, to delete them.</p>
 <p>The share card is drawn in your browser too. Nothing is shared unless you choose a share button, and then only your score, tier and days of supplies go to the service you picked (X, Facebook, Reddit or WhatsApp), under that service's privacy policy.</p>
 {analytics_html}
-<h2 style="margin-top:2rem">Counting clicks on retailer links</h2>
-<p>When you click a link to a retailer such as Amazon, the site records which page you were on, which product and which button, with the date. It doesn't record your IP address, browser or anything that identifies you, and it uses no cookies. We use the totals to learn which guides are useful.</p>
+<h2 style="margin-top:2rem">Counting clicks and tool use</h2>
+<p>When you click a link to a retailer such as Amazon, the site records which page you were on, which product and which button, with the date. It also counts, by page and date, when someone uses the quiz or a calculator, prints a page, uses a share button, or follows a link to one of our calculators. It doesn't record your answers, your IP address, your browser or anything that identifies you, and it uses no cookies. We use the totals to learn which guides and tools are useful.</p>
 <h2 style="margin-top:2rem">Hosting and fonts</h2>
 <p>The site is hosted by Cloudflare. Like any web host, Cloudflare processes basic request data, such as your IP address and browser, to deliver pages and protect the site from attacks, under <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare's privacy policy</a>.</p>
 <p>Our fonts load from Google Fonts, so Google receives your IP address and browser details when a page loads, under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.</p>
