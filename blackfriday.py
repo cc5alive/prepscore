@@ -1,6 +1,6 @@
 """Content for /black-friday: prep gear worth buying on sale, all linked to specific, verified Amazon products."""
 
-CHECKED = "November 1, 2026"   # the date products were last checked as available
+CHECKED = "November 14, 2026"   # the date products were last checked as available
 # Prices are shown only as bands ($ to $$$$); Amazon only allows prices pulled live from its API.
 TITLE = "Black Friday Emergency Prep 2026: Gear Worth Buying on Sale"
 META = ("The emergency gear worth buying on Black Friday and Cyber Monday 2026: the essentials to get first, big-ticket items "
@@ -9,7 +9,7 @@ H1 = "Black Friday prep gear worth buying"
 DEK = ("Sales are a good time to fill the gaps in your kit. Here's what to buy first, what's worth waiting for, and how to "
        "tell a real deal from a fake one.")
 
-DATES = [("Black Friday", "Fri, Nov 27"), ("Cyber Monday", "Mon, Nov 30"), ("Picks checked", "Nov 1")]
+DATES = [("Black Friday", "Fri, Nov 27"), ("Cyber Monday", "Mon, Nov 30"), ("Picks checked", "Nov 14")]
 
 TIPS = [
     ("Buy the essentials first.", "A power station on sale won't help if you have no water. Work down the list in order."),
@@ -36,7 +36,7 @@ ESSENTIALS = [
      "An organized kit with wound care, medications and instructions for the injuries that come with cleanup.", "Every home", "first-aid"),
     ("Kidde battery-powered carbon monoxide alarm", "B004Y6V5CI", "$27.97",
      "Generators, heaters and stoves used in outages are a leading cause of CO deaths. This alarm works without power.", "Anyone with gas heat, a generator or a garage", "power"),
-    ("Mountain House Chili Mac with Beef, 6 pouches", "B084BT84P9", "$69.99",
+    ("Mountain House Homestyle Chicken Noodle Casserole, 6 pouches", "B084P7XXRJ", "$69.99",
      "Just-add-hot-water meals that keep for years and taste like real food.", "Apartments and go-bags", "food"),
 ]
 
@@ -71,18 +71,17 @@ GIFTS = [
 
 CATEGORIES = [
     ("water", "Water", [
-        ("Reliance Jumbo-Tainer 2.0, 7 gallons", "B09NP5538N", "$38.99", "A rigid jug with a spigot, easy to fill and pour from.", "Garages and car camping", "water"),
+        ("Scepter 5-gallon water can with flow-control spout", "B0D74164PZ", "$34.99", "A rigid, leak-proof can that pours from a spout. About 42 pounds full, so it can still be lifted.", "Garages and car camping", "water"),
         ("Platypus GravityWorks 4L filter", "B0CV9RPT8Y", "$134.95", "Filters liters at a time with no pumping, so it can supply a family every day.", "Families planning for weeks", "water"),
         ("Aquatabs water purification tablets, 100-pack", "B09B2TVKGB", "$24.99", "Kills viruses that filters miss, and weighs almost nothing.", "Go-bags and bad-water scenarios", "water"),
         ("Augason Farms 55-gallon water barrel", "B06Y2H5GVX", "$159.99", "The lowest cost per gallon. Add a bung wrench and pump, and order early: it ships slowly.", "Houses with a garage", "water"),
     ]),
     ("food", "Food and cooking", [
-        ("ReadyWise 132-serving emergency food bucket", "B013CPYRJE", "$99.99", "Weeks of backup meals in one bucket that stacks and stores for years.", "Long-term planning", "food"),
-        ("S.O.S. Rations 3600-calorie food bar", "B075TXP1P5", "$22.48", "Heat-tolerant calories with a five-year shelf life.", "Car kits and go-bags", "food"),
+        ("Datrex 3600-calorie emergency food bar", "B001CSAHW0", "$16.95", "Coast Guard-approved ration bars with a five-year shelf life that tolerate a hot car.", "Car kits and go-bags", "food"),
         ("Gas One GS-3400P dual-fuel camp stove", "B01HQRD8EO", "$29.99", "Boils water for meals and treatment. Outdoors only; fuel sold separately.", "Homes with a balcony or yard", "food"),
     ]),
     ("light-heat", "Light and warmth", [
-        ("Goal Zero Lighthouse 600 lantern", "B08HRM4J8Y", "$79.95", "Lights a room for hours, recharges by USB or hand crank.", "Every home", "light-heat"),
+        ("Goal Zero Lighthouse Mini Core lantern", "B07C23FB8S", "$49.95", "Up to 210 lumens of room light, recharges by USB or a small solar panel, and can top up a phone.", "Every home", "light-heat"),
         ("Mr. Heater Portable Buddy propane heater", "B0GYT8HCT6", "$89.99", "Approved for indoor use, with low-oxygen and tip-over shutoffs. Still needs a CO alarm.", "Cold regions with long outages", "light-heat"),
         ("TETON Celsius sleeping bag", "B005EPRM4I", "$84.99", "Keeps you warm in a cold house. Pick the 20°F or 0°F version.", "Winter outages", "light-heat"),
     ]),
@@ -104,7 +103,7 @@ CATEGORIES = [
     ]),
     ("sanitation", "Sanitation", [
         ("Reliance Luggable Loo toilet seat and bucket", "B07Z2B1YYY", "$50.34", "A working toilet when the water or sewer is out.", "Earthquake and flood country", "sanitation"),
-        ("Camco toilet waste bags with gelling powder", "B075BZ8NK3", "$31.00", "Bags with powder that gels waste and controls odor.", "Pairs with the Luggable Loo", "sanitation"),
+        ("Reliance Double Doodie toilet waste bags, 12 bags", "B07M863D89", "$64.98", "Leak-proof bags with a gel that solidifies waste. Made for the Luggable Loo.", "Pairs with the Luggable Loo", "sanitation"),
     ]),
     ("pets", "Pets", [
         ("Amazon Basics 2-door hard-sided pet carrier", "B00OP6SVJW", "$51.59", "Shelters and hotels usually require pets to be crated.", "Cats and small dogs", "pets"),

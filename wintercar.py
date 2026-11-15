@@ -63,7 +63,7 @@ PICKS = [
      "why": "Make you visible to plows and rescuers without the fire risk of road flares.",
      "watch": "Add batteries and keep spares. Lithium batteries handle cold better.",
      "best": "Rural roads and highways"},
-    {"name": "S.O.S. Rations 3600 emergency food bars", "asin": "B075TXP1P5", "price": "$10 to $20 per 3,600 kcal pack",
+    {"name": "Datrex 3600 emergency food bars", "asin": "B001CSAHW0", "price": "$10 to $20 per 3,600 kcal pack",
      "what": "Dense, sealed food bars built to survive heat and cold in a car.",
      "why": "Calories keep you warm, and these won't freeze solid or spoil in the trunk.",
      "watch": "Check the date printed on the package and replace as needed.",
