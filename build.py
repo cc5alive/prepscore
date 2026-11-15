@@ -4,6 +4,7 @@ import hashlib, html, json, os, posixpath, re, shutil, sys, urllib.parse, dateti
 from data import SITE, SCENARIOS, MATRIX, QUIZ_CATS, QUIZ, TIERS, LOCATIONS, GUIDES, QUICK, SOURCES, QUIZ_BUY, KIT, KIT_PREMADE, KIT_EXTRAS, KIT_SOURCES, QUIZ_ACTIONS, PICK_SKIP
 from cities import CITIES, REGIONS, ALERTS_CHECKED
 from pool import POOL_CITIES
+import icons as IC
 POOL_ASIDE = lambda root: (f'<div class="aside"><h3>Have a backyard pool?</h3><p class="muted small">It can back up your water supply, but not through a filter alone. '
                             f'<a href="{root}guides/pool-water.html">What it takes to drink pool water</a>.</p></div>')
 
@@ -130,6 +131,9 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="{root}{asset('site.css')}">
 {''.join(ld(j) for j in jsonld)}"""
+    used = re.findall(r'href="#i-([a-z]+)"', body)
+    if used:
+        body = IC.sprite(used) + body
     page = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-head"><div class="wrap">
 <a class="brand" href="{root}index.html" aria-label="{SITE['name']} home">{BRAND_SVG}{SITE['name']}</a>
@@ -657,7 +661,7 @@ def build_guides():
             lbl, sub = TIER_LABEL[tier]
             picks += f'<div class="tier-head" id="{tier}" style="margin-top:2.5rem"><h2>{lbl}</h2><p>{sub}</p></div>'
             for p in ps:
-                picks += f"""<article class="pick" id="pick-{slugify(p['name'])}"><div><h3>{e(p['name'])}</h3>
+                picks += f"""<article class="pick" id="pick-{slugify(p['name'])}"><div>{IC.head(e(p['name']), p.get('asin', ''), p['name'])}
 <dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd><dt>Skip it if</dt><dd>{e(PICK_SKIP[p['name']])}</dd></dl></div>
 <div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy_btn(p)}</div></article>"""
         choose = "".join(f"<li>{e(x)}</li>" for x in g["choose"])
@@ -794,7 +798,7 @@ def build_kit():
             a = k["also"]
             url = f"https://www.amazon.com/dp/{a[1]}?tag={SITE['amazon_tag']}"
             also = f'<p class="kit-also">Plus: <a href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">{e(a[0])}</a> ({band(a[2])})</p>'
-        items += f"""<li class="kit-item" id="kit-{k['id']}"><div class="kit-head"><h3>{e(k['name'])}</h3><span class="kit-amt">{e(k['amount'])}</span></div>
+        items += f"""<li class="kit-item" id="kit-{k['id']}"><div class="kit-head"><div class="bf-head">{IC.icon(IC.KIT_ICONS[k['id']]) if k['id'] in IC.KIT_ICONS else ""}<h3>{e(k['name'])}</h3></div><span class="kit-amt">{e(k['amount'])}</span></div>
 <p>{e(k['why'])}</p><p class="kit-tip">{e(k['tip'])}</p>{prod}{also}
 {KIT_TOOLS.get(k['id'], '')}<a class="kit-more" href="guides/{k['guide']}.html">More on {e(GD[k['guide']]['short'].lower())}</a></li>"""
     checklist = "".join(f'<li><label class="qitem" for="k3-{i}"><input type="checkbox" id="k3-{i}" data-ck><span class="qbox">{CHECK_SVG}</span><span class="t">{e(k["name"])}: {e(k["amount"].lower())}</span></label></li>' for i, k in enumerate(KIT))
@@ -888,7 +892,7 @@ def build_pool():
     frow = "".join(f'<tr><th scope="row">{e(n)}<span class="pw-kind">{e(k)}</span></th><td data-l="Germs">{e(g)}</td><td data-l="Chlorine and taste">{yn(c)}</td><td data-l="Salt and stabilizer">{yn(s)}</td>'
                    f'<td class="pw-buy" data-l="Price band"><span class="price">{band(pr)}</span>{aff_btn(a)}</td></tr>' for n, a, pr, k, g, c, s, _ in P.FILTERS)
     fnotes = "".join(f"<li><b>{e(n.replace(' (CC' + chr(39) + 's pick)', ''))}:</b> {e(note)}</li>" for n, _, _, _, _, _, _, note in P.FILTERS)
-    gear = "".join(f"""<article class="pick"><div><h3>{e(n)}</h3><dl class="facts"><dt>What it is</dt><dd>{e(w)}</dd><dt>Why</dt><dd>{e(y)}</dd></dl></div>
+    gear = "".join(f"""<article class="pick"><div>{IC.head(e(n), a, n)}<dl class="facts"><dt>What it is</dt><dd>{e(w)}</dd><dt>Why</dt><dd>{e(y)}</dd></dl></div>
 <div class="buy"><span class="price">{band(pr)}</span>{aff_btn(a, "Check price on Amazon")}<span class="aff">Affiliate link</span></div></article>""" for n, a, pr, w, y in P.GEAR)
     faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in P.FAQS)
     srcs = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in P.SOURCES)
@@ -1017,7 +1021,7 @@ def build_library():
         rows = ""
         for name, author, asin, price, best, why in items:
             allbooks.append((name, author))
-            rows += f"""<article class="pick"><div><h3>{e(name)}</h3><p class="muted" style="margin-top:.2rem">{e(author)}</p>
+            rows += f"""<article class="pick"><div><div class="bf-head">{IC.icon("book")}<div><h3>{e(name)}</h3><p class="muted" style="margin-top:.2rem">{e(author)}</p></div></div>
 <dl class="facts"><dt>Best for</dt><dd>{e(best)}</dd><dt>Why</dt><dd>{e(why)}</dd></dl></div>
 <div class="buy"><span class="price">{band(price)}</span>{aff_btn(asin, "See it on Amazon")}<span class="aff">Affiliate link</span></div></article>"""
         books_html += f'<div class="lb-sub" id="{sid}"><h3 class="lb-h">{e(title)}</h3>{rows}</div>'
@@ -1060,15 +1064,13 @@ BF_PROMO = lambda root: f'<p class="hero-alt bf-promo">Shopping the sales? <a hr
 
 def build_blackfriday():
     import blackfriday as B
-    import icons as I
     root = ""
 
     def card(p, num=None):
         name, asin, price, why, best, guide = p
         more = f' · <a href="guides/{guide}.html">{e(GD[guide]["short"])} guide</a>' if guide else ""
         badge = f'<span class="bf-num">{num}</span>' if num else ""
-        ico = I.icon(I.BF_ICONS[asin]) if asin in I.BF_ICONS else ""
-        return (f'<article class="bf-card">{badge}<div class="bf-head">{ico}<h3>{e(name)}</h3></div><p class="bf-why">{e(why)}</p>'
+        return (f'<article class="bf-card">{badge}{IC.head(e(name), asin, name)}<p class="bf-why">{e(why)}</p>'
                 f'<p class="bf-best">Best for: {e(best)}{more}</p>'
                 f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price band</span><b>{band(price)}</b></div>'
                 f'<div class="bf-cta">{aff_btn(asin, "See today\'s price")}<span class="aff">Affiliate link</span></div></div></article>')
@@ -1084,8 +1086,7 @@ def build_blackfriday():
     toc = [("essentials", "Essentials"), ("big-ticket", "Worth waiting for"), ("gifts", "Small gifts")] + [(s[0], s[1]) for s in B.CATEGORIES] + [("faq", "Questions")]
     toc_html = '<nav class="toc" aria-label="On this page"><span>Jump to</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
     cr = [("Home", "/"), ("Black Friday", "/black-friday")]
-    sprite = I.sprite(I.BF_ICONS[p[1]] for p in B.ESSENTIALS + B.BIG_TICKET + B.GIFTS + [q for _, _, it in B.CATEGORIES for q in it] if p[1] in I.BF_ICONS)
-    body = f"""{sprite}<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
 <h1>{e(B.H1)}</h1><p class="dek">{e(B.DEK)}</p>
 <dl class="bf-dates">{dates}</dl>
 {toc_html}</div></div>
@@ -1493,7 +1494,7 @@ def build_buyer(M):
         url = buy_url(dict(p, q=p.get("q", "")))
         target = p.get("asin_name") or (p["name"] if p.get("asin") else "Amazon search results")
         note = f'<span class="link-to"><b>Our pick:</b> {e(target)}</span>' if target != p["name"] else ""
-        return f"""<article class="pick" id="pick-{slugify(p['name'])}"><div><h3>{e(p['name'])}</h3><dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
+        return f"""<article class="pick" id="pick-{slugify(p['name'])}"><div>{IC.head(e(p['name']), p.get('asin', ''), p['name'])}<dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
 <div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{note}
 <a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">Check price on Amazon</a><span class="aff">Affiliate link</span></div></article>"""
     picks = "".join(pick(p) for p in M.PICKS)
@@ -1592,7 +1593,7 @@ def build_cpap():
     def pick(p):
         url = buy_url(dict(p, q=p.get("q", "")))
         target = p.get("asin_name") or "Amazon search results"
-        return f"""<article class="pick"><div><h3>{e(p['name'])}</h3><dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
+        return f"""<article class="pick"><div>{IC.head(e(p['name']), p.get('asin', ''), p['name'])}<dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd></dl></div>
 <div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span><span class="link-to"><b>Our pick:</b> {e(target)}</span>
 <a class="btn sm" href="{e(url)}" target="_blank" rel="sponsored nofollow noopener">Check price on Amazon</a><span class="aff">Affiliate link</span></div></article>"""
     picks = "".join(pick(p) for p in C.PICKS)
@@ -1616,7 +1617,7 @@ def build_cpap():
 </div></section>
 <section class="section" id="picks" style="padding-top:2rem"><div class="wrap">{DISCLOSE(root)}
 <h2 style="margin-top:2rem">What to buy</h2>{picks}
-<article class="pick"><div><h3>DC power cord or converter for your CPAP</h3><p class="read" style="margin-top:.6rem">{e(C.DC_NOTE)}</p></div>
+<article class="pick"><div>{IC.head("DC power cord or converter for your CPAP", name="DC power cord or converter for your CPAP")}<p class="read" style="margin-top:.6rem">{e(C.DC_NOTE)}</p></div>
 <div class="buy"><span class="price">Varies</span><span class="bestfor">Best for: Anyone running a CPAP from a battery</span><span class="aff">No link: buy from your CPAP maker or supplier</span></div></article>
 </div></section>
 <section class="section"><div class="wrap two-col"><div class="stack-l">
@@ -1656,7 +1657,7 @@ def build_gifts():
     def card(g):
         gid, name, asin, price, why, who, guide = g
         more = f' · <a href="guides/{guide}.html">{e(GD[guide]["short"])} guide</a>' if guide else ""
-        return (f'<article class="bf-card" id="gift-{gid}"><h3>{e(name)}</h3><p class="bf-why">{e(why)}</p>'
+        return (f'<article class="bf-card" id="gift-{gid}">{IC.head(e(name), asin, name)}<p class="bf-why">{e(why)}</p>'
                 f'<p class="bf-best">Good for: {e(who)}{more}</p>'
                 f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price band</span><b>{band(price)}</b></div>'
                 f'<div class="bf-cta">{aff_btn(asin, "See today's price")}<span class="aff">Affiliate link</span></div></div></article>')
