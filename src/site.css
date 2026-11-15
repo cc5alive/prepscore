@@ -500,6 +500,10 @@ table.pw-table { min-width: 44rem; }
 .bf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr)); gap: 1.1rem; }
 .bf-card { position: relative; border: 2px solid var(--ink); border-radius: 6px; background: var(--surface); padding: 1.1rem 1.15rem; display: flex; flex-direction: column; gap: .5rem; }
 .bf-card h3 { font-size: 1.3rem; line-height: 1.15; }
+.bf-head { display: flex; gap: .85rem; align-items: center; }
+.bf-ico { flex: 0 0 auto; width: 68px; height: 68px; padding: 7px; border-radius: 6px; background: var(--paper); color: var(--ink);
+  fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 .bf-num { position: absolute; top: -.8rem; left: -.6rem; width: 2rem; height: 2rem; border-radius: 50%; background: var(--signal); color: var(--on-signal, #142019); border: 2px solid var(--ink); display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; }
 .bf-why { font-size: .95rem; }
 .bf-best { font-size: .85rem; color: var(--muted); }

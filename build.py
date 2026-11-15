@@ -1060,13 +1060,15 @@ BF_PROMO = lambda root: f'<p class="hero-alt bf-promo">Shopping the sales? <a hr
 
 def build_blackfriday():
     import blackfriday as B
+    import icons as I
     root = ""
 
     def card(p, num=None):
         name, asin, price, why, best, guide = p
         more = f' · <a href="guides/{guide}.html">{e(GD[guide]["short"])} guide</a>' if guide else ""
         badge = f'<span class="bf-num">{num}</span>' if num else ""
-        return (f'<article class="bf-card">{badge}<h3>{e(name)}</h3><p class="bf-why">{e(why)}</p>'
+        ico = I.icon(I.BF_ICONS[asin]) if asin in I.BF_ICONS else ""
+        return (f'<article class="bf-card">{badge}<div class="bf-head">{ico}<h3>{e(name)}</h3></div><p class="bf-why">{e(why)}</p>'
                 f'<p class="bf-best">Best for: {e(best)}{more}</p>'
                 f'<div class="bf-buy"><div class="bf-price"><span class="bf-plabel">Price band</span><b>{band(price)}</b></div>'
                 f'<div class="bf-cta">{aff_btn(asin, "See today\'s price")}<span class="aff">Affiliate link</span></div></div></article>')
@@ -1082,7 +1084,8 @@ def build_blackfriday():
     toc = [("essentials", "Essentials"), ("big-ticket", "Worth waiting for"), ("gifts", "Small gifts")] + [(s[0], s[1]) for s in B.CATEGORIES] + [("faq", "Questions")]
     toc_html = '<nav class="toc" aria-label="On this page"><span>Jump to</span>' + "".join(f'<a href="#{a}">{e(b)}</a>' for a, b in toc) + "</nav>"
     cr = [("Home", "/"), ("Black Friday", "/black-friday")]
-    body = f"""<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
+    sprite = I.sprite(I.BF_ICONS[p[1]] for p in B.ESSENTIALS + B.BIG_TICKET + B.GIFTS + [q for _, _, it in B.CATEGORIES for q in it] if p[1] in I.BF_ICONS)
+    body = f"""{sprite}<div class="page-head"><div class="wrap">{crumbs_html(cr, root)}
 <h1>{e(B.H1)}</h1><p class="dek">{e(B.DEK)}</p>
 <dl class="bf-dates">{dates}</dl>
 {toc_html}</div></div>
