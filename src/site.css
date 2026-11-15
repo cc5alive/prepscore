@@ -511,6 +511,8 @@ table.pw-table { min-width: 44rem; }
 .bf-cat .lb-h { margin-bottom: .9rem; }
 .bf-promo a { color: var(--ink); font-weight: 700; }
 @media (max-width: 480px) { .bf-grid { grid-template-columns: minmax(0, 1fr); } }
+.bf-tips { padding-left: 1.2rem; margin: 0; display: grid; gap: .6rem; font-size: .92rem; line-height: 1.45; }
+.bf-tips b { display: block; }
 .bf-cta { display: flex; flex-direction: column; align-items: flex-end; gap: .25rem; }
 .qp-buy .link-to { order: -1; }
 

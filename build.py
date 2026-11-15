@@ -1086,12 +1086,11 @@ def build_blackfriday():
 <h1>{e(B.H1)}</h1><p class="dek">{e(B.DEK)}</p>
 <dl class="bf-dates">{dates}</dl>
 {toc_html}</div></div>
-<section class="section"><div class="wrap two-col"><div class="stack-l">
+<section class="section" id="essentials" style="padding-top:2rem"><div class="wrap two-col"><div class="stack-l">
 {DISCLOSE(root)}
-<div class="pw-verdict"><h2>How to shop the sales</h2><ol>{tips}</ol></div></div>
-<aside class="stack-l"><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="power-calculator.html">What size power station?</a></li></ul></div></aside></div></section>
-<section class="section" id="essentials"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>The essentials, in order</h2><p>If you buy nothing else this season, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
-<div class="bf-grid">{ess}</div></div></section>
+<div class="section-head" style="margin:1.75rem 0 0"><div><h2>The essentials, in order</h2><p>If you buy nothing else this season, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
+<div class="bf-grid">{ess}</div></div>
+<aside class="stack-l bf-side"><div class="aside"><h3>How to shop the sales</h3><ol class="bf-tips">{tips}</ol></div><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="power-calculator.html">What size power station?</a></li></ul></div></aside></div></section>
 <section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p>{sale("big-ticket")}</div></div>
 <div class="bf-grid">{big}</div></div></section>
 <section class="section" id="gifts"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Small prep gifts</h2><p>Inexpensive, useful gifts for the person who has everything except a plan. More ideas at every budget in the <a href="preparedness-gifts.html">preparedness gift guide</a>.</p></div></div>
