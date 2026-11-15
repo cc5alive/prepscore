@@ -75,6 +75,8 @@ p { margin: 0; }
 .btn.ghost:hover { background: var(--surface); transform: none; }
 .btn.sm { padding: .55rem .85rem; font-size: .9rem; box-shadow: 2px 2px 0 var(--ink); }
 .nav .btn { padding: .55rem .9rem; font-size: .9rem; box-shadow: 2px 2px 0 var(--ink); }
+.nav .nav-bf { background: var(--ink); color: var(--paper); padding: .3rem .65rem; border-radius: var(--r); text-underline-offset: 3px; }
+.nav .nav-bf:hover { background: var(--aid); color: #fff; }
 
 /* Hero */
 .hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem); border-bottom: 1px solid var(--line); }
