@@ -642,6 +642,7 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
   .nav::-webkit-scrollbar { display: none; }
   .nav a { white-space: nowrap; font-size: .9rem; }
   .nav .btn { display: none; }
+  .nav .nav-bf { order: -1; }  /* seasonal link: first on phones, where the nav scrolls sideways */
 }
 .bf-sale { margin: .25rem 0 .9rem; padding: .55rem .8rem; border-left: 4px solid var(--sig, #F2B705); background: var(--surface, #F7F8F3); font-size: .92rem; line-height: 1.45; max-width: 60rem; }
 /* Power station calculator */

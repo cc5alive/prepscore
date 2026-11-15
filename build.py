@@ -94,16 +94,22 @@ def asset(name):
         return f"assets/{name}?v={hashlib.sha1(f.read()).hexdigest()[:10]}"
 
 
+BF_NAV_UNTIL = datetime.date(2026, 12, 7)
+
+
 def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scripts=(), body_attr="", noindex=False):
     # Only add the brand when it still fits in ~60 characters, so search results don't cut titles off.
     full_title = title if (SITE["name"] in title or len(title) + len(SITE["name"]) + 3 > 60) else f"{title} | {SITE['name']}"
     nav = [("quiz", "quiz.html", "Get your score"), ("where", "where/index.html", "Where you live"),
            ("cities", "city/index.html", "Cities"),
            ("scenarios", "scenarios.html", "Emergencies"), ("guides", "guides/index.html", "Gear guides")]
+    if datetime.date.today() <= BF_NAV_UNTIL:  # seasonal header link; any build after this date drops it
+        nav.append(("blackfriday", "black-friday.html", "Black Friday"))
     navhtml = ""
     for key, href, label in nav[1:]:
         cur = ' aria-current="page"' if key == active else ""
-        navhtml += f'<a href="{root}{href}"{cur}>{label}</a>'
+        cls = ' class="nav-bf"' if key == "blackfriday" else ""
+        navhtml += f'<a href="{root}{href}"{cls}{cur}>{label}</a>'
     navhtml += f'<a class="btn" href="{root}quiz.html">Get your PrepScore</a>'
     loc_links = "".join(f'<li><a href="{root}where/{l["slug"]}.html">{e(l["name"])}</a></li>' for l in LOCATIONS)
     guide_links = "".join(f'<li><a href="{root}guides/{g["slug"]}.html">{e(g["short"])}</a></li>' for g in GUIDES) + f'<li><a href="{root}guides/pool-water.html">Drinking pool water</a></li>'
@@ -1104,7 +1110,7 @@ def build_blackfriday():
           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in B.FAQS]},
          crumbs_ld(cr)]
     add("black-friday.html", shell(path="/black-friday", title=B.TITLE, desc=B.META, body=body, root=root, og="black-friday",
-                                   canon="/black-friday", jsonld=j), "/black-friday", "0.8")
+                                   canon="/black-friday", jsonld=j, active="blackfriday"), "/black-friday", "0.8")
 
 
 # ---------------------------------------------------------------------------
