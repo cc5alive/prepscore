@@ -279,9 +279,9 @@ LOCATIONS = [
     },
     {
         "slug": "suburbs", "name": "Suburbs", "nav": "Suburbs",
-        "title": "Suburban Emergency Preparedness: A Complete Home Plan",
+        "title": "Suburban Preparedness: A Home Emergency Plan for the Suburbs",
         "h1": "Prepping in the suburbs",
-        "meta": "How to prepare a suburban home for outages, storms and evacuations: water, backup power, food storage, garage setups and neighborhood plans.",
+        "meta": "Suburban preparedness for outages, storms and evacuations: water, backup power, food storage, the garage and a neighborhood plan for a house in the suburbs.",
         "dek": "You have space, a garage and probably a car. Most suburban households are better positioned than they think, and less prepared than they assume.",
         "threats": [
             ["Multi-day outages", "Suburban grids run on overhead lines through trees. Storms knock them out for days, and you're lower on the restoration list than hospitals and downtowns."],
@@ -450,9 +450,9 @@ LOCATIONS = [
 GUIDES = [
     {
         "slug": "water", "name": "Water", "short": "Water storage and filters",
-        "title": "Best Emergency Water Storage and Filters (Buyer's Guide)",
+        "title": "Emergency Water Storage: Containers, Filters, How Much to Store",
         "h1": "Emergency water: storage, filters and treatment",
-        "meta": "How much emergency water to store, the best containers for small and large spaces, and which filters and purification tablets actually work. Clear picks at every budget.",
+        "meta": "How much emergency water to store, which water storage containers fit your space, and which filters and tablets work. Picks at every budget, plus what to skip.",
         "dek": "Water is the first thing to get right. Store enough to ride out the first two weeks, then have a way to make more.",
         "matrix": ["water-storage", "water-filter", "purification"],
         "howmuch": [
@@ -524,9 +524,9 @@ GUIDES = [
     },
     {
         "slug": "food", "name": "Food", "short": "Emergency food and cooking",
-        "title": "Best Emergency Food Supply: Buckets, Pantry Plans and Stoves",
+        "title": "Emergency Food Storage: Survival Food, Buckets, Pantry and Stoves",
         "h1": "Emergency food that you'll actually eat",
-        "meta": "How to build a 2-week to 3-month emergency food supply: freeze-dried vs canned, the best food buckets, ration bars and safe off-grid cooking. Honest picks at every budget.",
+        "meta": "Build survival food storage from 2 weeks to 3 months: pantry vs freeze-dried vs buckets, ration bars and safe off-grid cooking. Honest picks at every budget.",
         "dek": "The best emergency food is food you already like, bought a little extra and rotated. Freeze-dried buckets fill in the long tail.",
         "matrix": ["food", "cooking"],
         "howmuch": [
@@ -592,9 +592,9 @@ GUIDES = [
     },
     {
         "slug": "power", "name": "Power", "short": "Power stations and generators",
-        "title": "Best Portable Power Stations and Generators for Home Backup",
+        "title": "Home Backup Power: Power Stations, Generators and Power Banks",
         "h1": "Backup power: power stations, generators and solar",
-        "meta": "Power station or generator? How to size backup power for a fridge, CPAP or well pump, the best options by budget, solar panels, and generator safety.",
+        "meta": "Choose home backup power: power banks for phones, power stations for a fridge or CPAP, bigger home batteries and generators. How to size it and what to skip.",
         "dek": "Decide what you need to keep running, then size to it. For most homes that's phones, lights, a fridge and maybe one medical device.",
         "matrix": ["power-bank", "power-station", "co-alarm"],
         "howmuch": [
@@ -1000,7 +1000,7 @@ GUIDES = [
     },
     {
         "slug": "car", "name": "Car kit", "short": "Car and winter driving kit",
-        "title": "Car Emergency Kit: What to Keep in Your Vehicle (Winter Checklist)",
+        "title": "Car Emergency Kit: What to Keep in Your Car (Winter Checklist)",
         "h1": "The car kit: be ready if the road stops moving",
         "meta": "What to keep in your car for breakdowns, blizzards and evacuations: jumper cables, a tire inflator, warm layers, traction aids, a phone charger and what to do if stranded.",
         "dek": "Your car is where you spend the most hours away from home, and where a breakdown or storm can strand you. A small kit that lives in the trunk covers the most likely emergency most people will actually face.",

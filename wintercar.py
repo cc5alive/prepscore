@@ -4,7 +4,7 @@ SLUG = "stranded-in-car-winter"
 PARENT = "car"
 OG = "guide-winter-car"
 OG_CARD = ("Winter driving", "Stuck in your car in snow", "What to do from the first minute, and the winter extras that make a long night bearable.")
-TITLE = "Stranded in Your Car in a Snowstorm: What to Do and What to Keep in the Car"
+TITLE = "Stranded in Your Car in Snow: What to Do, What to Carry"
 META = ("What to do if you're stuck in your car in winter: staying warm, avoiding carbon monoxide, getting found, "
         "how much gas idling uses, and the winter extras to keep in your car kit.")
 H1 = "Stuck in your car in a snowstorm"

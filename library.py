@@ -1,8 +1,8 @@
 """Content for /library: free printable survival guides (PDF) and the best prepper books."""
 
-TITLE = "Free Printable Survival Guides (PDF) and Best Prepper Books"
-META = ("Free survival and emergency guides you can download and print, from FEMA, the CDC, the U.S. Army and Hesperian, "
-        "plus the best prepper and survival books, with what each is best for.")
+TITLE = "Prepper Library: Free Survival PDFs and the Best Prep Books"
+META = ("A free prepper library: survival and emergency guides to download as PDFs and print, from FEMA, the CDC, "
+        "the U.S. Army and Hesperian, plus the best prep books.")
 H1 = "The prepper's library: free printable guides and the best books"
 DEK = ("When the power and internet are out, the guide on your phone won't help. Print the essentials now, "
        "keep them in a binder with your kit, and add a few good books for the skills that take longer to learn.")

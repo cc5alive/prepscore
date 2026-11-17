@@ -4,7 +4,7 @@ SLUG = "older-adults-disabilities"
 PARENT = "first-aid"
 OG = "guide-older-adults"
 OG_CARD = ("Plan for everyone", "Older adults and disabilities", "Medications, power-dependent devices, getting out, and the people and programs that help.")
-TITLE = "Emergency Preparedness for Older Adults and People With Disabilities"
+TITLE = "Emergency Planning for Older Adults and People With Disabilities"
 META = ("An emergency plan for older adults and people with disabilities: medications, oxygen and other power-dependent devices, "
         "mobility and evacuation, a support network, and the programs that help. Printable checklist.")
 H1 = "Emergency planning for older adults and people with disabilities"

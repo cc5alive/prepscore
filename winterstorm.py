@@ -4,7 +4,7 @@ SLUG = "winter-storm-power-outage"
 PARENT = "light-heat"
 OG = "guide-winter-outage"
 OG_CARD = ("Winter outages", "No power in a winter storm", "Heat one room, heat it safely, protect the pipes, and know when to leave. Printable checklist.")
-TITLE = "Winter Storm Power Outage Checklist: How to Stay Warm and Safe Without Power"
+TITLE = "Winter Storm Power Outage Checklist: Stay Warm Safely"
 META = ("What to do when a winter storm knocks out your power: heat one room safely, avoid carbon monoxide, keep pipes from freezing, "
         "keep food safe, and know when to go to a warming center. Printable checklist.")
 H1 = "Losing power in a winter storm"

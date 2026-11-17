@@ -1,8 +1,8 @@
 """Content for /guides/pool-water: what pool water is good for, and what it takes to make it drinkable."""
 
-TITLE = "Can You Drink Pool Water? Chlorine and Saltwater Pools Explained"
-META = ("Official agencies say don't drink pool water. Here's what's in it, why a filter alone isn't enough, "
-        "and the gear that makes chlorinated and saltwater pool water drinkable as a last resort.")
+TITLE = "Can You Drink Pool Water in an Emergency? What It Takes"
+META = ("Not straight from the pool. What's in chlorine and saltwater pool water, why a filter alone isn't enough, "
+        "and how to make it drinkable as a last resort.")
 H1 = "Can you drink your pool water in an emergency?"
 DEK = ("Not straight from the pool, and not through a filter alone. A backyard pool holds years of water for a household, "
        "but making it drinkable means removing chemicals and, in a saltwater pool, salt. Here's what that takes.")

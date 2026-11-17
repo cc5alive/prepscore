@@ -2,9 +2,9 @@
 
 CHECKED = "November 14, 2026"   # the date products were last checked as available
 # Prices are shown only as bands ($ to $$$$); Amazon only allows prices pulled live from its API.
-TITLE = "Black Friday Emergency Prep 2026: Gear Worth Buying on Sale"
-META = ("The emergency gear worth buying on Black Friday and Cyber Monday 2026: the essentials to get first, big-ticket items "
-        "worth waiting for, small gifts, and how to tell a real deal from a fake one.")
+TITLE = "Black Friday Prepping 2026: Emergency Gear Worth Buying on Sale"
+META = ("Black Friday prepping for 2026: the emergency essentials to buy first, big-ticket gear worth waiting for, "
+        "small gifts, and how to tell a real deal from a fake one.")
 H1 = "Black Friday prep gear worth buying"
 DEK = ("Sales are a good time to fill the gaps in your kit. Here's what to buy first, what's worth waiting for, and how to "
        "tell a real deal from a fake one.")

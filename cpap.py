@@ -1,6 +1,6 @@
 """CPAP in a power outage: buyer page content (/guides/cpap-power-outage)."""
 
-TITLE = "Best Power Station for a CPAP in a Power Outage (With Runtime Table)"
+TITLE = "Power Station for a CPAP in an Outage: Runtime Table and Picks"
 META = ("How long will a power station run your CPAP? Runtime by setting for 300 to 2,000 Wh stations, which size to buy, "
         "why to turn off the humidifier, and how to set it up before an outage.")
 H1 = "Keeping a CPAP running in a power outage"

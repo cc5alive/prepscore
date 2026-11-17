@@ -1,8 +1,8 @@
 """Content for /resources: other great preparedness sites and what each is best for."""
 
-TITLE = "Best Prepper Websites and Emergency Prep Resources"
-META = ("The best emergency preparedness sites, apps and classes beyond PrepScore, from Ready.gov and Wirecutter to Watch Duty "
-        "and Stop the Bleed, with what each one is most useful for learning.")
+TITLE = "Emergency Preparedness Resources: Best Sites, Apps and Classes"
+META = ("The best disaster preparedness resources beyond PrepScore: Ready.gov, apps like Watch Duty, free classes "
+        "like Stop the Bleed and CERT, and what each is best for.")
 H1 = "The best prep resources beyond PrepScore"
 DEK = ("No single site covers everything. These are the ones worth your time, grouped by what you're trying to learn, "
        "with a line on what each does best and where to be careful.")

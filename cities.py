@@ -134,8 +134,8 @@ CITIES = [
     {
         "slug": "new-york-city", "name": "New York City", "state": "NY", "region": "Northeast and Midwest", "parent": "city-apartment",
         "risks": ["Coastal storms", "Flash flooding", "Heat waves"],
-        "title": "NYC Emergency Prep: Know Your Zone, Notify NYC, Blackouts",
-        "meta": "How to prepare for hurricanes, flash floods, heat waves and blackouts in NYC: find your evacuation zone, sign up for Notify NYC and plan for an apartment without power.",
+        "title": "NYC Emergency Prep: Evacuation Zones, Notify NYC and Blackouts",
+        "meta": "Find your NYC hurricane evacuation zone, sign up for Notify NYC, and plan for flash floods, heat waves and blackouts in an apartment. A practical NYC checklist.",
         "dek": "Most New Yorkers will ride out an emergency in an apartment, without a car, possibly without elevators. The plan is about what you can store and carry.",
         "alerts": [
             {"name": "Notify NYC", "how": "The city's official alerts, free and available in 13 languages. Sign up online, in the Notify NYC app or by calling 311.",

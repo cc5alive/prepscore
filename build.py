@@ -864,8 +864,8 @@ def build_kit():
          {"@context": "https://schema.org", "@type": "FAQPage",
           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]},
          crumbs_ld(cr)]
-    add("72-hour-kit.html", shell(path="/72-hour-kit", title="72-Hour Emergency Kit: The Simple 3-Day Checklist",
-                                  desc="The simplest 72-hour emergency kit: 11 essentials for 3 days, how much water and food you need, and one recommended product for each. Printable checklist included.",
+    add("72-hour-kit.html", shell(path="/72-hour-kit", title="What to Put in a 72-Hour Kit: Simple 3-Day Emergency Checklist",
+                                  desc="What to put in a 72-hour emergency kit: 11 essentials for 3 days, how much water and food each person needs, and one product for each. Free printable checklist.",
                                   body=body, root=root, og="kit", canon="/72-hour-kit", jsonld=j, scripts=("site.js",)), "/72-hour-kit", "0.9")
 
 # ---------------------------------------------------------------------------
@@ -1477,8 +1477,8 @@ def build_food_calc():
          {"@context": "https://schema.org", "@type": "FAQPage",
           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FC.FAQ]},
          crumbs_ld(cr)]
-    add("food-calculator.html", shell(path="/food-calculator", title="Emergency Food Storage Calculator: How Much Food to Store",
-                                      desc="How much emergency food should you store? Enter your household to get calories for 3 days, 2 weeks and a month, plus an example pantry list sized for you.",
+    add("food-calculator.html", shell(path="/food-calculator", title="Food Storage Calculator: How Much Emergency Food to Store",
+                                      desc="Free food storage calculator: enter your household to see how much emergency food to store for 3 days, 2 weeks or a month, in calories and a sample pantry list.",
                                       body=body, root=root, og="food-calc", canon="/food-calculator", jsonld=j, scripts=("food.js",)),
         "/food-calculator", "0.9")
 
