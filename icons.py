@@ -71,7 +71,7 @@ SYMBOLS = {
 BF_ICONS = {
     "B092FYPZ55": "jug", "B00B1OSU4W": "filter", "B0C5C89QKZ": "powerstation", "B0CXDXP8VR": "powerbank",
     "B015QIC1PW": "radio", "B09NQK87MN": "headlamp", "B0079ODGHO": "firstaid", "B004Y6V5CI": "alarm",
-    "B084P7XXRJ": "pouch", "B0FM8653F1": "powerstation", "B0D6SQR1L1": "generator", "B0CNPHD4VY": "solar",
+    "B084P7XXRJ": "pouch", "B0FM8653F1": "powerstation", "B0D62GMQ3F": "powerstation", "B0FR555DVH": "powerstation", "B0DFG2WDQH": "powerstation", "B0D6SQR1L1": "generator", "B0CNPHD4VY": "solar",
     "B09PSKG7C3": "messenger", "B0CZM49VLQ": "firstaid", "B08LP2CLJY": "backpack", "B079MJBP21": "multitool",
     "B0CVJ7R5BS": "filter", "0062378074": "book", "1496092589": "book", "B01IJWUYLK": "blanket",
     "B00176T9OY": "radio", "B01ITAKG6A": "tourniquet", "B0843SCLYH": "carcharger", "B00DZ1NFSK": "mylar",

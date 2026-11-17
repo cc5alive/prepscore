@@ -19,13 +19,14 @@
   function wh(n) { return n >= 1000 ? fmt(n / 1000, n >= 10000 ? 0 : 1) + " kWh" : fmt(n) + " Wh"; }
 
   function sizeClass(w) {
-    if (w <= 120) return ["One or two power banks", "A couple of 20,000 mAh power banks cover this. No station needed.", "$ to $$"];
-    if (w <= 320) return ["Small power station, about 300 Wh", "Or a few power banks if you only need USB.", "$$$"];
-    if (w <= 650) return ["Small power station, about 500 Wh", "Easy to carry; enough for phones, lights and a CPAP.", "$$$"];
-    if (w <= 1300) return ["Mid-size power station, about 1,000 Wh", "The most common size for apartments and CPAP users.", "$$$$"];
-    if (w <= 2600) return ["Large power station, about 2,000 Wh", "Or a 1,000 Wh station plus a solar panel.", "$$$$"];
-    if (w <= 6000) return ["Expandable home battery, 2 to 6 kWh", "Or a smaller station recharged by solar each day.", "$$$$"];
-    return ["Bigger than portable batteries", "Look at a generator (outdoors only) or a home battery with solar.", "$$$$"];
+    // Last item: where this size is covered in the power guide.
+    if (w <= 120) return ["One or two power banks", "A couple of 20,000 mAh power banks cover this. No station needed.", "$ to $$", "pick-anker-20-000-mah-power-bank"];
+    if (w <= 320) return ["Small power station, about 300 Wh", "Or a few power banks if you only need USB.", "$$$", "size-300"];
+    if (w <= 650) return ["Small power station, about 500 Wh", "Easy to carry; enough for phones, lights and a CPAP.", "$$$ to $$$$", "size-500"];
+    if (w <= 1300) return ["Mid-size power station, about 1,000 Wh", "The most common size for apartments and CPAP users.", "$$$$", "size-1000"];
+    if (w <= 2600) return ["Large power station, about 2,000 Wh", "Or a 1,000 Wh station plus a solar panel.", "$$$$", "size-2000"];
+    if (w <= 6000) return ["Expandable home battery, 2 to 6 kWh", "Or a smaller station recharged by solar each day.", "$$$$", "size-expandable"];
+    return ["Bigger than portable batteries", "Look at a generator (outdoors only) or a home battery with solar.", "$$$$", "size-generator"];
   }
 
   function totals() {
@@ -56,7 +57,8 @@
       head.innerHTML = "<b>Add a device to start.</b>";
     } else {
       head.innerHTML = "<span class=\"pc-k\">To cover one day without recharging</span><b>" + c1[0] + "</b><span>" + c1[1] +
-        " Buy at least <strong>" + fmt(buy1) + " Wh</strong>. Typical cost: <span class=\"pc-band\">" + c1[2] + "</span></span>";
+        " Buy at least <strong>" + fmt(buy1) + " Wh</strong>. Typical cost: <span class=\"pc-band\">" + c1[2] + "</span></span>" +
+        "<a class=\"tool-link pc-pick\" href=\"/guides/power#" + c1[3] + "\">See our pick for this size in the power guide &rarr;</a>";
     }
     var rows = "";
     [[1, "1 day"], [3, "3 days"], [7, "1 week"]].forEach(function (h) {

@@ -763,7 +763,7 @@ def build_guides():
             lbl, sub = TIER_LABEL[tier]
             picks += f'<div class="tier-head" id="{tier}" style="margin-top:2.5rem"><h2>{lbl}</h2><p>{sub}</p></div>'
             for p in ps:
-                picks += f"""<article class="pick" id="pick-{slugify(p['name'])}"><div>{IC.head(e(p['name']), p.get('asin', ''), p['name'])}
+                picks += f"""{f'<a class="size-anchor" id="size-{p["size"]}"></a>' if p.get("size") else ""}<article class="pick" id="pick-{slugify(p['name'])}"><div>{IC.head(e(p['name']), p.get('asin', ''), p['name'])}
 <dl class="facts"><dt>What it is</dt><dd>{e(p['what'])}</dd><dt>Why</dt><dd>{e(p['why'])}</dd><dt>Watch out</dt><dd>{e(p['watch'])}</dd><dt>Skip it if</dt><dd>{e(PICK_SKIP[p['name']])}</dd></dl></div>
 <div class="buy"><span class="price">{band(p['price'])}</span><span class="bestfor">Best for: {e(p['best'])}</span>{buy_btn(p)}</div></article>"""
         choose = "".join(f"<li>{e(x)}</li>" for x in g["choose"])

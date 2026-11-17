@@ -760,3 +760,7 @@ table.cmp-table { min-width: 0; }
 .fixes summary h2 { display: inline; margin-right: .6rem; }
 .fixes summary span { display: block; margin-top: .35rem; }
 .fixes[open] summary { margin-bottom: 1.25rem; }
+
+/* Power calculator: link from the result to the matching size in the power guide */
+.pc-class .pc-pick { display: block; margin-top: .6rem; font-weight: 700; }
+.size-anchor { display: block; scroll-margin-top: 5rem; }
