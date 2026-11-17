@@ -1,6 +1,6 @@
 // PrepScore Worker: serves the static site, plus two small endpoints that count anonymous events.
 // No cookies, no IP address, no user agent are stored.
-// /api/click: clicks on retailer links (page, tracking ID, product ASIN, button label, page section, date).
+// /api/click: clicks on retailer links (page, tracking ID, product ASIN, button label, page section, store hostname, date).
 // /api/event: use of the site's free tools (page, event name, short detail, date).
 const ASIN = /^[A-Z0-9]{10}$/;
 const TAG = /^[a-z0-9-]{1,40}-20$/;
@@ -27,12 +27,21 @@ export default {
       const asin = ASIN.test(clip(d.a, 10)) ? d.a : (d.a === "search" ? "search" : "");
       const label = clip(d.l, 60);
       const place = clip(d.s, 60).replace(/[^a-z0-9-]/gi, "");
+      const host = clip(d.h, 40).replace(/[^a-z0-9.-]/gi, "");
       try {
         await env.CLICKS.prepare(
-          "INSERT INTO clicks (day, page, tag, asin, label, place) VALUES (date('now'), ?, ?, ?, ?, ?)"
-        ).bind(page, tag, asin, label, place).run();
+          "INSERT INTO clicks (day, page, tag, asin, label, place, host) VALUES (date('now'), ?, ?, ?, ?, ?, ?)"
+        ).bind(page, tag, asin, label, place, host).run();
       } catch (e) {
-        return new Response(null, { status: 500 });
+        // The host column is added with: ALTER TABLE clicks ADD COLUMN host TEXT;
+        // Until that has been run, keep counting clicks the old way.
+        try {
+          await env.CLICKS.prepare(
+            "INSERT INTO clicks (day, page, tag, asin, label, place) VALUES (date('now'), ?, ?, ?, ?, ?)"
+          ).bind(page, tag, asin, label, place).run();
+        } catch (e2) {
+          return new Response(null, { status: 500 });
+        }
       }
       return new Response(null, { status: 204 });
     }

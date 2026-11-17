@@ -1,6 +1,6 @@
 """Preparedness gift guide (/preparedness-gifts). Prices stay in the data and render as bands only."""
 
-TITLE = "Emergency Preparedness Gifts People Will Actually Use (2026 Gift Guide)"
+TITLE = "Preparedness Gifts People Will Use (2026 Gift Guide)"
 META = ("Practical preparedness gifts by price band: headlamps, power banks, weather radios, car kits, first aid and power stations, "
         "plus a free gift that matters most and the survival gear to skip.")
 H1 = "Preparedness gifts people will actually use"

@@ -204,7 +204,7 @@
     var el = $("#city-note"), C = city();
     if (!C) { el.hidden = true; return; }
     el.hidden = false;
-    el.innerHTML = "Set up for <b>" + esc(C.name) + ", " + esc(C.state) + "</b>, with local alert links in your plan. Weighted for " +
+    el.innerHTML = "Set up for <b>" + esc(C.label || C.name) + "</b>, with local alert links in your plan. Weighted for " +
       esc(loc().name.toLowerCase()) + "; if your home is different, such as an apartment, pick that setting below.";
   }
 

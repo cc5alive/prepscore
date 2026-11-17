@@ -4,7 +4,7 @@ SLUG = "apartment-water-storage"
 PARENT = "water"
 OG = "guide-apt-water"
 OG_CARD = ("Water for small spaces", "Apartment water storage", "How much you need, which containers fit, and where to put 200+ pounds of water.")
-TITLE = "Emergency Water Storage for Apartments: What to Buy and Where to Put It"
+TITLE = "Apartment Water Storage: What to Buy, Where to Put It"
 META = ("How to store two weeks of emergency water in a small apartment: how much you need, which containers fit, "
         "where to put 200+ pounds of water, and what to do when it runs out.")
 H1 = "Storing emergency water in an apartment"

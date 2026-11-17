@@ -1,3 +1,7 @@
+/* Self-hosted fonts (SIL Open Font License), latin subset. Variable files cover every weight the site uses. */
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/assets/fonts/public-sans-latin-wght.woff2) format("woff2"); }
+@font-face { font-family: "Big Shoulders Display"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/assets/fonts/big-shoulders-display-latin-wght.woff2) format("woff2"); }
+@font-face { font-family: "Big Shoulders Stencil Display"; font-style: normal; font-weight: 900; font-display: swap; src: url(/assets/fonts/big-shoulders-stencil-display-latin-900.woff2) format("woff2"); }
 /* Layout concept: a field manual. Left-aligned reading column, supply-crate labels as the signature object, stencil type only where a number or verdict lives. */
 :root {
   --paper: #ECEFE8;
@@ -740,3 +744,19 @@ ol.gaps > li::before { content: counter(act); position: absolute; left: 0; top: 
 .mobile-bar a { white-space: nowrap; }
 .city-select { font: inherit; font-size: 1rem; padding: .55rem .7rem; border: 1.5px solid var(--ink); border-radius: var(--r); background: #fff; color: #142019; max-width: 100%; width: 22rem; }
 .tag-explain { grid-column: 1 / -1; margin: .45rem 0 0; font-size: .8rem; color: var(--muted); line-height: 1.4; }
+
+/* All picks at a glance: a table on wider screens. On phones the quick picks and the cards below do this job. */
+.compare h2 { margin-bottom: 1rem; }
+table.cmp-table { min-width: 0; }
+.cmp-table td, .cmp-table th { text-align: left; vertical-align: middle; }
+.cmp-table tbody th a { font-weight: 700; }
+.cmp-table .price { font-family: var(--f-display); font-weight: 800; font-size: 1.15rem; white-space: nowrap; }
+.cmp-table .cmp-buy { white-space: nowrap; text-align: right; }
+.cmp-table .cmp-buy .aff, .cmp-table .cmp-buy .link-to { display: none; }
+.compare > .aff { margin-top: .6rem; }
+@media (max-width: 720px) { .compare { display: none; } }
+/* Quiz: what fixes each gap */
+.fixes summary { cursor: pointer; }
+.fixes summary h2 { display: inline; margin-right: .6rem; }
+.fixes summary span { display: block; margin-top: .35rem; }
+.fixes[open] summary { margin-bottom: 1.25rem; }

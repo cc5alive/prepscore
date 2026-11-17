@@ -1,7 +1,7 @@
 (function () {
   "use strict";
   // Anonymous counts, no cookies, nothing about you:
-  // 1. clicks on retailer links (page, product and button);
+  // 1. clicks on retailer links, Amazon or a brand's own store (page, product, button and store name);
   // 2. use of the free tools (someone used the quiz or a calculator, printed, shared a score, or followed a tool link).
   function beacon(path, data) {
     if (!navigator.sendBeacon) return;
@@ -9,9 +9,11 @@
   }
 
   function retailer(e) {
-    var a = e.target && e.target.closest ? e.target.closest('a[href*="amazon.com/"]') : null;
+    // Every affiliate link on the site carries rel="sponsored", whichever store it goes to.
+    var a = e.target && e.target.closest ? e.target.closest('a[rel~="sponsored"], a[href*="amazon.com/"]') : null;
     if (!a) return;
     var u; try { u = new URL(a.href); } catch (x) { return; }
+    if (u.origin === location.origin) return;
     var m = u.pathname.match(/\/dp\/([A-Z0-9]{10})/);
     var box = a.closest("[id]");
     beacon("/api/click", {
@@ -19,7 +21,8 @@
       t: u.searchParams.get("tag") || "",
       a: m ? m[1] : (u.searchParams.get("k") ? "search" : ""),
       l: (a.textContent || "").replace(/\s+/g, " ").trim().slice(0, 60),
-      s: box ? box.id : ""
+      s: box ? box.id : "",
+      h: u.hostname.replace(/^www\./, "")
     });
   }
   document.addEventListener("click", retailer, true);

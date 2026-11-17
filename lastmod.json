@@ -1,374 +1,467 @@
 {
  "404.html": {
   "hash": "b88b153457c3837a",
-  "date": "2026-11-01"
+  "date": "2026-11-01",
+  "first": "2026-10-30"
  },
  "72-hour-kit.html": {
-  "hash": "dcc001dda3a201a2",
-  "date": "2026-11-15"
+  "hash": "b939bfe5094f85b2",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "about.html": {
   "hash": "bf687be50d6e1ac8",
-  "date": "2026-11-11"
+  "date": "2026-11-11",
+  "first": "2026-10-30"
  },
  "black-friday.html": {
   "hash": "94be4a1b34699d66",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-01"
  },
  "city/albuquerque.html": {
-  "hash": "456cb4a32de7471b",
-  "date": "2026-11-10"
+  "hash": "01a48e900279baa4",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/atlanta.html": {
-  "hash": "ffcedc0ad0dabec7",
-  "date": "2026-11-10"
+  "hash": "22391e7b3dbe5320",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/austin.html": {
-  "hash": "350567b589963597",
-  "date": "2026-11-10"
+  "hash": "00bc682df0b0d7cb",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/baltimore.html": {
-  "hash": "8eaabe20d7775e82",
-  "date": "2026-11-10"
+  "hash": "6f52a47a24ef7019",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/boston.html": {
-  "hash": "591cedb6c7eb0635",
-  "date": "2026-11-10"
+  "hash": "97810fcf6d47d4d9",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/charlotte.html": {
-  "hash": "4ba2b54650fc9e30",
-  "date": "2026-11-10"
+  "hash": "3170b197206c2a47",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/chicago.html": {
-  "hash": "7c58a93448daa0c4",
-  "date": "2026-11-10"
+  "hash": "50209b66531e0ee3",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/columbus.html": {
-  "hash": "d894c1be94544a98",
-  "date": "2026-11-10"
+  "hash": "2343819a54dfafa0",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/dallas.html": {
-  "hash": "c245b2ab0f3646b7",
-  "date": "2026-11-10"
+  "hash": "34e533e05ca90950",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/denver.html": {
-  "hash": "7581121b34ad24bb",
-  "date": "2026-11-10"
+  "hash": "5f3f31af3762e7ac",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/detroit.html": {
-  "hash": "253803f280abf701",
-  "date": "2026-11-10"
+  "hash": "0f2c629f73829ffa",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/el-paso.html": {
-  "hash": "3218112aa00af73e",
-  "date": "2026-11-10"
+  "hash": "56e47d3d2b61034b",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/fort-worth.html": {
-  "hash": "b422a3f2b27655d7",
-  "date": "2026-11-10"
+  "hash": "b49f976e37092dc0",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/fresno.html": {
-  "hash": "b6630f106942afd4",
-  "date": "2026-11-10"
+  "hash": "bb291044a886ec66",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/greenville-sc.html": {
-  "hash": "6279d23f602f9a22",
-  "date": "2026-11-10"
+  "hash": "fa4f80d7937eb28a",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/houston.html": {
-  "hash": "bd43d577c1576b7a",
-  "date": "2026-11-10"
+  "hash": "8d44ae09bddb6f8a",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/index.html": {
   "hash": "bdeeb6ed90be9b14",
-  "date": "2026-10-31"
+  "date": "2026-10-31",
+  "first": "2026-10-30"
  },
  "city/indianapolis.html": {
-  "hash": "7499cb3173d34116",
-  "date": "2026-11-10"
+  "hash": "162d16c2f7d40b64",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/jacksonville.html": {
   "hash": "003165a281517347",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-10-31"
  },
  "city/las-vegas.html": {
-  "hash": "75df3623391b00fd",
-  "date": "2026-11-10"
+  "hash": "fba2867b8fe47976",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/los-angeles.html": {
-  "hash": "9ad6b26bc234e9cf",
-  "date": "2026-11-10"
+  "hash": "bb50db5a150b5ff5",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/louisville.html": {
-  "hash": "0ebc3929acdea69c",
-  "date": "2026-11-10"
+  "hash": "3b3b7f1fbc10ccc9",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/memphis.html": {
-  "hash": "d4673513ee4c6e75",
-  "date": "2026-11-10"
+  "hash": "669ea3febb974a1e",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/mesa.html": {
   "hash": "659af0a519f05542",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-10-31"
  },
  "city/miami.html": {
   "hash": "0851aae2e7991ec1",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-10-30"
  },
  "city/milwaukee.html": {
-  "hash": "68f71507362b7aa8",
-  "date": "2026-11-10"
+  "hash": "af23e9f82f4b1747",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/minneapolis.html": {
-  "hash": "e2e5bbf2bc5d183d",
-  "date": "2026-11-10"
+  "hash": "84835fce6cf62c22",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/nashville.html": {
-  "hash": "219b1a6605db8943",
-  "date": "2026-11-10"
+  "hash": "c206e4b80cbe2066",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/new-orleans.html": {
-  "hash": "22b9e340b85547b5",
-  "date": "2026-11-10"
+  "hash": "bf5dc37efef901bd",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/new-york-city.html": {
-  "hash": "e754fbd8f0d88d4d",
-  "date": "2026-11-10"
+  "hash": "bb20704392b19290",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/oklahoma-city.html": {
-  "hash": "5128e6ded0c90a94",
-  "date": "2026-11-10"
+  "hash": "c76d73ec449658ed",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/orlando.html": {
-  "hash": "900715cbf9c10ecb",
-  "date": "2026-11-10"
+  "hash": "fe0eccc08f2b6dde",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/philadelphia.html": {
-  "hash": "95b39c6926904222",
-  "date": "2026-11-10"
+  "hash": "1b3706b9d863366c",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/phoenix.html": {
   "hash": "6f5d878c483f18ff",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-10-30"
  },
  "city/portland.html": {
-  "hash": "7af4b06522947564",
-  "date": "2026-11-10"
+  "hash": "89e768c09f3e812f",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/sacramento.html": {
-  "hash": "bed1ef784a9e4674",
-  "date": "2026-11-10"
+  "hash": "32893a6685f3aeda",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/san-antonio.html": {
-  "hash": "4de80e27339273f5",
-  "date": "2026-11-10"
+  "hash": "59a4fa6cfb9aa577",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/san-diego.html": {
-  "hash": "ac09dd18ac835551",
-  "date": "2026-11-10"
+  "hash": "e243ab240c64870a",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/san-francisco.html": {
-  "hash": "48349966573c0222",
-  "date": "2026-11-10"
+  "hash": "2f82b83c689e6802",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/san-jose.html": {
-  "hash": "a2bc1d35f58f56af",
-  "date": "2026-11-10"
+  "hash": "177a79171f2dbe2e",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/seattle.html": {
-  "hash": "b80439bc2e3e11aa",
-  "date": "2026-11-10"
+  "hash": "746d5727c93a7e2a",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/tampa.html": {
-  "hash": "ddba5986aba7f3c5",
-  "date": "2026-11-10"
+  "hash": "df7ad98d6f113613",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/tucson.html": {
-  "hash": "909dac371b5d7a1c",
-  "date": "2026-11-10"
+  "hash": "1640c78b766d0beb",
+  "date": "2026-11-16",
+  "first": "2026-10-31"
  },
  "city/washington-dc.html": {
-  "hash": "d022c7897d372323",
-  "date": "2026-11-10"
+  "hash": "da3f888df00a3df4",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "city/winston-salem.html": {
-  "hash": "8d9810208d800301",
-  "date": "2026-11-10"
+  "hash": "f0d8f75d5b83b99c",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "disclosure.html": {
   "hash": "1bed3aa03a50ed3e",
-  "date": "2026-11-11"
+  "date": "2026-11-11",
+  "first": "2026-10-30"
  },
  "food-calculator.html": {
   "hash": "3aeb795951cff0b4",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-11-10"
  },
  "guides/apartment-water-storage.html": {
   "hash": "9f9f9bbb2b5d0804",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-10"
  },
  "guides/baby-emergency-kit.html": {
   "hash": "cfeab54f4511a975",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "e854974c2450cbc5",
-  "date": "2026-11-15"
+  "hash": "799605a36e562d03",
+  "date": "2026-11-16",
+  "first": "2026-11-01"
  },
  "guides/cpap-power-outage.html": {
   "hash": "9b3e9c2732b2789b",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "13d1afe7739ffd6a",
-  "date": "2026-11-15"
+  "hash": "13f2016c1b0001d7",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "a5173c43e7823f35",
-  "date": "2026-11-15"
+  "hash": "e877770b6f98f298",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "8cfaa1321859ac3a",
-  "date": "2026-11-15"
+  "hash": "1236bded73f64133",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/index.html": {
   "hash": "fbb28ee062dd7b65",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "guides/light-heat.html": {
-  "hash": "82a69eb84c38af89",
-  "date": "2026-11-15"
+  "hash": "d6bc1ab37b2f0fc5",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/older-adults-disabilities.html": {
   "hash": "4c2f2fd18c5f77ed",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "e20daf2a8a3b6f40",
-  "date": "2026-11-15"
+  "hash": "06d3b279be980a09",
+  "date": "2026-11-16",
+  "first": "2026-11-01"
  },
  "guides/pool-water.html": {
-  "hash": "b2dd4e8cc7483d9c",
-  "date": "2026-11-15"
+  "hash": "fea5f9e9ffbd10e4",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/power.html": {
-  "hash": "5311393d15601d84",
-  "date": "2026-11-15"
+  "hash": "7357ef80daccaa8b",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "7c60c65120c14d3f",
-  "date": "2026-11-15"
+  "hash": "61355414fe6d187a",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "05059643b7980f02",
-  "date": "2026-11-15"
+  "hash": "2509c01200254951",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/stranded-in-car-winter.html": {
   "hash": "6f17f52a8f72b491",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "32bf3e6e79b39c7f",
-  "date": "2026-11-15"
+  "hash": "6b3b1ec8a975b5eb",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "guides/winter-storm-power-outage.html": {
   "hash": "db482c3d06158e6c",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-11"
  },
  "index.html": {
   "hash": "e8ead47eb536248f",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "la-renters-es.html": {
   "hash": "3a68b2e7628d6e92",
-  "date": "2026-11-11"
+  "date": "2026-11-11",
+  "first": "2026-11-11"
  },
  "la-renters.html": {
   "hash": "e470c3ed4df0af25",
-  "date": "2026-11-11"
+  "date": "2026-11-11",
+  "first": "2026-11-10"
  },
  "library.html": {
-  "hash": "1109b9845389b7eb",
-  "date": "2026-11-15"
+  "hash": "e2aaca046186855e",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "power-calculator.html": {
   "hash": "44f3e50e34ea5332",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-11-10"
  },
  "preparedness-gifts.html": {
   "hash": "eb2cc1c1f612c3fd",
-  "date": "2026-11-15"
+  "date": "2026-11-15",
+  "first": "2026-11-10"
  },
  "privacy.html": {
-  "hash": "2c70f966cfc409f2",
-  "date": "2026-11-12"
+  "hash": "4e9f9238dfce24a2",
+  "date": "2026-11-16",
+  "first": "2026-11-09"
  },
  "quiz.html": {
-  "hash": "dbcc0eb2577b0dcd",
-  "date": "2026-11-13"
+  "hash": "bdc8ee4d438de4fc",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "resources.html": {
   "hash": "a6f04430c8c2778a",
-  "date": "2026-11-11"
+  "date": "2026-11-11",
+  "first": "2026-10-30"
  },
  "scenarios.html": {
   "hash": "ddcc277ad2fddda1",
-  "date": "2026-11-09"
+  "date": "2026-11-09",
+  "first": "2026-10-30"
  },
  "score/neighborhood-anchor.html": {
   "hash": "417015ac1b360dc2",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "score/self-reliant.html": {
   "hash": "577636aedc03478d",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "score/sitting-duck.html": {
   "hash": "2611a7998cb80cdb",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "score/snack-drawer.html": {
   "hash": "c542299964c75e87",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "score/squared-away.html": {
   "hash": "bd524e96f4345f37",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "score/weekend-ready.html": {
   "hash": "76152e8efb2878ab",
-  "date": "2026-11-13"
+  "date": "2026-11-13",
+  "first": "2026-10-30"
  },
  "water-calculator.html": {
   "hash": "cfd3ac042dea2223",
-  "date": "2026-11-10"
+  "date": "2026-11-10",
+  "first": "2026-11-10"
  },
  "where/city-apartment.html": {
-  "hash": "2b45ac9213ab08a7",
-  "date": "2026-10-31"
+  "hash": "ad2ad8e412b6124f",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "where/earthquake-country.html": {
   "hash": "153476ac68ad18b5",
-  "date": "2026-10-31"
+  "date": "2026-10-31",
+  "first": "2026-10-30"
  },
  "where/hurricane-coast.html": {
   "hash": "63c244737b4ebba3",
-  "date": "2026-10-31"
+  "date": "2026-10-31",
+  "first": "2026-10-30"
  },
  "where/index.html": {
   "hash": "3de4bfe7eeeed0ec",
-  "date": "2026-10-31"
+  "date": "2026-10-31",
+  "first": "2026-10-30"
  },
  "where/rural.html": {
-  "hash": "8296fa56082ebb83",
-  "date": "2026-10-30"
+  "hash": "01ee7a0637699c26",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "where/suburbs.html": {
-  "hash": "1891493c67fac4e5",
-  "date": "2026-10-31"
+  "hash": "a8072d0111aa26f6",
+  "date": "2026-11-16",
+  "first": "2026-10-30"
  },
  "where/wildfire-country.html": {
   "hash": "fd21a2670ceeb152",
-  "date": "2026-10-30"
+  "date": "2026-10-30",
+  "first": "2026-10-30"
  }
 }
