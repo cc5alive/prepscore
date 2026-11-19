@@ -1,6 +1,6 @@
 """Spanish LA renter checklist (/la-renters-es). Mirrors LA_HOME, LA_DRILL and LA_ASK in build.py; keep them in step."""
 
-TITLE = "Lista de emergencia para inquilinos de LA (para imprimir)"
+TITLE = "Lista de emergencia para inquilinos de Los Ángeles (gratis)"
 META = ("Una lista gratuita de una página para quienes rentan en Los Ángeles: alertas de NotifyLA y Alert LA County, qué tener en casa, "
         "un simulacro de 10 minutos y qué preguntarle al dueño.")
 H1 = "Lista de emergencia para inquilinos de Los Ángeles"
