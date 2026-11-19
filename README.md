@@ -19,6 +19,11 @@ Static emergency-preparedness site: a "How prepared am I?" quiz with shareable s
 - Quick picks (`QUICK`), cited sources (`SOURCES`) and the quiz shopping list (`QUIZ_BUY`) are at the bottom of `data.py`.
 - Internal links are written as clean URLs (`/guides/water`). To preview locally, serve `dist/` with something that maps `/page` to `page.html`, or open `wrangler dev`.
 
+## Indexing safeguards
+- `build.py` ends by running `tools/check_seo.py`. If a change adds an accidental `noindex`, breaks an internal link, drops a page from the sitemap, mismatches a canonical, duplicates a title or description, or writes structured data that doesn't parse, the build fails and Cloudflare keeps the last good version live. The log lists each problem.
+- Structured data `dateModified` uses the same per-page date as the sitemap (from `lastmod.json`).
+- IndexNow: the key is `vars.INDEXNOW_KEY` in `wrangler.jsonc`; the build publishes it as `/<key>.txt`. A daily Worker cron (15:17 UTC) pings IndexNow with pages whose sitemap date is today or yesterday. See results in the dashboard: Workers > prepscore > Logs. For a one-off full submission: `python3 tools/indexnow.py --all`.
+
 ## Rules
 - Never edit `dist/` by hand; it is rebuilt every time.
 - Every affiliate button keeps `rel="sponsored nofollow noopener"` and its visible "Affiliate link" label. The disclosure box stays on every guide.

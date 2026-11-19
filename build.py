@@ -349,7 +349,9 @@ def build_home():
     j = [{"@context": "https://schema.org", "@type": "WebSite", "name": SITE["name"], "url": SITE["url"] + "/",
           "description": "Emergency preparedness score, location guides and gear buyer's guides."},
          {"@context": "https://schema.org", "@type": "Organization", "name": SITE["name"], "url": SITE["url"] + "/",
-          "logo": SITE["url"] + "/og/default.png"}]
+          "logo": SITE["url"] + "/og/default.png", "email": SITE["email"],
+          "founder": {"@type": "Person", "name": "CC Pearce", "url": "https://ccpearce.com",
+                      "sameAs": ["https://x.com/cc5alive", "https://ccpearce.com"]}}]
     add("index.html", shell(path="/", title=f"{SITE['name']}: How Prepared Are You for an Emergency?",
                             desc="Find out how many days you could last on your own. A free emergency preparedness score, location-specific prep guides and honest gear buyer's guides.",
                             body=body, root=root, og="default", canon="/", jsonld=j, scripts=("site.js",)), "/", "1.0")
@@ -727,7 +729,8 @@ def build_guides():
              {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in g["faqs"]]},
              {"@context": "https://schema.org", "@type": "ItemList", "name": g["h1"],
-              "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p["name"]} for i, p in enumerate(g["picks"])]},
+              "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p["name"],
+                                   "url": SITE["url"] + f"/guides/{g['slug']}#pick-{slugify(p['name'])}"} for i, p in enumerate(g["picks"])]},
              crumbs_ld(cr)]
         add(f"guides/{g['slug']}.html", shell(path=f"/guides/{g['slug']}", title=g["title"], desc=g["meta"], body=body, root=root,
                                              og=f"guide-{g['slug']}", canon=f"/guides/{g['slug']}", jsonld=j, active="guides",
@@ -860,7 +863,8 @@ def build_kit():
           "publisher": {"@type": "Organization", "name": SITE["name"]}, "image": SITE["url"] + "/og/kit.png", "mainEntityOfPage": SITE["url"] + "/72-hour-kit",
           "citation": [{"@type": "CreativeWork", "name": t, "url": u} for t, u in KIT_SOURCES]},
          {"@context": "https://schema.org", "@type": "ItemList", "name": "72-hour emergency kit essentials",
-          "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": k["name"]} for i, k in enumerate(KIT)]},
+          "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": k["name"], "url": SITE["url"] + f"/72-hour-kit#kit-{k['id']}"}
+                              for i, k in enumerate(KIT)]},
          {"@context": "https://schema.org", "@type": "FAQPage",
           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]},
          crumbs_ld(cr)]
@@ -1928,8 +1932,18 @@ def build_og():
         card(f"city-{c['slug']}", f"City guide  ·  {c['state']}", f"Prepping in {c['name']}", "  ·  ".join(c["risks"]) + ". Local alerts, zones and what to do first.", bigfont="display")
 
 
+def indexnow_key():
+    """The IndexNow key lives in one place, wrangler.jsonc vars.INDEXNOW_KEY, where the Worker reads it too."""
+    try:
+        txt = open(os.path.join(HERE, "wrangler.jsonc"), encoding="utf-8").read()
+    except OSError:
+        return ""
+    m = re.search(r'"INDEXNOW_KEY"\s*:\s*"([A-Za-z0-9-]{8,128})"', txt)
+    return m.group(1) if m else ""
+
+
 def build_files():
-    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    sm =['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     # lastmod = the day a page's main content last changed (tracked in lastmod.json, committed with the source)
     lm_path = os.path.join(HERE, "lastmod.json")
     try:
@@ -1951,6 +1965,19 @@ def build_files():
             f.write("\n")
     except OSError:
         pass
+    # Structured data dateModified = the same per-page date as the sitemap, so the two never disagree.
+    # (Pages are built before their content hash is known, so the site-wide date is swapped here.)
+    stamp = f'"dateModified": "{TODAY}"'
+    for rel, _, _, _ in PAGES:
+        out = os.path.join(OUT, rel)
+        doc = open(out, encoding="utf-8").read()
+        if stamp in doc:
+            with open(out, "w", encoding="utf-8") as f:
+                f.write(doc.replace(stamp, f'"dateModified": "{new_lm[rel]["date"]}"'))
+    # IndexNow key file (lets Bing, Yandex and others accept our "this page changed" pings; see worker.js)
+    key = indexnow_key()
+    if key:
+        open(os.path.join(OUT, f"{key}.txt"), "w").write(key)
     sm.append("</urlset>")
     open(os.path.join(OUT, "sitemap.xml"), "w").write("\n".join(sm) + "\n")
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE['url']}/sitemap.xml\n")
@@ -1992,3 +2019,8 @@ if __name__ == "__main__":
         shutil.copytree(OUT, ART)
         write("index.html", [p for r, p, _, _ in PAGES if r == "index.html"][0], artifact=True)
     print(f"Built {len(PAGES)} pages into {OUT}")
+    # Fail the build (and so the deploy) if a change would quietly hurt indexing.
+    sys.path.insert(0, os.path.join(HERE, "tools"))
+    import check_seo
+    if not check_seo.run(OUT, SITE["url"], indexnow_key()):
+        sys.exit(1)

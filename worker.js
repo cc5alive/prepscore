@@ -2,6 +2,7 @@
 // No cookies, no IP address, no user agent are stored.
 // /api/click: clicks on retailer links (page, tracking ID, product ASIN, button label, page section, date).
 // /api/event: use of the site's free tools (page, event name, short detail, date).
+// Daily cron: pings IndexNow with pages whose sitemap lastmod is today or yesterday (UTC).
 const ASIN = /^[A-Z0-9]{10}$/;
 const TAG = /^[a-z0-9-]{1,40}-20$/;
 const EVENTS = new Set(["use", "print", "share", "tool"]);
@@ -14,7 +15,33 @@ async function readJson(request) {
   try { return [await request.json(), null]; } catch { return [null, new Response(null, { status: 400 })]; }
 }
 
+// IndexNow: tell participating search engines (Bing, Yandex, Seznam, Naver...) which URLs changed.
+// Google doesn't use IndexNow; it reads the sitemap.
+async function pingIndexNow(env) {
+  const key = env.INDEXNOW_KEY;
+  if (!key) return;
+  const res = await env.ASSETS.fetch(new Request("https://prepscore.org/sitemap.xml"));
+  if (!res.ok) return console.log("indexnow: sitemap fetch failed", res.status);
+  const xml = await res.text();
+  const day = (d) => d.toISOString().slice(0, 10);
+  const now = Date.now();
+  const recent = new Set([day(new Date(now)), day(new Date(now - 864e5))]);
+  const urlList = [...xml.matchAll(/<loc>([^<]+)<\/loc><lastmod>([^<]+)<\/lastmod>/g)]
+    .filter((m) => recent.has(m[2])).map((m) => m[1]).slice(0, 10000);
+  if (!urlList.length) return console.log("indexnow: nothing changed");
+  const r = await fetch("https://api.indexnow.org/indexnow", {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ host: "prepscore.org", key, keyLocation: `https://prepscore.org/${key}.txt`, urlList }),
+  });
+  console.log("indexnow:", r.status, urlList.length, "urls");
+}
+
 export default {
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(pingIndexNow(env));
+  },
+
   async fetch(request, env) {
     const url = new URL(request.url);
 

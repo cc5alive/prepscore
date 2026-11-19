@@ -15,5 +15,10 @@
   // Anonymous retailer-click counter (see worker.js). Query it in the dashboard: D1 > prepscore-clicks > Console.
   "d1_databases": [
     { "binding": "CLICKS", "database_name": "prepscore-clicks", "database_id": "bc48b476-f4e1-4118-a2f7-3a2db9e8cc27" }
-  ]
+  ],
+  // IndexNow: once a day the Worker tells Bing (and through it, other engines) which pages changed.
+  // The key is public by design; build.py publishes it as /<key>.txt to prove we own the site.
+  "vars": { "INDEXNOW_KEY": "bce8728ec33f008ab50a6ff9824cc06c" },
+  "triggers": { "crons": ["17 15 * * *"] },
+  "observability": { "enabled": true }
 }
