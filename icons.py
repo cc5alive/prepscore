@@ -99,7 +99,8 @@ BY_NAME = {
     "Medical ID bracelet": "bracelet", "Weekly pill organizer (AM/PM)": "pills",
     "Pre-sterilized disposable bottles or liners": "bottle", "Wearable blanket (sleep sack)": "sleepingbag",
     "Portable play yard or travel crib": "crib", "Soft structured baby carrier": "carrier",
-    "Small power station, about 500 Wh": "powerstation", "DC power cord or converter for your CPAP": "carcharger",
+    "Small power station, about 500 Wh": "powerstation", "Air-activated hand and toe warmers (HotHands or similar)": "warmer",
+    "Low-wattage electric blanket, run from a power station": "blanket", "DC power cord or converter for your CPAP": "carcharger",
 }
 
 # 3-day kit items, by item id.
