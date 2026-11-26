@@ -265,7 +265,7 @@
   "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "1030586cec3777c3",
+  "hash": "6703b0bb065d29b8",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -275,27 +275,27 @@
   "first": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "3e0da8e11dc61013",
+  "hash": "c0f53a727af92a3d",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "46d14addc228f4e5",
+  "hash": "dd1b1a9f310f3159",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "dc5d3430dca87cd9",
+  "hash": "9ff956da93c79834",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/index.html": {
-  "hash": "12daab0bc616d1a8",
+  "hash": "6d0ca989ea61cd5c",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/light-heat.html": {
-  "hash": "79fed639c6117190",
+  "hash": "a5389cd9c770f4fd",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -305,7 +305,7 @@
   "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "f89d1218b290b637",
+  "hash": "3042b68e6a6eb84e",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -325,19 +325,24 @@
   "first": "2026-11-25"
  },
  "guides/power.html": {
-  "hash": "33b027ccc201e0fe",
+  "hash": "1badfde0ad3c55ba",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "dc03e0a1600d725f",
+  "hash": "a2958651e1d00c38",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "f357f104830c20a0",
+  "hash": "399df1bd68096a34",
   "date": "2026-11-25",
   "first": "2026-10-30"
+ },
+ "guides/sawyer-squeeze-vs-lifestraw.html": {
+  "hash": "33faf89d1d36c640",
+  "date": "2026-11-25",
+  "first": "2026-11-25"
  },
  "guides/stranded-in-car-winter.html": {
   "hash": "6f17f52a8f72b491",
@@ -345,7 +350,7 @@
   "first": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "ee4344f507ea3a21",
+  "hash": "e692a9dc7c5e1dfb",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
