@@ -102,6 +102,8 @@ def asset(name):
 
 
 BF_NAV_UNTIL = datetime.date(2026, 12, 7)
+import blackfriday as _BF
+BF_LINK = "Black Friday prep picks" if _BF.IN_SEASON else "Prep gear worth buying on sale"
 
 
 def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scripts=(), body_attr="", noindex=False):
@@ -155,7 +157,7 @@ def shell(*, path, title, desc, body, root, og, canon, jsonld=(), active="", scr
 <p class="muted small">Questions or corrections: <a href="mailto:{SITE['email']}">{SITE['email']}</a></p></div>
 <div><h2 class="foot-h">Where you live</h2><ul>{loc_links}</ul></div>
 <div><h2 class="foot-h">Gear guides</h2><ul>{guide_links}</ul></div>
-<div><h2 class="foot-h">Tools</h2><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}food-calculator.html">Food storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">Black Friday prep picks</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
+<div><h2 class="foot-h">Tools</h2><ul><li><a href="{root}quiz.html">How prepared am I?</a></li><li><a href="{root}72-hour-kit.html">Simple 3-day kit</a></li><li><a href="{root}water-calculator.html">Water storage calculator</a></li><li><a href="{root}power-calculator.html">Power station calculator</a></li><li><a href="{root}food-calculator.html">Food storage calculator</a></li><li><a href="{root}city/index.html">City guides</a></li><li><a href="{root}scenarios.html">What matters in which emergency</a></li><li><a href="{root}guides/go-bag.html#checklist">Go-bag checklist</a></li><li><a href="{root}black-friday.html">{BF_LINK}</a></li><li><a href="{root}preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="{root}library.html">Printable guides and books</a></li><li><a href="{root}resources.html">Other great prep resources</a></li><li><a href="{root}about.html">About and editorial standards</a></li><li><a href="{root}disclosure.html">Affiliate disclosure</a></li><li><a href="{root}privacy.html">Privacy policy</a></li></ul></div>
 </div></footer>
 {''.join(f'<script src="{root}{asset(s)}"></script>' for s in scripts)}<script defer src="{root}{asset("track.js")}"></script>{BEACON}"""
     return head, page, body_attr
@@ -1199,7 +1201,7 @@ def build_blackfriday():
 {toc_html}</div></div>
 <section class="section" id="essentials" style="padding-top:2rem"><div class="wrap two-col"><div class="stack-l">
 {DISCLOSE(root)}
-<div class="section-head" style="margin:1.75rem 0 0"><div><h2>The essentials, in order</h2><p>If you buy nothing else this season, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
+<div class="section-head" style="margin:1.75rem 0 0"><div><h2>The essentials, in order</h2><p>If you buy nothing else, buy these. Together they cover water, power, light, news, first aid and food for the most common emergencies.</p></div></div>
 <div class="bf-grid">{ess}</div></div>
 <aside class="stack-l bf-side"><div class="aside"><h3>How to shop the sales</h3><ol class="bf-tips">{tips}</ol></div><div class="aside"><h3>Not sure what you're missing?</h3><p class="muted small" style="margin-bottom:.5rem">The free quiz shows your biggest gaps in about 3 minutes, so you buy what you actually need.</p><ul><li><a href="quiz.html">Get your PrepScore</a></li><li><a href="72-hour-kit.html">The simple 3-day kit</a></li><li><a href="preparedness-gifts.html">Preparedness gift guide</a></li><li><a href="power-calculator.html">What size power station?</a></li></ul></div></aside></div></section>
 <section class="section" id="big-ticket"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>Big-ticket gear worth waiting for</h2><p>Expensive items where a sale saves real money. Buy these after the essentials.</p>{sale("big-ticket")}</div></div>
@@ -1801,7 +1803,7 @@ def build_gifts():
 <section class="section"><div class="wrap two-col"><div class="stack-l">
 {DISCLOSE(root)}
 <div class="pw-verdict"><h2>Gifts by person</h2><dl class="gift-people">{people}</dl></div></div>
-<aside class="stack-l"><div class="aside"><h3>Shopping the sales?</h3><p class="muted small" style="margin-bottom:.5rem">See which prep gear usually goes on sale, and the essentials to buy first.</p><ul><li><a href="black-friday.html">Black Friday prep picks</a></li><li><a href="power-calculator.html">Power station size calculator</a></li></ul></div></aside></div></section>
+<aside class="stack-l"><div class="aside"><h3>Shopping the sales?</h3><p class="muted small" style="margin-bottom:.5rem">See which prep gear usually goes on sale, and the essentials to buy first.</p><ul><li><a href="black-friday.html">{BF_LINK}</a></li><li><a href="power-calculator.html">Power station size calculator</a></li></ul></div></aside></div></section>
 {sections}
 <section class="section" id="free"><div class="wrap two-col"><div class="stack-l">
 <h2>The best gift is free: 20 minutes together</h2>
@@ -2024,7 +2026,7 @@ def build_og():
     for M in (aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower):
         card(M.OG, M.OG_CARD[0], M.OG_CARD[1], M.OG_CARD[2], bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
-    card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
+    card("gifts", f"Gift guide {datetime.date.today().year}", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
     card("water-calc", "Free calculator", "How much water to store", "Enter your household: 3-day, 1-week and 2-week amounts, what you still need, and the space it takes.", bigfont="display")
     card("kit", "The simple 3-day kit", "Your 72-hour kit", "Eleven essentials, one afternoon. How much you need and what to buy for each.")
     card("quiz", "How prepared am I?", "Get your PrepScore", "Check off what you have. See how long you'd last, your top gaps, and a card to share.")
@@ -2035,7 +2037,7 @@ def build_og():
         card(f"loc-{l['slug']}", "Where you live", l["h1"], l["dek"], bigfont="display")
     for g in GUIDES:
         card(f"guide-{g['slug']}", "Buyer's guide", g["name"], g["dek"])
-    card("black-friday", "Black Friday 2026", "Prep gear worth buying", "The essentials to get first, big-ticket items worth waiting for, and how to spot a real deal.", bigfont="display")
+    card("black-friday", "Black Friday 2026" if _BF.IN_SEASON else "Sales and deals", "Prep gear worth buying", "The essentials to get first, big-ticket items worth waiting for, and how to spot a real deal.", bigfont="display")
     card("library", "The prepper's library", "Print it before you need it", "Free survival guides from FEMA, the CDC, the Army and Hesperian, plus the best prepper books.", bigfont="display")
     card("resources", "Beyond PrepScore", "The best prep resources", "Ready.gov, Wirecutter, Watch Duty, Stop the Bleed and more, with what each one is best for.", bigfont="display")
     card("guide-pool-water", "Water deep dive", "Drinking pool water", "Chlorine and saltwater pools: why a filter isn't enough, and what makes it drinkable.", bigfont="display")

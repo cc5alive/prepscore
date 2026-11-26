@@ -1,7 +1,14 @@
 """Content for /black-friday: prep gear worth buying on sale, all linked to specific, verified Amazon products."""
 
-CHECKED = "November 14, 2026"   # the date products were last checked as available
+CHECKED = "November 25, 2026"   # the date products were last checked as available
 # Prices are shown only as bands ($ to $$$$); Amazon only allows prices pulled live from its API.
+import datetime as _dt
+
+# The page is seasonal. Builds after Cyber Monday switch it to its off-season copy; scheduled rebuilds
+# (.github/workflows/scheduled-rebuild.yml) make that happen without anyone touching the code.
+SEASON_END = _dt.date(2026, 12, 1)
+IN_SEASON = _dt.date.today() < SEASON_END
+
 TITLE = "Black Friday Prepping 2026: Emergency Gear Worth Buying on Sale"
 META = ("Black Friday prepping for 2026: the emergency essentials to buy first, big-ticket gear worth waiting for, "
         "small gifts, and how to tell a real deal from a fake one.")
@@ -9,7 +16,7 @@ H1 = "Black Friday prep gear worth buying"
 DEK = ("Sales are a good time to fill the gaps in your kit. Here's what to buy first, what's worth waiting for, and how to "
        "tell a real deal from a fake one.")
 
-DATES = [("Black Friday", "Fri, Nov 27"), ("Cyber Monday", "Mon, Nov 30"), ("Picks checked", "Nov 14")]
+DATES = [("Black Friday", "Fri, Nov 27"), ("Cyber Monday", "Mon, Nov 30"), ("Picks checked", "Nov 25")]
 
 TIPS = [
     ("Buy the essentials first.", "A power station on sale won't help if you have no water. Work down the list in order."),
@@ -137,3 +144,15 @@ SALE_NOTES = {
     "pets": "Pet carriers and kits see occasional discounts. Pet food and water should be stocked anytime.",
     "books": "Prep books are often discounted, and many guides are also free to download on our library page.",
 }
+
+
+# Off-season copy (after Cyber Monday 2026). Same picks and URL, so the page keeps its links and is ready for next year.
+if not IN_SEASON:
+    TITLE = "Black Friday Prepping: Emergency Gear Worth Buying on Sale"
+    META = ("The emergency gear worth buying on sale: the essentials to buy first, big-ticket items worth waiting for a deal on, "
+            "small gifts, and how to tell a real deal from a fake one.")
+    H1 = "Prep gear worth buying on sale"
+    DEK = ("Black Friday 2026 is over, but sales come around all year. Here's what to buy first, what's worth waiting for a deal on, "
+           "and how to tell a real deal from a fake one.")
+    DATES = [("Black Friday 2027", "Fri, Nov 26"), ("Cyber Monday 2027", "Mon, Nov 29"), ("Picks checked", CHECKED.rsplit(",", 1)[0].replace("November", "Nov"))]
+    FAQS = [("When is Black Friday 2027?", "Black Friday is Friday, November 26, 2027, the day after Thanksgiving, and Cyber Monday is Monday, November 29. Many retailers start deals earlier in the week.")] + FAQS[1:]

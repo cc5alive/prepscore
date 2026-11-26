@@ -1,6 +1,7 @@
 """Preparedness gift guide (/preparedness-gifts). Prices stay in the data and render as bands only."""
 
-TITLE = "Preparedness Gifts People Will Use (2026 Gift Guide)"
+import datetime as _dt
+TITLE = f"Preparedness Gifts People Will Use ({_dt.date.today().year} Gift Guide)"
 META = ("Practical preparedness gifts by price band: headlamps, power banks, weather radios, car kits, first aid and power stations, "
         "plus a free gift that matters most and the survival gear to skip.")
 H1 = "Preparedness gifts people will actually use"

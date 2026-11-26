@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """All site content. Edit here, then run build.py."""
+import datetime
 
 SITE = {
     "name": "PrepScore",
@@ -873,7 +874,7 @@ GUIDES = [
     },
     {
         "slug": "go-bag", "name": "Go-bag", "short": "Go-bags and evacuation",
-        "title": "Go-Bag Checklist: What to Pack in a Bug-Out Bag (2026)",
+        "title": f"Go-Bag Checklist: What to Pack in a Bug-Out Bag ({datetime.date.today().year})",
         "h1": "The go-bag: what to grab in 15 minutes",
         "meta": "A complete go-bag checklist for evacuations, the best backpacks and pre-made kits, N95s, document kits, and how to pack light enough to walk with.",
         "dek": "If you have 15 minutes to leave, there's no time to think. A packed bag decides what you leave with: meds, documents, water, light, cash and a way to charge your phone.",

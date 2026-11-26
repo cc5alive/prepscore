@@ -1,0 +1,23 @@
+# Rebuilds the site on a schedule so date-based content changes go live without anyone editing code:
+# the Black Friday page switches to its off-season copy after Cyber Monday, the header link and homepage
+# promo drop off in December, and titles with the year roll over on January 1.
+# It pushes an empty commit to main, which triggers the normal Cloudflare Workers build.
+name: Scheduled rebuild
+on:
+  schedule:
+    - cron: "23 9 1 * *"        # 1st of every month, 09:23 UTC
+    - cron: "23 9 8,16 12 *"    # Dec 8 (header link off) and Dec 16 (homepage promo off)
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push an empty commit to trigger the Cloudflare build
+        run: |
+          git config user.name "prepscore-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "Scheduled rebuild ($(date -u +%Y-%m-%d))"
+          git push
