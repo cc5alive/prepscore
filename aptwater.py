@@ -47,7 +47,7 @@ PICKS = [
      "why": "Turns the bathtub into a large, covered reservoir in about 20 minutes when a hurricane, freeze or water shutoff is coming.",
      "watch": "Only useful with warning, and the tub is out of action while it's full. Treat the water before drinking.",
      "best": "Hurricane, ice storm and shutoff areas"},
-    {"name": "Sawyer Squeeze filter", "asin": "B00B1OSU4W", "price": "$35 to $50",
+    {"name": "Sawyer Squeeze filter", "asin": "B0DTJJ88BR", "asin_name": "Sawyer Squeeze filter with a 1-liter bottle (SP302)", "price": "$40 to $65",
      "what": "A small filter that screws onto a pouch or bottle.",
      "why": "Removes bacteria and parasites from tap or tub water when your stored water runs low. Small enough for a kitchen drawer.",
      "watch": "It doesn't remove viruses or chemicals. Pair it with tablets, and don't use it on water that may have chemicals or fuel in it.",

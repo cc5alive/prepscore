@@ -93,9 +93,8 @@ CC_NOTE = ("I bought this filter for my own kit because of its three stages: car
 # Alternatives to CC's filter: name, asin, price, kind, germs, chlorine/taste, salt+stabilizer, note
 FILTERS = [
     ("EmbraceYe 3-stage pump (CC's pick)", "B0CTK2FNQ8", "$50", "Hand pump: KDF, carbon, 0.01 µm hollow fiber", "Bacteria, protozoa", "Yes", "No", "Most features for the money; claims aren't independently certified."),
-    ("Sawyer Squeeze", "B00B1OSU4W", "$35–50", "Squeeze filter: 0.1 µm hollow fiber", "Bacteria, protozoa", "No", "No", "The best-known budget filter. No carbon, so pair it with a carbon stage for pool water."),
+    ("Sawyer Squeeze", "B0DTJJ88BR", "$45–65", "Squeeze filter: 0.1 µm hollow fiber", "Bacteria, protozoa", "No", "No", "The best-known budget filter. No carbon, so pair it with a carbon stage for pool water."),
     ("GRAYL GeoPress", "B09255PYRM", "$100", "Press bottle purifier with carbon", "Bacteria, protozoa, viruses", "Yes", "No", "Removes viruses too, and the carbon handles chlorine. Only 24 oz at a time."),
-    ("MSR Guardian", "B0CQRX4FT2", "$400", "Pump purifier", "Bacteria, protozoa, viruses", "No", "No", "Tested to the U.S. military's purifier protocol and self-cleans as you pump. No carbon stage."),
     ("Platypus GravityWorks 4L", "B0CV9RPT8Y", "$135", "Gravity bag filter: 0.2 µm hollow fiber", "Bacteria, protozoa", "No", "No", "Filters liters at a time with no pumping, the easiest for a family. Add carbon for taste."),
 ]
 

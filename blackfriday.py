@@ -22,7 +22,7 @@ TIPS = [
 ESSENTIALS = [
     ("Saratoga Farms 5-gallon stackable water containers, 4-pack", "B092FYPZ55", "$119.98",
      "20 gallons in one closet corner: about 10 days of drinking water for two people.", "Every home", "water"),
-    ("Sawyer Squeeze water filter", "B00B1OSU4W", "$45.95",
+    ("Sawyer Squeeze water filter with 1-liter bottle", "B0DTJJ88BR", "$59.95",
      "Makes creek, lake or rain-barrel water safe from bacteria and parasites once your stored water runs out.", "Backup water and go-bags", "water"),
     ("Anker SOLIX C1000 power station (1,056 Wh)", "B0C5C89QKZ", "$499.99",
      "Quiet, indoor-safe power for phones, lights, a CPAP or a fridge for hours. Power stations are often among the biggest Black Friday discounts.", "Outages and medical devices", "power"),
@@ -36,7 +36,7 @@ ESSENTIALS = [
      "An organized kit with wound care, medications and instructions for the injuries that come with cleanup.", "Every home", "first-aid"),
     ("Kidde battery-powered carbon monoxide alarm", "B004Y6V5CI", "$27.97",
      "Generators, heaters and stoves used in outages are a leading cause of CO deaths. This alarm works without power.", "Anyone with gas heat, a generator or a garage", "power"),
-    ("Mountain House Homestyle Chicken Noodle Casserole, 6 pouches", "B084P7XXRJ", "$69.99",
+    ("Mountain House Beef Stroganoff, 6 pouches", "B084NYCH6C", "$69.99",
      "Just-add-hot-water meals that keep for years and taste like real food.", "Apartments and go-bags", "food"),
 ]
 
@@ -89,7 +89,7 @@ CATEGORIES = [
         ("Midland GXT1000VP4 GMRS radios, 2-pack", "B001WMFYH4", "$89.99", "Talk across a neighborhood when phones are down. GMRS needs an FCC license (no exam).", "Families and neighbors", "radios"),
     ]),
     ("first-aid", "First aid", [
-        ("QuikClot Advanced Clotting Gauze", "B07WW46HTF", "$38.49", "For bleeding where a tourniquet won't work. Add a pressure bandage and a class.", "Trauma add-on to any kit", "first-aid"),
+        ("QuikClot Kaolin Clotting Gauze", "B07WV5P9RS", "$19.49", "For bleeding where a tourniquet won't work. Add a pressure bandage and a class.", "Trauma add-on to any kit", "first-aid"),
     ]),
     ("go-bag", "Go-bag", [
         ("3M Aura 9205+ N95 masks, 20-pack", "B09FM2P1KF", "$18 (90¢ a mask)", "NIOSH-approved protection for smoke, ash and dust.", "Wildfire country and every go-bag", "go-bag"),
@@ -102,7 +102,7 @@ CATEGORIES = [
         ("Tobfit LED road flares, 6-pack", "B07K3YFMVH", "$32.99", "Makes a stopped car visible on a dark road. Batteries not included.", "Highway and rural drivers", "car"),
     ]),
     ("sanitation", "Sanitation", [
-        ("Reliance Luggable Loo toilet seat and bucket", "B07Z2B1YYY", "$50.34", "A working toilet when the water or sewer is out.", "Earthquake and flood country", "sanitation"),
+        ("Reliance Luggable Loo toilet seat and bucket", "B0CF2SMC3D", "$35.24", "A working toilet when the water or sewer is out.", "Earthquake and flood country", "sanitation"),
         ("Reliance Double Doodie toilet waste bags, 12 bags", "B07M863D89", "$64.98", "Leak-proof bags with a gel that solidifies waste. Made for the Luggable Loo.", "Pairs with the Luggable Loo", "sanitation"),
     ]),
     ("pets", "Pets", [

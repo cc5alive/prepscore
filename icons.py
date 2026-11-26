@@ -88,7 +88,7 @@ BF_ICONS.update({
     "B07FVJLYZ4": "cube", "B0B4P7B286": "sack", "B00DH4IQSE": "bags", "B085MH756K": "tag", "B08WHSVYV6": "bowl",
     "B01M8JT6FT": "leash", "B07HDZW7YQ": "shovel", "B0CPSWFR55": "rope", "B078GHJ921": "distiller", "B000ANW7HQ": "distiller",
     "B09KRDK677": "filter", "B000VTQM70": "meter", "B0FD9RJ6RH": "strips", "B0CTK2FNQ8": "pump", "B09255PYRM": "filter",
-    "B0CQRX4FT2": "pump",
+    "B0CQRX4FT2": "pump", "B0DTJJ88BR": "filter", "B084NYCH6C": "pouch", "B07WV5P9RS": "gauze", "B0CF2SMC3D": "toilet",
 })
 
 # Picks that link to a search or a free class, by name.
