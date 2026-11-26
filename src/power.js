@@ -74,7 +74,7 @@
     var notes = [];
     if (t.daily) notes.push("On a clear day, a 200 W folding solar panel puts back roughly 400 to 700 Wh, " +
       (t.daily <= 450 ? "enough to cover what you use in a day." : "about " + fmt(550 / t.daily * 100) + "% of what you use in a day."));
-    if (t.fridge) notes.push("Fridges and freezers don't need to run nonstop: keep the doors shut and run them a couple of hours at a time to stretch the battery.");
+    if (t.fridge) notes.push("Keep the fridge full and the doors shut: that stretches the battery more than anything else. Turning a fridge off and on saves little, because it works harder to cool back down. <a href=\"/guides/power-station-for-refrigerator\">Fridge runtime table and tips</a>.");
     if (t.cpap) notes.push("Turning off the CPAP humidifier and heated tube cuts its power use by about 4 to 5 times. <a href=\"/guides/cpap-power-outage\">CPAP runtime table and tips</a>.");
     $("#pc-notes").innerHTML = notes.map(function (n) { return "<li>" + n + "</li>"; }).join("");
     $("#pc-sticky-txt").textContent = t.daily ? wh(t.daily) + " a day · buy " + fmt(buy1) + "+ Wh" : "Add a device to start";

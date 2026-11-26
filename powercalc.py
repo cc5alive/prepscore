@@ -29,7 +29,7 @@ FAQ = [
     ("How long will a 1,000 Wh power station last?",
      "About 850 Wh is usable through the AC outlets. That's roughly a day and a half of phones, a router and two LED lights (about 480 Wh a day), 9 to 11 nights of a CPAP with the humidifier off, or 12 to 14 hours of a typical refrigerator."),
     ("Can a power station run a refrigerator?",
-     "Yes, if its surge rating covers the compressor's start, which most 1,000 Wh stations do. A typical fridge uses 1 to 2 kWh a day, so a 1,000 Wh station keeps it going for about half a day. Keep the door closed: the USDA says a closed fridge keeps food safe for about 4 hours without power, and a full freezer about 48 hours. You can also run the fridge for an hour or two at a time to stretch the battery."),
+     "Yes, if its surge rating covers the compressor's start, which most 1,000 Wh stations do. A newer fridge uses about 1 to 1.4 kWh a day, so a 1,000 Wh station keeps it going for about 15 to 20 hours; older and larger fridges use more. Keep the door closed: the USDA says a closed fridge keeps food safe for about 4 hours without power, and a full freezer about 48 hours. Turning the fridge off and on doesn't save much, because it works harder to cool back down afterward."),
     ("Can I run a space heater on a power station?",
      "Not for long. A space heater draws about 1,500 W, so a 1,000 Wh station runs it for under 40 minutes. For warmth in a winter outage, an electric blanket at about 60 W runs all night on a mid-size station, and warm sleeping bags need no power at all."),
     ("What's the difference between watts and watt-hours?",

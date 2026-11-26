@@ -100,6 +100,7 @@ BY_NAME = {
     "Pre-sterilized disposable bottles or liners": "bottle", "Wearable blanket (sleep sack)": "sleepingbag",
     "Portable play yard or travel crib": "crib", "Soft structured baby carrier": "carrier",
     "Small power station, about 500 Wh": "powerstation", "Air-activated hand and toe warmers (HotHands or similar)": "warmer",
+    "Fridge and freezer thermometer": "meter", "Plug-in electricity usage meter": "meter",
     "Low-wattage electric blanket, run from a power station": "blanket", "DC power cord or converter for your CPAP": "carcharger",
 }
 

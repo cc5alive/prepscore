@@ -717,7 +717,7 @@ POOL_CALLOUT = ('<div class="cta-box"><div><h2>Have a pool?</h2><p>It can hold y
 SITUATIONS = [("apartment-water-storage", "Water storage for apartments"), ("winter-storm-power-outage", "Power out in a winter storm"),
               ("stranded-in-car-winter", "Stuck in your car in snow"), ("cpap-power-outage", "CPAP in a power outage"),
               ("older-adults-disabilities", "Older adults and disabilities"), ("baby-emergency-kit", "Babies and toddlers"),
-              ("pool-water", "Drinking pool water")]
+              ("power-station-for-refrigerator", "Power station for a fridge"), ("pool-water", "Drinking pool water")]
 WINTER_RE = re.compile(r"\b(ice|cold|winter|snow|blizzard|freeze|nor'easter)", re.I)
 
 
@@ -803,7 +803,7 @@ def build_guides():
 {POOL_CALLOUT if g["slug"] == "water" else ""}
 {f'<p class="read">Planning for someone who relies on medications, oxygen or a wheelchair? See <a href="older-adults-disabilities.html">emergency planning for older adults and people with disabilities</a>.</p>' if g["slug"] == "first-aid" else ""}
 {f'<p class="read">Packing for a baby or toddler? See <a href="baby-emergency-kit.html">what goes in a baby emergency kit</a>, including feeding without power or clean water.</p>' if g["slug"] == "go-bag" else ""}
-{f'<p class="read">To size a station for your own devices, use the <a href="{root}power-calculator.html">power station calculator</a>. Using a CPAP? See <a href="cpap-power-outage.html">nights per charge by setting and station size</a>.</p>' if g["slug"] == "power" else ""}
+{f'<p class="read">To size a station for your own devices, use the <a href="{root}power-calculator.html">power station calculator</a>. Using a CPAP? See <a href="cpap-power-outage.html">nights per charge by setting and station size</a>. Want to keep the fridge cold? See <a href="power-station-for-refrigerator.html">how long each size runs a refrigerator</a>.</p>' if g["slug"] == "power" else ""}
 </div></section>
 <section class="section" id="when"><div class="wrap stack-l">
 <div class="section-head" style="margin:0"><div><h2>When it matters</h2><p>How important each item is in each kind of emergency.</p></div><a href="{root}scenarios.html">All items, all emergencies</a></div>
@@ -848,7 +848,8 @@ def build_guides():
 <li><a href="stranded-in-car-winter.html"><b>Stuck in your car in a snowstorm</b><span>What to do from the first minute, how much gas idling uses, and the winter extras for your car kit.</span></a></li>
 <li><a href="cpap-power-outage.html"><b>CPAP in a power outage</b><span>How many nights a power station runs your CPAP by setting and size, what to buy, and how to set it up before an outage.</span></a></li>
 <li><a href="older-adults-disabilities.html"><b>Older adults and people with disabilities</b><span>Medications, oxygen and other powered equipment, getting out, and the people and programs that help. Printable checklist.</span></a></li>
-<li><a href="baby-emergency-kit.html"><b>An emergency kit for babies and toddlers</b><span>Feeding without power or clean water, diapers, safe sleep away from home, and what goes in the bag. Printable checklist.</span></a></li></ul>
+<li><a href="baby-emergency-kit.html"><b>An emergency kit for babies and toddlers</b><span>Feeding without power or clean water, diapers, safe sleep away from home, and what goes in the bag. Printable checklist.</span></a></li>
+<li><a href="power-station-for-refrigerator.html"><b>Power station for a refrigerator</b><span>How long each size runs your fridge, the surge rating you need, and why cycling it on and off doesn't stretch the battery.</span></a></li></ul>
 <p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
@@ -1616,6 +1617,14 @@ def build_buyer(M):
                  f'<a href="{M.CALC_LINK[1]}">Your household in the calculator</a></div>'
                  f'<div class="table-wrap"><table class="matrix pw-table cp-table"><thead><tr><th scope="col">Household</th><th scope="col">3 days</th><th scope="col">2 weeks</th><th scope="col">Weight (2 weeks)</th><th scope="col">5-gal containers</th><th scope="col">Floor space</th></tr></thead><tbody>{trs}</tbody></table></div></div></section>')
         toc.append(("space", "Space and weight"))
+    if getattr(M, "GRID", None):  # generic table: (title, note, headers, rows)
+        gt, gn, gh, gr = M.GRID
+        thead = "".join(f'<th scope="col">{e(h)}</th>' for h in gh)
+        trs = "".join("<tr>" + f'<th scope="row">{e(r[0])}</th>' + "".join(f'<td data-l="{e(gh[i + 1])}">{e(c)}</td>' for i, c in enumerate(r[1:])) + "</tr>" for r in gr)
+        link = f'<a href="{M.CALC_LINK[1]}">Size it in the calculator</a>' if getattr(M, "CALC_LINK", None) else ""
+        table += (f'<section class="section" id="table"><div class="wrap stack-l"><div class="section-head" style="margin:0"><div><h2>{e(gt)}</h2><p>{e(gn)}</p></div>{link}</div>'
+                  f'<div class="table-wrap"><table class="matrix pw-table cp-table"><thead><tr>{thead}</tr></thead><tbody>{trs}</tbody></table></div></div></section>')
+        toc.append(("table", "Runtime table"))
     steps = ""
     if getattr(M, "STEPS", None):
         steps = (f'<section class="section" id="steps"><div class="wrap two-col"><div class="stack-l"><h2>{e(M.STEPS_TITLE)}</h2>'
@@ -2011,8 +2020,8 @@ def build_og():
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
     card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
-    import aptwater, wintercar, winterstorm, olderadults, babykit
-    for M in (aptwater, wintercar, winterstorm, olderadults, babykit):
+    import aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower
+    for M in (aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower):
         card(M.OG, M.OG_CARD[0], M.OG_CARD[1], M.OG_CARD[2], bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
     card("gifts", "Gift guide 2026", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
@@ -2112,7 +2121,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm, olderadults, babykit; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_buyer(olderadults); build_buyer(babykit); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_buyer(olderadults); build_buyer(babykit); build_buyer(fridgepower); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     shutil.copytree(os.path.join(HERE, "src", "fonts"), os.path.join(OUT, "assets", "fonts"))

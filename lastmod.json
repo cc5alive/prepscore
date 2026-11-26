@@ -265,8 +265,8 @@
   "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "799605a36e562d03",
-  "date": "2026-11-16",
+  "hash": "b3cfeced133b0bc7",
+  "date": "2026-11-25",
   "first": "2026-11-01"
  },
  "guides/cpap-power-outage.html": {
@@ -275,27 +275,27 @@
   "first": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "13f2016c1b0001d7",
-  "date": "2026-11-16",
+  "hash": "536bb188bb8ff27d",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "e877770b6f98f298",
-  "date": "2026-11-16",
+  "hash": "c656fb50dc8de2b5",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "1236bded73f64133",
-  "date": "2026-11-16",
+  "hash": "b9956399a0fb2443",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/index.html": {
-  "hash": "46e4c8ca078fc731",
+  "hash": "a2b155fa9630b8f1",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/light-heat.html": {
-  "hash": "5fe37ecd88d2d9d3",
+  "hash": "b9cd03e23b36b80a",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -305,8 +305,8 @@
   "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "06d3b279be980a09",
-  "date": "2026-11-16",
+  "hash": "da614d57fc18d9a8",
+  "date": "2026-11-25",
   "first": "2026-11-01"
  },
  "guides/pool-water.html": {
@@ -314,18 +314,23 @@
   "date": "2026-11-16",
   "first": "2026-10-30"
  },
+ "guides/power-station-for-refrigerator.html": {
+  "hash": "6e845ce138eda724",
+  "date": "2026-11-25",
+  "first": "2026-11-25"
+ },
  "guides/power.html": {
-  "hash": "01418e7431708bce",
+  "hash": "b02acd545b6ff5e1",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "61355414fe6d187a",
-  "date": "2026-11-16",
+  "hash": "449ac646c8bed051",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "e2d52c4da20d0969",
+  "hash": "07c65e9afb5dcb43",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -335,8 +340,8 @@
   "first": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "6b3b1ec8a975b5eb",
-  "date": "2026-11-16",
+  "hash": "0a651b5e4ab377f0",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/winter-storm-power-outage.html": {
@@ -365,8 +370,8 @@
   "first": "2026-10-30"
  },
  "power-calculator.html": {
-  "hash": "44f3e50e34ea5332",
-  "date": "2026-11-10",
+  "hash": "c679d7d522c5c0e3",
+  "date": "2026-11-25",
   "first": "2026-11-10"
  },
  "preparedness-gifts.html": {
@@ -460,8 +465,8 @@
   "first": "2026-10-30"
  },
  "where/wildfire-country.html": {
-  "hash": "fd21a2670ceeb152",
-  "date": "2026-10-30",
+  "hash": "225b1590de3c8f1c",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  }
 }
