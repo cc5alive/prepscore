@@ -115,5 +115,5 @@ SOURCES = [
 
 RELATED = [("Keeping a CPAP running in an outage", "cpap-power-outage.html"), ("Power station calculator", "../power-calculator.html"),
            ("First aid and medical guide", "first-aid.html"), ("Losing power in a winter storm", "winter-storm-power-outage.html"),
-           ("Get your PrepScore", "../quiz.html")]
+           ("Get your PrepScore", "../quiz.html"), ("Insulin in a power outage", "insulin-power-outage.html")]
 CALC_LINK = ("To size backup power for a CPAP, wheelchair charger or other equipment, use the", "../power-calculator.html", "power station calculator")
