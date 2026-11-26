@@ -255,7 +255,7 @@
   "first": "2026-11-10"
  },
  "guides/apartment-water-storage.html": {
-  "hash": "80bbd5899075894e",
+  "hash": "0e013713dc5d179b",
   "date": "2026-11-25",
   "first": "2026-11-10"
  },
@@ -265,7 +265,7 @@
   "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "2d7ea6520819932b",
+  "hash": "18cb727511041d50",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -280,22 +280,22 @@
   "first": "2026-11-25"
  },
  "guides/first-aid.html": {
-  "hash": "74562e9d48fa5829",
+  "hash": "098cebe8b138dc75",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "d9c4890fbc854a8f",
+  "hash": "8e263bc22f0cb2c3",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "008df976745913a3",
+  "hash": "d643d4bf53b0d190",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/index.html": {
-  "hash": "0b7d10fa1cc68969",
+  "hash": "46c173fff58c6d2c",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -305,7 +305,7 @@
   "first": "2026-11-25"
  },
  "guides/light-heat.html": {
-  "hash": "e19cee74931de297",
+  "hash": "356cf09a24a4e498",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -315,7 +315,7 @@
   "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "5cd4d457cb18779f",
+  "hash": "af0534579a792848",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -340,17 +340,17 @@
   "first": "2026-11-25"
  },
  "guides/power.html": {
-  "hash": "fcf099b0369b011e",
+  "hash": "dafb7059e620a74a",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "e564c1f4f2370b55",
+  "hash": "6436f816915bcb8a",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "8fc95fdab256b6a7",
+  "hash": "883254882e6a7ccf",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -364,8 +364,13 @@
   "date": "2026-11-15",
   "first": "2026-11-10"
  },
+ "guides/water-storage-containers.html": {
+  "hash": "a02d97d1094d83ef",
+  "date": "2026-11-25",
+  "first": "2026-11-25"
+ },
  "guides/water.html": {
-  "hash": "f21d0f74ed24fa0d",
+  "hash": "140c917e351b6dbc",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },

@@ -719,7 +719,7 @@ POOL_CALLOUT = ('<div class="cta-box"><div><h2>Have a pool?</h2><p>It can hold y
 SITUATIONS = [("apartment-water-storage", "Water storage for apartments"), ("winter-storm-power-outage", "Power out in a winter storm"),
               ("stranded-in-car-winter", "Stuck in your car in snow"), ("cpap-power-outage", "CPAP in a power outage"),
               ("older-adults-disabilities", "Older adults and disabilities"), ("baby-emergency-kit", "Babies and toddlers"),
-              ("power-station-for-refrigerator", "Power station for a fridge"), ("power-station-runtime", "Power station runtime"), ("sawyer-squeeze-vs-lifestraw", "Sawyer vs LifeStraw"), ("power-station-vs-generator", "Power station or generator"), ("emergency-kit-on-a-budget", "A kit on a budget"), ("insulin-power-outage", "Insulin in a power outage"), ("pool-water", "Drinking pool water")]
+              ("power-station-for-refrigerator", "Power station for a fridge"), ("power-station-runtime", "Power station runtime"), ("sawyer-squeeze-vs-lifestraw", "Sawyer vs LifeStraw"), ("power-station-vs-generator", "Power station or generator"), ("emergency-kit-on-a-budget", "A kit on a budget"), ("insulin-power-outage", "Insulin in a power outage"), ("water-storage-containers", "Water containers compared"), ("pool-water", "Drinking pool water")]
 WINTER_RE = re.compile(r"\b(ice|cold|winter|snow|blizzard|freeze|nor'easter)", re.I)
 
 
@@ -798,7 +798,7 @@ def build_guides():
 {toc_html}
 {compare_html}
 <h2 id="how-much">How much you need</h2><dl class="howmuch">{hm}</dl>
-{f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>. Short on space? See <a href="apartment-water-storage.html">how to store water in an apartment</a>. Choosing a filter? See <a href="sawyer-squeeze-vs-lifestraw.html">Sawyer Squeeze vs LifeStraw</a>.</p>' if g["slug"] == "water" else ""}
+{f'<p class="read">For your household\'s exact amounts, space and weight, use the <a href="{root}water-calculator.html">water storage calculator</a>. Short on space? See <a href="apartment-water-storage.html">how to store water in an apartment</a>. Choosing containers? See <a href="water-storage-containers.html">water storage containers compared</a>. Choosing a filter? See <a href="sawyer-squeeze-vs-lifestraw.html">Sawyer Squeeze vs LifeStraw</a>.</p>' if g["slug"] == "water" else ""}
 {f'<p class="read">Power out in a winter storm? See the <a href="winter-storm-power-outage.html">winter outage checklist</a>: heating one room safely, protecting pipes and knowing when to leave.</p>' if g["slug"] in ("light-heat", "power") else ""}
 {f'<p class="read">Driving in snow country? See <a href="stranded-in-car-winter.html">what to do if you\'re stuck in your car in a snowstorm</a>, with a printable winter checklist.</p>' if g["slug"] == "car" else ""}
 {f'<p class="read">For your household\'s calories and an example pantry list, use the <a href="{root}food-calculator.html">food storage calculator</a>.</p>' if g["slug"] == "food" else ""}
@@ -856,7 +856,8 @@ def build_guides():
 <li><a href="sawyer-squeeze-vs-lifestraw.html"><b>Sawyer Squeeze vs LifeStraw</b><span>Which budget water filter to buy for emergencies at home, what each removes, and what neither one does.</span></a></li>
 <li><a href="power-station-vs-generator.html"><b>Power station or generator?</b><span>Indoor safety, runtime, fuel, noise and cost side by side, when to get both, and how to run a generator safely.</span></a></li>
 <li><a href="emergency-kit-on-a-budget.html"><b>An emergency kit for $100, $300 or $1,000</b><span>What to buy first at each budget, the free steps that come before any of it, and where not to skimp.</span></a></li>
-<li><a href="insulin-power-outage.html"><b>Insulin and refrigerated medicine in a power outage</b><span>How long insulin lasts without a fridge, keeping it cool without freezing it, and what the FDA and CDC say about other medicines.</span></a></li></ul>
+<li><a href="insulin-power-outage.html"><b>Insulin and refrigerated medicine in a power outage</b><span>How long insulin lasts without a fridge, keeping it cool without freezing it, and what the FDA and CDC say about other medicines.</span></a></li>
+<li><a href="water-storage-containers.html"><b>Water storage containers, compared</b><span>Stackable 5-gallon containers, water cans, collapsible jugs, barrels and bathtub liners: how much each holds and weighs, and where it fits.</span></a></li></ul>
 <p class="muted">Looking beyond PrepScore? See <a href="{root}resources.html">the best outside prep resources</a>, or <a href="{root}library.html">free printable guides and the best prepper books</a>.</p></div></section>"""
     add("guides/index.html", shell(path="/guides/", title="Emergency Preparedness Gear Guides", desc="Buyer's guides for emergency water, food, power, first aid, radios, lighting, go-bags and sanitation. Honest picks at three budgets.",
                                    body=body, root=root, og="default", canon="/guides/", jsonld=[crumbs_ld(cr)], active="guides"), "/guides/", "0.8")
@@ -2028,8 +2029,8 @@ def build_og():
     card("la-renters", "Free printable", "LA renter checklist", "Alert sign-ups, what to keep at home, a 10-minute building drill and what to ask your landlord.", bigfont="display")
     card("power-calc", "Free calculator", "What size power station?", "Pick your fridge, CPAP, router, phones and lights. Get the battery size and output to buy.", bigfont="display")
     card("food-calc", "Free calculator", "How much food to store", "Enter your household: calories for 3 days, 2 weeks and a month, and a pantry list sized for you.", bigfont="display")
-    import aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower, runtime, sawyerlifestraw, stationvsgen, budgetkits, insulinoutage
-    for M in (aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower, runtime, sawyerlifestraw, stationvsgen, budgetkits, insulinoutage):
+    import aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower, runtime, sawyerlifestraw, stationvsgen, budgetkits, insulinoutage, watercontainers
+    for M in (aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower, runtime, sawyerlifestraw, stationvsgen, budgetkits, insulinoutage, watercontainers):
         card(M.OG, M.OG_CARD[0], M.OG_CARD[1], M.OG_CARD[2], bigfont="display")
     card("guide-cpap", "Backup power", "CPAP in a power outage", "Nights per charge by setting and station size, what to buy, and how to set it up first.", bigfont="display")
     card("gifts", f"Gift guide {datetime.date.today().year}", "Prep gifts people use", "Headlamps, power banks, weather radios, car kits and more, by price band. Plus what to skip.", bigfont="display")
@@ -2129,7 +2130,7 @@ if __name__ == "__main__":
     for d in (OUT, ART):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(os.path.join(OUT, "assets"))
-    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower, runtime, sawyerlifestraw, stationvsgen, budgetkits, insulinoutage; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_buyer(olderadults); build_buyer(babykit); build_buyer(fridgepower); build_buyer(runtime); build_buyer(sawyerlifestraw); build_buyer(stationvsgen); build_buyer(budgetkits); build_buyer(insulinoutage); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
+    build_home(); build_quiz(); build_scores(); build_locations(); build_cities(); build_guides(); build_pool(); build_resources(); build_library(); build_blackfriday(); build_kit(); build_water_calc(); build_power_calc(); build_food_calc(); build_cpap(); import aptwater, wintercar, winterstorm, olderadults, babykit, fridgepower, runtime, sawyerlifestraw, stationvsgen, budgetkits, insulinoutage, watercontainers; build_buyer(aptwater); build_buyer(wintercar); build_buyer(winterstorm); build_buyer(olderadults); build_buyer(babykit); build_buyer(fridgepower); build_buyer(runtime); build_buyer(sawyerlifestraw); build_buyer(stationvsgen); build_buyer(budgetkits); build_buyer(insulinoutage); build_buyer(watercontainers); build_gifts(); build_la_renters(); build_la_renters_es(); build_scenarios(); build_misc()
     for f in ("site.css", "quiz.js", "site.js", "data.js", "calc.js", "power.js", "food.js", "track.js"):
         shutil.copy(os.path.join(HERE, "src", f), os.path.join(OUT, "assets", f))
     shutil.copytree(os.path.join(HERE, "src", "fonts"), os.path.join(OUT, "assets", "fonts"))

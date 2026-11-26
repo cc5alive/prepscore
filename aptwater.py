@@ -100,5 +100,5 @@ SOURCES = [
 ]
 
 RELATED = [("Water storage calculator", "../water-calculator.html"), ("Water storage and filters guide", "water.html"),
-           ("Drinking pool water", "pool-water.html"), ("LA renter checklist", "../la-renters.html"), ("Food storage calculator", "../food-calculator.html")]
+           ("Drinking pool water", "pool-water.html"), ("LA renter checklist", "../la-renters.html"), ("Food storage calculator", "../food-calculator.html"), ("Water storage containers compared", "water-storage-containers.html")]
 CALC_LINK = ("For your household's exact amounts, use the", "../water-calculator.html", "water storage calculator")

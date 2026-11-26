@@ -487,7 +487,7 @@ GUIDES = [
              "what": "A rigid, leak-proof can with a flow-control spout.",
              "why": "Tough enough for years of storage and easy to pour from on a counter.",
              "watch": "About 42 lb full. Not stackable, so it takes more floor space than stacking containers.",
-             "best": "Garages and car camping", "q": "reliance 7 gallon water container"},
+             "best": "Garages and car camping", "q": "scepter 5 gallon water can"},
             {"tier": "step", "name": "Aquatabs or Katadyn Micropur tablets", "asin": "B09B2TVKGB", "asin_name": "Aquatabs 49mg, 100-pack", "price": "$10 to $25",
              "what": "Chlorine dioxide or chlorine tablets for treating water.",
              "why": "Kills viruses that filters miss. Weighs nothing.",
