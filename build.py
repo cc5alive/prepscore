@@ -1930,7 +1930,8 @@ def build_misc():
 <section class="section"><div class="wrap stack read">
 <h2>Who's behind it</h2>
 <p>PrepScore was started by CC Pearce, a writer and entrepreneur based in Los Angeles.</p>
-<p>I'm new to prepping myself. But the time has never felt more uncertain, and I want good, practical resources to be available to everyone, for free. So I built the site I wished existed when I started: begin with what actually matters, check it against official sources, and be upfront about how the site makes money.</p>
+<p>I'm not an emergency manager or a doctor, and PrepScore doesn't pretend to be. What I bring is research: I read the official guidance from agencies like FEMA, the CDC, the Red Cross and the USDA, plus the expert sources and product specifications behind each recommendation, and turn it into plain steps and honest gear advice. Every guide lists the sources it was checked against, so you can check my work.</p>
+<p>I started PrepScore because the time has never felt more uncertain, and good, practical preparedness information should be free for everyone. Most of what I found was either a 300-item shopping list or a doomsday fantasy. So I built the site I wanted: start with what matters most, back it with sources, and be upfront about how the site makes money.</p>
 <p>Email me at <a href="mailto:{SITE['email']}">{SITE['email']}</a> with questions, corrections or ideas. You can also find me on X at <a href="https://x.com/cc5alive" rel="me noopener" target="_blank">@cc5alive</a> and at <a href="https://ccpearce.com" rel="me noopener" target="_blank">ccpearce.com</a>.</p>
 <h2 style="margin-top:2rem">What the site does</h2>
 <p>{SITE['name']} is an independent site. We built it because most prep advice is either a 300-item shopping list or a doomsday fantasy. We'd rather help you get the first two weeks right: water, power, light, first aid, a way to get alerts, and a plan to leave.</p>
@@ -1942,6 +1943,7 @@ def build_misc():
 <ul class="plain-list">
 <li>Each guide shows the month it was last reviewed. We re-check guides at least once a year and after major changes in official guidance.</li>
 <li>City alert links are re-checked at least yearly, because cities change their notification systems.</li>
+<li>Product picks are researched from published specifications, safety guidance and retailer listings. We haven't tested them hands-on, and if that changes we'll say so on the page.</li>
 <li>Next to retailer links we show a price band ($ to $$$$), not a price. Bands are a rough guide; check the retailer for today's price.</li>
 <li>When we find a mistake, we fix it and update the review date. Spotted one? Email <a href="mailto:{SITE['email']}">{SITE['email']}</a>.</li>
 </ul>
