@@ -123,5 +123,5 @@ SOURCES = [
 
 RELATED = [("Power station calculator", "../power-calculator.html"), ("How long a power station lasts, by device", "power-station-runtime.html"), ("Backup power guide", "power.html"),
            ("Keeping a CPAP running in an outage", "cpap-power-outage.html"), ("Losing power in a winter storm", "winter-storm-power-outage.html"),
-           ("Emergency food guide", "food.html")]
+           ("Emergency food guide", "food.html"), ("Power station or generator?", "power-station-vs-generator.html")]
 CALC_LINK = ("To size a station for your fridge plus everything else you want to run, use the", "../power-calculator.html", "power station calculator")

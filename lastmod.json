@@ -265,7 +265,7 @@
   "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "6703b0bb065d29b8",
+  "hash": "18b136e139a061f8",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -275,27 +275,27 @@
   "first": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "c0f53a727af92a3d",
+  "hash": "919e862f91c6dba6",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "dd1b1a9f310f3159",
+  "hash": "464890ca7b6eb3fd",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "9ff956da93c79834",
+  "hash": "0e97eb5a7f5c1bc1",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/index.html": {
-  "hash": "6d0ca989ea61cd5c",
+  "hash": "da902b431f59c654",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/light-heat.html": {
-  "hash": "a5389cd9c770f4fd",
+  "hash": "6468e089fe29c0a0",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -305,7 +305,7 @@
   "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "3042b68e6a6eb84e",
+  "hash": "f6f1adba248a47a1",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -315,7 +315,7 @@
   "first": "2026-10-30"
  },
  "guides/power-station-for-refrigerator.html": {
-  "hash": "bbeba17608cdac5f",
+  "hash": "c62998c7ec0a861d",
   "date": "2026-11-25",
   "first": "2026-11-25"
  },
@@ -324,18 +324,23 @@
   "date": "2026-11-25",
   "first": "2026-11-25"
  },
+ "guides/power-station-vs-generator.html": {
+  "hash": "bd2cfc0d719cb47a",
+  "date": "2026-11-25",
+  "first": "2026-11-25"
+ },
  "guides/power.html": {
-  "hash": "1badfde0ad3c55ba",
+  "hash": "847dd36ac031b6f8",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "a2958651e1d00c38",
+  "hash": "c3fed40676d59488",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "399df1bd68096a34",
+  "hash": "db604bfcc53c2092",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -350,7 +355,7 @@
   "first": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "e692a9dc7c5e1dfb",
+  "hash": "81c7d8f6d4e6128d",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
