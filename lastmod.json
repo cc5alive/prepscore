@@ -265,7 +265,7 @@
   "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "b3cfeced133b0bc7",
+  "hash": "1030586cec3777c3",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -275,27 +275,27 @@
   "first": "2026-11-10"
  },
  "guides/first-aid.html": {
-  "hash": "e4e0789231f3b7b3",
+  "hash": "3e0da8e11dc61013",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "244fd46526de77d6",
+  "hash": "46d14addc228f4e5",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "b9956399a0fb2443",
+  "hash": "dc5d3430dca87cd9",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/index.html": {
-  "hash": "a2b155fa9630b8f1",
+  "hash": "12daab0bc616d1a8",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/light-heat.html": {
-  "hash": "b9cd03e23b36b80a",
+  "hash": "79fed639c6117190",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -305,7 +305,7 @@
   "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "da614d57fc18d9a8",
+  "hash": "f89d1218b290b637",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -315,22 +315,27 @@
   "first": "2026-10-30"
  },
  "guides/power-station-for-refrigerator.html": {
-  "hash": "6e845ce138eda724",
+  "hash": "bbeba17608cdac5f",
+  "date": "2026-11-25",
+  "first": "2026-11-25"
+ },
+ "guides/power-station-runtime.html": {
+  "hash": "da2172f24c433289",
   "date": "2026-11-25",
   "first": "2026-11-25"
  },
  "guides/power.html": {
-  "hash": "b02acd545b6ff5e1",
+  "hash": "33b027ccc201e0fe",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "449ac646c8bed051",
+  "hash": "dc03e0a1600d725f",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "912e8eaeb59e76c4",
+  "hash": "f357f104830c20a0",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -340,7 +345,7 @@
   "first": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "0b758657a75e614e",
+  "hash": "ee4344f507ea3a21",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },

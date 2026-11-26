@@ -115,13 +115,13 @@ FAQS = [
 
 SOURCES = [
     ("USDA FSIS: Keep your food safe during emergencies", "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/emergencies/keep-your-food-safe-during-emergencies"),
-    ("U.S. Department of Energy: Estimating appliance and home electronic energy use", "https://www.energy.gov/energysaver/estimating-appliance-and-home-electronic-energy-use"),
+    ("U.S. Department of Energy: Estimating appliance and home electronic energy use", "https://www.energy.gov/energysaver/articles/estimating-appliance-and-home-electronic-energy-use"),
     ("ENERGY STAR: Refrigerators", "https://www.energystar.gov/products/refrigerators"),
     ("Minnesota Commerce Department: Refrigerators and freezers (old vs. new energy use)", "https://mn.gov/commerce-stat/pdfs/refrigerators-and-freezers.pdf"),
     ("CDC: What to do during a power outage", "https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html"),
 ]
 
-RELATED = [("Power station calculator", "../power-calculator.html"), ("Backup power guide", "power.html"),
+RELATED = [("Power station calculator", "../power-calculator.html"), ("How long a power station lasts, by device", "power-station-runtime.html"), ("Backup power guide", "power.html"),
            ("Keeping a CPAP running in an outage", "cpap-power-outage.html"), ("Losing power in a winter storm", "winter-storm-power-outage.html"),
            ("Emergency food guide", "food.html")]
 CALC_LINK = ("To size a station for your fridge plus everything else you want to run, use the", "../power-calculator.html", "power station calculator")
