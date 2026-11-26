@@ -5,8 +5,8 @@
   "first": "2026-10-30"
  },
  "72-hour-kit.html": {
-  "hash": "b939bfe5094f85b2",
-  "date": "2026-11-16",
+  "hash": "daf45b2c66c79476",
+  "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "about.html": {
@@ -265,7 +265,7 @@
   "first": "2026-11-13"
  },
  "guides/car.html": {
-  "hash": "18b136e139a061f8",
+  "hash": "537c17abc56a259a",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -274,28 +274,33 @@
   "date": "2026-11-25",
   "first": "2026-11-10"
  },
+ "guides/emergency-kit-on-a-budget.html": {
+  "hash": "f3f8ba82fd572db5",
+  "date": "2026-11-25",
+  "first": "2026-11-25"
+ },
  "guides/first-aid.html": {
-  "hash": "919e862f91c6dba6",
+  "hash": "d65cd23c59dc28df",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/food.html": {
-  "hash": "464890ca7b6eb3fd",
+  "hash": "c7fefd826fb541d9",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/go-bag.html": {
-  "hash": "0e97eb5a7f5c1bc1",
+  "hash": "89ccd5395f747bcf",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/index.html": {
-  "hash": "da902b431f59c654",
+  "hash": "fa9f1fee03552619",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/light-heat.html": {
-  "hash": "6468e089fe29c0a0",
+  "hash": "cdc671d3a4171e56",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -305,7 +310,7 @@
   "first": "2026-11-13"
  },
  "guides/pets.html": {
-  "hash": "f6f1adba248a47a1",
+  "hash": "44ef61e84713c3e2",
   "date": "2026-11-25",
   "first": "2026-11-01"
  },
@@ -330,17 +335,17 @@
   "first": "2026-11-25"
  },
  "guides/power.html": {
-  "hash": "847dd36ac031b6f8",
+  "hash": "1d51abd6ccd3983c",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/radios.html": {
-  "hash": "c3fed40676d59488",
+  "hash": "c4e79087da5dc4d9",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
  "guides/sanitation.html": {
-  "hash": "db604bfcc53c2092",
+  "hash": "bb5dd61cedee627f",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
@@ -355,7 +360,7 @@
   "first": "2026-11-10"
  },
  "guides/water.html": {
-  "hash": "81c7d8f6d4e6128d",
+  "hash": "a23275c06b607a59",
   "date": "2026-11-25",
   "first": "2026-10-30"
  },
